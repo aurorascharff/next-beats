@@ -21,12 +21,14 @@ export async function TrackDetail({ id }: { id: string }) {
           <AlbumArt
             coverColor={track.coverColor}
             size="lg"
-            className="!h-40 !w-40 !rounded-md shadow-2xl sm:!h-48 sm:!w-48"
+            className="!h-40 !w-40 shrink-0 !rounded-md shadow-2xl lg:!h-48 lg:!w-48"
           />
         </ViewTransition>
         <div className="flex min-w-0 flex-col items-center gap-1 text-center sm:items-start sm:text-left">
           <span className="text-muted text-xs font-bold tracking-widest uppercase">Track</span>
-          <h1 className="text-2xl font-black tracking-tight text-black sm:text-4xl dark:text-white">{track.title}</h1>
+          <h1 className="text-2xl font-black tracking-tight text-black sm:text-3xl lg:text-4xl dark:text-white">
+            {track.title}
+          </h1>
           <p className="text-muted text-xs sm:text-sm">
             {track.artist} · {track.album} · {formatDuration(track.duration)} · {formatCount(track.playCount)} plays
           </p>

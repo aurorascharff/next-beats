@@ -1,7 +1,7 @@
 'use client';
 
 import { Pause, Play, SkipBack, SkipForward, Volume1, Volume2, VolumeX } from 'lucide-react';
-import { startTransition, ViewTransition } from 'react';
+import { ViewTransition } from 'react';
 import { AlbumArt } from '@/components/ui/album-art';
 import { formatDuration } from '@/lib/utils';
 import { usePlayer } from '@/providers/player-provider';
@@ -29,14 +29,7 @@ export function NowPlayingBar() {
                 <span className="text-muted truncate text-xs">{track.artist}</span>
               </div>
               <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => startTransition(() => previous())}
-                  className="text-muted p-1"
-                  aria-label="Previous"
-                >
-                  <SkipBack className="h-4 w-4" />
-                </button>
+                <SkipButton direction="back" onClick={previous} />
                 <button
                   type="button"
                   onClick={togglePlayPause}
@@ -49,14 +42,7 @@ export function NowPlayingBar() {
                     <Play className="h-5 w-5 translate-x-[1px]" fill="currentColor" />
                   )}
                 </button>
-                <button
-                  type="button"
-                  onClick={() => startTransition(() => next())}
-                  className="text-muted p-1"
-                  aria-label="Next"
-                >
-                  <SkipForward className="h-4 w-4" />
-                </button>
+                <SkipButton direction="forward" onClick={next} />
               </div>
             </div>
             <div className="bg-divider dark:bg-divider-dark mt-3 h-1 w-full overflow-hidden rounded-full">
@@ -93,15 +79,7 @@ export function NowPlayingBar() {
           </div>
           <div className="flex flex-col items-center gap-1">
             <div className="flex items-center gap-5">
-              <button
-                type="button"
-                onClick={() => startTransition(() => previous())}
-                disabled={!track}
-                className="text-muted transition-colors hover:text-black disabled:opacity-40 dark:hover:text-white"
-                aria-label="Previous"
-              >
-                <SkipBack className="h-4 w-4" />
-              </button>
+              <SkipButton direction="back" onClick={previous} disabled={!track} />
               <button
                 type="button"
                 onClick={togglePlayPause}
@@ -115,15 +93,7 @@ export function NowPlayingBar() {
                   <Play className="h-4 w-4 translate-x-[1px]" fill="currentColor" />
                 )}
               </button>
-              <button
-                type="button"
-                onClick={() => startTransition(() => next())}
-                disabled={!track}
-                className="text-muted transition-colors hover:text-black disabled:opacity-40 dark:hover:text-white"
-                aria-label="Next"
-              >
-                <SkipForward className="h-4 w-4" />
-              </button>
+              <SkipButton direction="forward" onClick={next} disabled={!track} />
             </div>
             <div className="flex w-full max-w-md items-center gap-2">
               <span className="text-muted w-8 text-right text-[10px]">{formatDuration(elapsed)}</span>
@@ -180,5 +150,28 @@ function SliderBar({
         className={`absolute inset-0 m-0 h-full w-full appearance-none border-0 bg-transparent p-0 opacity-0 ${disabled ? 'pointer-events-none' : 'cursor-pointer'}`}
       />
     </div>
+  );
+}
+
+function SkipButton({
+  direction,
+  onClick,
+  disabled,
+}: {
+  direction: 'back' | 'forward';
+  onClick: () => void;
+  disabled?: boolean;
+}) {
+  const Icon = direction === 'back' ? SkipBack : SkipForward;
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      className="text-muted p-1 transition-colors hover:text-black disabled:opacity-40 dark:hover:text-white"
+      aria-label={direction === 'back' ? 'Previous' : 'Next'}
+    >
+      <Icon className="h-4 w-4" />
+    </button>
   );
 }

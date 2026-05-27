@@ -20,19 +20,16 @@ export default function GenresPage() {
           <GenreBrowse />
         </Crossfade>
       </Suspense>
-      <Suspense
-        fallback={
-          <section className="mt-10">
-            <h2 className="mb-4">Jump Back In</h2>
-            <QuickPlayGridSkeleton />
-          </section>
-        }
-      >
-        <Crossfade>
-          <section className="mt-10">
-            <h2 className="mb-4">Jump Back In</h2>
+      <section className="mt-10">
+        <h2 className="mb-4">Jump Back In</h2>
+        <Suspense fallback={<QuickPlayGridSkeleton />}>
+          <Crossfade>
             <QuickPlayGrid />
-          </section>
+          </Crossfade>
+        </Suspense>
+      </section>
+      <Suspense>
+        <Crossfade>
           <section className="mt-10">
             <h2 className="mb-4">Popular Tracks</h2>
             <MostPlayed />

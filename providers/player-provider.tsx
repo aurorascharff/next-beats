@@ -80,6 +80,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
   const schedulerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const progressRef = useRef<number | null>(null);
   const volumeRef = useRef(75);
+  const playingIdRef = useRef<string | null>(null);
 
   useEffect(() => {
     volumeRef.current = volume;
@@ -91,6 +92,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
   }, [volume]);
 
   function stopAudio(immediate = false) {
+    playingIdRef.current = null;
     if (schedulerRef.current) {
       clearTimeout(schedulerRef.current);
       schedulerRef.current = null;
@@ -150,6 +152,9 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
 
   function playAtIndex(idx: number, q: Track[]) {
     const t = q[idx];
+    // Guard against rapid duplicate clicks
+    if (playingIdRef.current === t.id) return;
+    playingIdRef.current = t.id;
     dispatch({ type: 'PLAY', track: t, queue: q, index: idx });
     startAudio(t, () => {
       const currentIdx = queueIndexRef.current;
@@ -168,6 +173,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
   }
 
   function pause() {
+    playingIdRef.current = null;
     dispatch({ type: 'PAUSE' });
     suspendAudio();
     if (schedulerRef.current) {

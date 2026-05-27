@@ -6,9 +6,9 @@ const genreColors: Record<string, string> = {
   electronic: 'from-pink-400/80 to-rose-500/80',
   'hip-hop': 'from-rose-300/80 to-pink-400/80',
   indie: 'from-pink-300/80 to-rose-400/80',
-  jazz: 'from-rose-400/80 to-pink-600/80',
+  'lo-fi': 'from-rose-400/80 to-pink-600/80',
   pop: 'from-pink-200/80 to-rose-300/80',
-  rock: 'from-rose-500/80 to-pink-700/80',
+  synthwave: 'from-rose-500/80 to-pink-700/80',
 };
 
 export function GenrePill({ genre }: { genre: string }) {
