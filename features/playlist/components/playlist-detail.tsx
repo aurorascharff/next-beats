@@ -6,6 +6,7 @@ import { DeletePlaylistButton } from '@/features/playlist/components/playlist-in
 import { PlaylistTrackList } from '@/features/playlist/components/playlist-track-list';
 import { getPlaylist } from '@/features/playlist/playlist-queries';
 import { PlayButton } from '@/features/track/components/play-button';
+import { TrackListSkeleton } from '@/features/track/components/track-row';
 
 export async function PlaylistDetail({ id }: { id: string }) {
   const playlist = await getPlaylist(id);
@@ -57,6 +58,7 @@ export function PlaylistDetailSkeleton() {
         <Skeleton className="h-14 w-14 shrink-0 rounded-full" />
         <Skeleton className="h-8 w-8 shrink-0 rounded-full" />
       </div>
+      <TrackListSkeleton count={4} showIndex />
     </>
   );
 }

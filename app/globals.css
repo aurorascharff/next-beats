@@ -90,31 +90,18 @@
 
 .skeleton-animation.skeleton-subtle {
   background: rgba(0, 0, 0, 0.06);
-  background: linear-gradient(to right, rgba(0, 0, 0, 0.06) 8%, rgba(0, 0, 0, 0.1) 18%, rgba(0, 0, 0, 0.06) 33%);
-  background-size: 800px 100px;
-  animation: wave-lines 2.5s infinite ease-out;
+  background-size: unset;
+  animation: none;
 }
 
 @media (prefers-color-scheme: dark) {
   .skeleton-animation.skeleton-subtle {
     background: rgba(255, 255, 255, 0.06);
-    background: linear-gradient(
-      to right,
-      rgba(255, 255, 255, 0.06) 8%,
-      rgba(255, 255, 255, 0.1) 18%,
-      rgba(255, 255, 255, 0.06) 33%
-    );
   }
 }
 
 :is(.dark) .skeleton-animation.skeleton-subtle {
   background: rgba(255, 255, 255, 0.06);
-  background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0.06) 8%,
-    rgba(255, 255, 255, 0.1) 18%,
-    rgba(255, 255, 255, 0.06) 33%
-  );
 }
 
 .skeleton-animation:not([class*='rounded-']) {

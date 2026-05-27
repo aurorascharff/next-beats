@@ -1,7 +1,6 @@
 'use client';
 
 import { Pause, Play, SkipBack, SkipForward, Volume1, Volume2, VolumeX } from 'lucide-react';
-import { ViewTransition } from 'react';
 import { AlbumArt } from '@/components/ui/album-art';
 import { formatDuration } from '@/lib/utils';
 import { usePlayer } from '@/providers/player-provider';
@@ -55,19 +54,15 @@ export function NowPlayingBar() {
         <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-4">
           <div className="min-w-0">
             <div className="hidden items-center gap-3 lg:flex">
-              <ViewTransition name="now-playing-art" default="none">
-                <AlbumArt
-                  coverColor={track?.coverColor ?? 'from-gray-400 to-gray-600'}
-                  size="sm"
-                  className="!h-14 !w-14 !rounded-sm"
-                />
-              </ViewTransition>
-              <ViewTransition key={track?.id ?? 'empty'} enter="slide-in-left" exit="slide-out-left" default="none">
-                <TrackInfo
-                  title={track?.title ?? 'No track playing'}
-                  subtitle={track ? `${track.artist} · ${track.album}` : 'Select a track to play'}
-                />
-              </ViewTransition>
+              <AlbumArt
+                coverColor={track?.coverColor ?? 'from-gray-400 to-gray-600'}
+                size="sm"
+                className="!h-14 !w-14 !rounded-sm"
+              />
+              <TrackInfo
+                title={track?.title ?? 'No track playing'}
+                subtitle={track ? `${track.artist} · ${track.album}` : 'Select a track to play'}
+              />
             </div>
             <div className="flex items-center gap-3 lg:hidden">
               <AlbumArt
@@ -75,9 +70,7 @@ export function NowPlayingBar() {
                 size="sm"
                 className="!h-10 !w-10 !rounded-sm"
               />
-              <ViewTransition key={track?.id ?? 'empty-sm'} enter="slide-in-left" exit="slide-out-left" default="none">
-                <TrackInfo title={track?.title ?? 'No track'} subtitle={track?.artist ?? ''} />
-              </ViewTransition>
+              <TrackInfo title={track?.title ?? 'No track'} subtitle={track?.artist ?? ''} />
             </div>
           </div>
           <div className="flex flex-col items-center gap-1">
