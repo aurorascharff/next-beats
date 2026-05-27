@@ -59,7 +59,7 @@ const TRACKS: SeedTrack[] = [
     genre: 'electronic',
     coverColor: 'from-blue-400 to-cyan-500',
     playCount: 2105,
-    isFavorite: true,
+    isFavorite: false,
     createdAt: new Date(now - 5 * day),
   },
   {
@@ -132,7 +132,7 @@ const TRACKS: SeedTrack[] = [
     genre: 'indie',
     coverColor: 'from-sky-300 to-blue-400',
     playCount: 987,
-    isFavorite: true,
+    isFavorite: false,
     createdAt: new Date(now - 7 * day),
   },
   {
@@ -181,7 +181,7 @@ const TRACKS: SeedTrack[] = [
     genre: 'hip-hop',
     coverColor: 'from-blue-500 to-sky-600',
     playCount: 2987,
-    isFavorite: true,
+    isFavorite: false,
     createdAt: new Date(now - 4 * day),
   },
   {
@@ -266,7 +266,7 @@ const TRACKS: SeedTrack[] = [
     genre: 'pop',
     coverColor: 'from-indigo-500 to-blue-700',
     playCount: 1987,
-    isFavorite: true,
+    isFavorite: false,
     createdAt: new Date(now - 8 * day),
   },
   // Lo-fi
@@ -315,7 +315,7 @@ const TRACKS: SeedTrack[] = [
     genre: 'lo-fi',
     coverColor: 'from-blue-400 to-sky-500',
     playCount: 1567,
-    isFavorite: true,
+    isFavorite: false,
     createdAt: new Date(now - 12 * day),
   },
   {
