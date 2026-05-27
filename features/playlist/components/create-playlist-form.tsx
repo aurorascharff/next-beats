@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { createPlaylist } from '@/features/playlist/playlist-actions';
 
 export function CreatePlaylistForm() {
-  async function handleSubmit(formData: FormData) {
+  async function createPlaylistAction(formData: FormData) {
     const result = await createPlaylist(formData);
     if (result.ok) {
       toast.success('Playlist created');
@@ -15,7 +15,7 @@ export function CreatePlaylistForm() {
   }
 
   return (
-    <form action={handleSubmit} className="flex gap-2" data-client="CreatePlaylistForm">
+    <form action={createPlaylistAction} className="flex gap-2" data-client="CreatePlaylistForm">
       <input
         name="name"
         placeholder="New playlist name…"
