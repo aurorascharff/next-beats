@@ -62,7 +62,7 @@ export function NowPlayingBar() {
                   className="!h-14 !w-14 !rounded-sm"
                 />
               </ViewTransition>
-              <ViewTransition key={track?.id ?? 'empty'} enter="fade-in" exit="fade-out" default="none">
+              <ViewTransition key={track?.id ?? 'empty'} enter="slide-in-left" exit="slide-out-left" default="none">
                 <TrackInfo
                   title={track?.title ?? 'No track playing'}
                   subtitle={track ? `${track.artist} · ${track.album}` : 'Select a track to play'}
@@ -75,7 +75,7 @@ export function NowPlayingBar() {
                 size="sm"
                 className="!h-10 !w-10 !rounded-sm"
               />
-              <ViewTransition key={track?.id ?? 'empty-sm'} enter="fade-in" exit="fade-out" default="none">
+              <ViewTransition key={track?.id ?? 'empty-sm'} enter="slide-in-left" exit="slide-out-left" default="none">
                 <TrackInfo title={track?.title ?? 'No track'} subtitle={track?.artist ?? ''} />
               </ViewTransition>
             </div>

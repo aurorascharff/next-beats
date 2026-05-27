@@ -168,6 +168,26 @@
   }
 }
 
+/* Slide (Horizontal) */
+::view-transition-old(.slide-out-left) {
+  animation:
+    var(--duration-exit) ease-out both fade reverse,
+    var(--duration-exit) ease-out both slide-x reverse;
+}
+::view-transition-new(.slide-in-left) {
+  animation:
+    var(--duration-enter) ease-in var(--duration-exit) both fade,
+    var(--duration-move) ease-in both slide-x;
+}
+@keyframes slide-x {
+  from {
+    transform: translateX(12px);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
 /* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-old(*),

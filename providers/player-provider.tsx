@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
+import { createContext, startTransition, useContext, useEffect, useReducer, useRef } from 'react';
 import { createAudioRefs, cancelTimers, resumeTrack, scheduleTrack, stopAll } from '@/lib/audio/audio-scheduler';
 import { getAudioContext, resumeAudio, suspendAudio } from '@/lib/audio/music-engine';
 import type { AudioRefs } from '@/lib/audio/audio-scheduler';
@@ -99,7 +99,9 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
 
   function playAtIndex(idx: number, q: Track[], crossfade = false) {
     const t = q[idx];
-    dispatch({ type: 'PLAY', track: t, queue: q, index: idx });
+    startTransition(() => {
+      dispatch({ type: 'PLAY', track: t, queue: q, index: idx });
+    });
     scheduleTrack({
       trackId: t.id,
       genre: t.genre,
