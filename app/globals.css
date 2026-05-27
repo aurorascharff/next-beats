@@ -149,6 +149,7 @@
 :root {
   --duration-exit: 150ms;
   --duration-enter: 210ms;
+  --duration-move: 250ms;
 }
 
 /* Fade */
