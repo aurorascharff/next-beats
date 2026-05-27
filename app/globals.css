@@ -89,12 +89,12 @@
 }
 
 .skeleton-animation.skeleton-subtle {
-  background: rgba(150, 150, 150, 0.08);
+  background: rgba(0, 0, 0, 0.06);
   background: linear-gradient(
     to right,
-    rgba(130, 130, 130, 0.08) 8%,
-    rgba(170, 170, 170, 0.12) 18%,
-    rgba(130, 130, 130, 0.08) 33%
+    rgba(0, 0, 0, 0.06) 8%,
+    rgba(0, 0, 0, 0.1) 18%,
+    rgba(0, 0, 0, 0.06) 33%
   );
   background-size: 800px 100px;
   animation: wave-lines 2.5s infinite ease-out;
