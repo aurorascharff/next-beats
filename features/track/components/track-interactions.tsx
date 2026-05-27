@@ -36,7 +36,7 @@ export function TrackPlayRow({ track, queue, children }: { track: Track; queue?:
       onClick={handleClick}
       data-client="TrackPlayRow"
       onKeyDown={e => {
-        if (e.key === 'Enter' || e.key === ' ') {
+        if ((e.key === 'Enter' || e.key === ' ') && e.target === e.currentTarget) {
           e.preventDefault();
           handleClick();
         }
