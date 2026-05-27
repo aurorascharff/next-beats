@@ -6,10 +6,17 @@ import ErrorBoundary from '@/components/ui/error-boundary';
 import { GitHubIcon } from '@/components/ui/github-icon';
 import { IconButtonLink } from '@/components/ui/icon-button-link';
 import { MusicNote } from '@/components/ui/music-note';
+import { NavLink } from '@/components/ui/nav-link';
 import { Skeleton } from '@/components/ui/skeleton';
 import { getPlaylists } from '@/features/playlist/playlist-queries';
-import { SidebarNavLink } from './nav-link-wrappers';
 import type { Route } from 'next';
+
+const sidebarLink = ({ isActive }: { isActive: boolean }) =>
+  `flex items-center justify-center gap-3 rounded-md p-2 text-sm tracking-tight transition-colors lg:justify-start lg:px-3 ${
+    isActive
+      ? 'bg-white/10 font-bold text-black dark:text-white [&_svg]:stroke-[2.5]'
+      : 'text-muted hover:text-black dark:hover:text-white'
+  }`;
 
 export function Sidebar() {
   return (
@@ -28,9 +35,18 @@ export function Sidebar() {
           <span>NextBeats</span>
         </Link>
         <nav className="flex flex-col gap-1 text-sm font-medium">
-          <SidebarNavLink href="/" icon={<Home className="h-5 w-5" />} label="Home" />
-          <SidebarNavLink href="/search" icon={<Search className="h-5 w-5" />} label="Search" />
-          <SidebarNavLink href="/library" icon={<Music className="h-5 w-5" />} label="Library" />
+          <NavLink href="/" aria-label="Home" className={sidebarLink}>
+            <Home className="h-5 w-5" />
+            <span className="hidden truncate lg:inline">Home</span>
+          </NavLink>
+          <NavLink href="/search" aria-label="Search" className={sidebarLink}>
+            <Search className="h-5 w-5" />
+            <span className="hidden truncate lg:inline">Search</span>
+          </NavLink>
+          <NavLink href="/library" aria-label="Library" className={sidebarLink}>
+            <Music className="h-5 w-5" />
+            <span className="hidden truncate lg:inline">Library</span>
+          </NavLink>
         </nav>
       </div>
 
@@ -44,8 +60,14 @@ export function Sidebar() {
           </IconButtonLink>
         </div>
         <nav className="flex min-h-0 flex-1 flex-col gap-0.5 overflow-y-auto px-2 pb-2">
-          <SidebarNavLink href="/favorites" icon={<Heart className="h-4 w-4" />} label="Liked Tracks" />
-          <SidebarNavLink href="/genre" icon={<ListMusic className="h-4 w-4" />} label="Genres" />
+          <NavLink href="/favorites" aria-label="Liked Tracks" className={sidebarLink}>
+            <Heart className="h-4 w-4" />
+            <span className="hidden truncate lg:inline">Liked Tracks</span>
+          </NavLink>
+          <NavLink href="/genre" aria-label="Genres" className={sidebarLink}>
+            <ListMusic className="h-4 w-4" />
+            <span className="hidden truncate lg:inline">Genres</span>
+          </NavLink>
           <div className="border-divider dark:border-divider-dark my-1 hidden border-t lg:block" />
           <ErrorBoundary title="Playlists unavailable" compact>
             <Suspense fallback={<SidebarPlaylistsSkeleton />}>
@@ -76,12 +98,15 @@ async function SidebarPlaylists() {
   return (
     <>
       {playlists.map(pl => (
-        <SidebarNavLink
+        <NavLink
           key={pl.id}
           href={`/playlist/${pl.id}` as Route}
-          icon={<span className={`inline-block h-3 w-3 shrink-0 rounded-sm bg-gradient-to-br ${pl.coverColor}`} />}
-          label={pl.name}
-        />
+          aria-label={pl.name}
+          className={sidebarLink}
+        >
+          <span className={`inline-block h-3 w-3 shrink-0 rounded-sm bg-gradient-to-br ${pl.coverColor}`} />
+          <span className="hidden truncate lg:inline">{pl.name}</span>
+        </NavLink>
       ))}
     </>
   );
