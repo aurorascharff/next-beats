@@ -26,10 +26,10 @@ function BoundaryOverlay() {
       if (!box) {
         box = document.createElement('div');
         box.style.cssText =
-          'position:fixed;border:2px solid oklch(0.72 0.2 320);border-radius:6px;pointer-events:none;';
+          'position:fixed;border:2px solid #4f6ef7;border-radius:6px;pointer-events:none;';
         const label = document.createElement('span');
         label.style.cssText =
-          'position:absolute;top:-1px;left:8px;transform:translateY(-100%);background:oklch(0.72 0.2 320);color:white;font-size:10px;font-weight:600;line-height:1;padding:2px 6px;border-radius:4px 4px 0 0;white-space:nowrap;font-family:var(--font-mono);';
+          'position:absolute;top:-1px;left:8px;transform:translateY(-100%);background:#4f6ef7;color:white;font-size:10px;font-weight:600;line-height:1;padding:2px 6px;border-radius:4px 4px 0 0;white-space:nowrap;font-family:var(--font-mono);';
         box.appendChild(label);
         overlay.appendChild(box);
       }
@@ -145,7 +145,7 @@ export function DemoToolbar({
           aria-pressed={boundariesOn}
           className={cn(
             'flex items-center gap-1.5 px-3 py-1.5 transition-colors',
-            boundariesOn ? 'text-fuchsia-400' : 'text-gray',
+            boundariesOn ? 'text-accent' : 'text-gray',
           )}
         >
           {boundariesOn ? <Eye className="size-3.5" /> : <EyeOff className="size-3.5" />}
