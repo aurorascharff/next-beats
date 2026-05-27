@@ -147,8 +147,7 @@ function scheduleDrum(ctx: AudioContext, dest: AudioNode, hit: DrumHit, time: nu
 }
 
 export type ScheduledNodes = {
-  /** All OscillatorNodes/BufferSourceNodes scheduled (for cleanup) */
-  stopAll: () => void;
+  stopAll: (immediate?: boolean) => void;
   masterGain: GainNode;
 };
 
@@ -374,17 +373,26 @@ export function scheduleBar(
   }
 
   return {
-    stopAll: () => {
-      const now = ctx.currentTime;
-      masterGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.3);
-      setTimeout(() => {
+    stopAll: (immediate = false) => {
+      if (immediate) {
         nodesToStop.forEach(n => {
           try {
             n.stop();
           } catch {}
         });
         masterGain.disconnect();
-      }, 400);
+      } else {
+        const now = ctx.currentTime;
+        masterGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.3);
+        setTimeout(() => {
+          nodesToStop.forEach(n => {
+            try {
+              n.stop();
+            } catch {}
+          });
+          masterGain.disconnect();
+        }, 400);
+      }
     },
     masterGain,
   };

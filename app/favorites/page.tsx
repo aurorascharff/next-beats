@@ -17,7 +17,7 @@ export default function FavoritesPage() {
   return (
     <div className="px-6 py-6 sm:px-8">
       <div className="mb-6 flex items-center gap-4">
-        <div className="flex h-16 w-16 items-center justify-center rounded-md bg-gradient-to-br from-indigo-500 to-purple-600">
+        <div className="flex h-16 w-16 items-center justify-center rounded-md bg-linear-to-br from-indigo-500 to-purple-600">
           <Heart className="h-8 w-8 text-white" fill="white" />
         </div>
         <div>

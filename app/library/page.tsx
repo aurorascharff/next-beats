@@ -1,7 +1,7 @@
 import { Plus } from 'lucide-react';
-import Link from 'next/link';
 import { Suspense } from 'react';
 import { Crossfade } from '@/components/ui/crossfade';
+import { IconButtonLink } from '@/components/ui/icon-button-link';
 import { TopGenresGrid } from '@/features/genre/components/genre-browse';
 import { PlaylistBrowse } from '@/features/playlist/components/playlist-browse';
 import { MostPlayedSkeleton } from '@/features/track/components/most-played';
@@ -40,14 +40,9 @@ export default function LibraryPage() {
           <section className="mb-10">
             <div className="mb-4 flex items-center gap-2">
               <h2>Your Playlists</h2>
-              <Link
-                href="/playlist"
-                className="text-gray rounded-full p-1 transition-colors hover:bg-black/10 hover:text-black dark:hover:bg-white/10 dark:hover:text-white"
-                aria-label="Create playlist"
-                title="Create playlist"
-              >
+              <IconButtonLink href="/playlist" label="Create playlist">
                 <Plus className="h-5 w-5" />
-              </Link>
+              </IconButtonLink>
             </div>
             <PlaylistBrowse />
           </section>

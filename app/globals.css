@@ -121,7 +121,8 @@
     opacity 0.2s,
     transform 0.2s;
 }
-.group:hover .card-play-btn {
+.group:hover .card-play-btn,
+.card-play-btn[data-playing] {
   opacity: 1;
   transform: translateY(0);
 }

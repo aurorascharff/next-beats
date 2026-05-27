@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import { Crossfade } from '@/components/ui/crossfade';
+import { PageHeader } from '@/components/ui/page-layout';
 import { TopGenresGrid } from '@/features/genre/components/genre-browse';
 import { PlaylistBrowse } from '@/features/playlist/components/playlist-browse';
 import { MostPlayed, MostPlayedSkeleton } from '@/features/track/components/most-played';
@@ -9,8 +10,7 @@ export const unstable_prefetch = 'force-runtime';
 
 export default function HomePage() {
   return (
-    <div className="px-6 py-6 sm:px-8">
-      <h1 className="mb-6 text-3xl font-bold">Good evening</h1>
+    <PageHeader title="Good evening">
       <Suspense fallback={<QuickPlayGridSkeleton />}>
         <Crossfade>
           <QuickPlayGrid />
@@ -39,6 +39,6 @@ export default function HomePage() {
           </section>
         </Crossfade>
       </Suspense>
-    </div>
+    </PageHeader>
   );
 }

@@ -4,6 +4,7 @@ import { Suspense } from 'react';
 import { ThemeToggle } from '@/components/theme/theme-toggle';
 import ErrorBoundary from '@/components/ui/error-boundary';
 import { GitHubIcon } from '@/components/ui/github-icon';
+import { IconButtonLink } from '@/components/ui/icon-button-link';
 import { MusicNote } from '@/components/ui/music-note';
 import { Skeleton } from '@/components/ui/skeleton';
 import { getPlaylists } from '@/features/playlist/playlist-queries';
@@ -38,14 +39,9 @@ export function Sidebar() {
         <div className="flex items-center gap-2 px-3 py-3 lg:px-4">
           <Library className="text-gray h-5 w-5 shrink-0" />
           <span className="text-gray hidden text-sm font-bold lg:inline">Your Library</span>
-          <Link
-            href="/playlist"
-            className="text-gray ml-auto hidden rounded-full p-1.5 transition-colors hover:bg-white/10 hover:text-black lg:block dark:hover:text-white"
-            aria-label="Create playlist"
-            title="Create playlist"
-          >
+          <IconButtonLink href="/playlist" label="Create playlist" className="ml-auto hidden lg:block">
             <Plus className="h-5 w-5" />
-          </Link>
+          </IconButtonLink>
         </div>
         <nav className="flex min-h-0 flex-1 flex-col gap-0.5 overflow-y-auto px-2 pb-2">
           <SidebarNavLink href="/favorites" icon={<Heart className="h-4 w-4" />} label="Liked Tracks" />

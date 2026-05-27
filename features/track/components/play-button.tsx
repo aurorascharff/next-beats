@@ -48,6 +48,7 @@ export function PlayButton({ track, className, size = 'md' }: Props) {
       type="button"
       onClick={handleClick}
       data-client="PlayButton"
+      data-playing={isThisPlaying || undefined}
       aria-label={isThisPlaying ? `Pause ${track.title}` : `Play ${track.title}`}
       className={`bg-accent flex items-center justify-center rounded-full text-white shadow-xl transition-transform hover:scale-105 ${sizes[size]} ${className ?? ''}`}
     >

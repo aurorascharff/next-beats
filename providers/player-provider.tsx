@@ -90,13 +90,13 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
     }
   }, [volume]);
 
-  function stopAudio() {
+  function stopAudio(immediate = false) {
     if (schedulerRef.current) {
       clearTimeout(schedulerRef.current);
       schedulerRef.current = null;
     }
     for (const bar of barsRef.current) {
-      bar.stopAll();
+      bar.stopAll(immediate);
     }
     barsRef.current = [];
     if (progressRef.current) {
@@ -106,7 +106,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
   }
 
   function startAudio(t: Track, onEnd: () => void) {
-    stopAudio();
+    stopAudio(true);
     const ctx = getAudioContext();
     const bpm = 120; // approximate — the genre config will override per bar
     const secPerBar = (60 / bpm) * 4; // 4 beats per bar
