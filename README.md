@@ -2,7 +2,7 @@
 
 A Next.js music player demonstrating Instant Navigations. Every route transition feels immediate, even with dynamic, personalized data.
 
-**[Live Demo](https://next-beats.vercel.app)**
+**[Live Demo](https://next-beats.dev)**
 
 ## App Features
 
