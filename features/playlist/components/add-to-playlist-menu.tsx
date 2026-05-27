@@ -25,7 +25,7 @@ export function AddToPlaylistMenu({
         aria-label="Add to playlist"
         data-client="AddToPlaylist"
         onClick={e => e.stopPropagation()}
-        className={`text-gray rounded-full transition-colors hover:text-black dark:hover:text-white ${size === 'lg' ? 'p-1.5' : 'p-1.5'}`}
+        className={`text-gray data-[open]:text-accent dark:data-[open]:text-accent rounded-full transition-colors hover:text-black dark:hover:text-white ${size === 'lg' ? 'p-1.5' : 'p-1.5'}`}
       >
         <ListPlus className={size === 'lg' ? 'h-5 w-5' : 'h-4 w-4'} />
       </Ariakit.PopoverDisclosure>

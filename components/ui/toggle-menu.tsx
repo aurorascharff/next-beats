@@ -15,7 +15,7 @@ type Props = {
 
 export function ToggleMenu({ items, toggleAction, activeIcon, inactiveIcon }: Props) {
   return (
-    <div className="flex flex-col gap-0.5" data-client="ToggleMenu">
+    <div className="flex flex-col gap-0.5" data-client="ToggleMenu" style={{ viewTransitionName: 'none' }}>
       {items.map(item => (
         <ToggleMenuItem
           key={item.value}
