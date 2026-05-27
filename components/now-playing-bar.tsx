@@ -7,7 +7,7 @@ import { formatDuration } from '@/lib/utils';
 import { usePlayer } from '@/providers/player-provider';
 
 export function NowPlayingBar() {
-  const { track, isPlaying, progress, volume, togglePlayPause, next, previous, setVolume } = usePlayer();
+  const { track, isPlaying, progress, volume, hasQueue, togglePlayPause, next, previous, setVolume } = usePlayer();
 
   const VolumeIcon = volume === 0 ? VolumeX : volume < 50 ? Volume1 : Volume2;
   const elapsed = track ? Math.floor((progress / 100) * track.duration) : 0;
@@ -24,24 +24,12 @@ export function NowPlayingBar() {
           <div className="flex items-center gap-3">
             <AlbumArt coverColor={track.coverColor} size="sm" className="!h-12 !w-12 !rounded-sm" />
             <div className="flex min-w-0 flex-1 flex-col">
-              <span className="truncate text-sm font-medium text-black dark:text-white">{track.title}</span>
-              <span className="text-muted truncate text-xs">{track.artist}</span>
+              <TrackInfo title={track.title} subtitle={track.artist} />
             </div>
             <div className="flex items-center gap-3">
-              <SkipButton direction="back" onClick={previous} />
-              <button
-                type="button"
-                onClick={togglePlayPause}
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-black text-white transition-transform hover:scale-105 dark:bg-white dark:text-black"
-                aria-label={isPlaying ? 'Pause' : 'Play'}
-              >
-                {isPlaying ? (
-                  <Pause className="h-4 w-4" fill="currentColor" />
-                ) : (
-                  <Play className="h-4 w-4 translate-x-[1px]" fill="currentColor" />
-                )}
-              </button>
-              <SkipButton direction="forward" onClick={next} />
+              <SkipButton direction="back" onClick={previous} disabled={!hasQueue} />
+              <PlayPauseButton isPlaying={isPlaying} onClick={togglePlayPause} />
+              <SkipButton direction="forward" onClick={next} disabled={!hasQueue} />
             </div>
           </div>
           <div className="mt-2 flex items-center gap-2">
@@ -74,33 +62,17 @@ export function NowPlayingBar() {
               />
             </ViewTransition>
             <ViewTransition key={track?.id ?? 'empty'} enter="fade-in" exit="fade-out" default="none">
-              <div className="flex min-w-0 flex-col">
-                <span className="truncate text-sm font-medium text-black dark:text-white">
-                  {track?.title ?? 'No track playing'}
-                </span>
-                <span className="text-muted truncate text-xs">
-                  {track ? `${track.artist} · ${track.album}` : 'Select a track to play'}
-                </span>
-              </div>
+              <TrackInfo
+                title={track?.title ?? 'No track playing'}
+                subtitle={track ? `${track.artist} · ${track.album}` : 'Select a track to play'}
+              />
             </ViewTransition>
           </div>
           <div className="flex flex-col items-center gap-1">
             <div className="flex items-center gap-5">
-              <SkipButton direction="back" onClick={previous} disabled={!track} />
-              <button
-                type="button"
-                onClick={togglePlayPause}
-                disabled={!track}
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-black text-white transition-transform hover:scale-105 disabled:opacity-40 dark:bg-white dark:text-black"
-                aria-label={isPlaying ? 'Pause' : 'Play'}
-              >
-                {isPlaying ? (
-                  <Pause className="h-4 w-4" fill="currentColor" />
-                ) : (
-                  <Play className="h-4 w-4 translate-x-[1px]" fill="currentColor" />
-                )}
-              </button>
-              <SkipButton direction="forward" onClick={next} disabled={!track} />
+              <SkipButton direction="back" onClick={previous} disabled={!track || !hasQueue} />
+              <PlayPauseButton isPlaying={isPlaying} onClick={togglePlayPause} disabled={!track} />
+              <SkipButton direction="forward" onClick={next} disabled={!track || !hasQueue} />
             </div>
             <div className="flex w-full max-w-md items-center gap-2">
               <span className="text-muted w-8 text-right text-[10px]">{formatDuration(elapsed)}</span>
@@ -122,12 +94,7 @@ export function NowPlayingBar() {
           {/* Compact track info for sm–lg (right side) */}
           <div className="ml-auto flex min-w-0 items-center gap-3 lg:hidden">
             <ViewTransition key={track?.id ?? 'empty-sm'} enter="fade-in" exit="fade-out" default="none">
-              <div className="flex min-w-0 flex-col text-right">
-                <span className="truncate text-sm font-medium text-black dark:text-white">
-                  {track?.title ?? 'No track'}
-                </span>
-                <span className="text-muted truncate text-xs">{track?.artist ?? ''}</span>
-              </div>
+              <TrackInfo title={track?.title ?? 'No track'} subtitle={track?.artist ?? ''} align="right" />
             </ViewTransition>
             <AlbumArt
               coverColor={track?.coverColor ?? 'from-gray-400 to-gray-600'}
@@ -196,5 +163,40 @@ function SkipButton({
     >
       <Icon className="h-4 w-4" />
     </button>
+  );
+}
+
+function PlayPauseButton({
+  isPlaying,
+  onClick,
+  disabled,
+}: {
+  isPlaying: boolean;
+  onClick: () => void;
+  disabled?: boolean;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      className="flex h-8 w-8 items-center justify-center rounded-full bg-black text-white transition-transform hover:scale-105 disabled:opacity-40 dark:bg-white dark:text-black"
+      aria-label={isPlaying ? 'Pause' : 'Play'}
+    >
+      {isPlaying ? (
+        <Pause className="h-4 w-4" fill="currentColor" />
+      ) : (
+        <Play className="h-4 w-4 translate-x-[1px]" fill="currentColor" />
+      )}
+    </button>
+  );
+}
+
+function TrackInfo({ title, subtitle, align = 'left' }: { title: string; subtitle: string; align?: 'left' | 'right' }) {
+  return (
+    <div className={`flex min-w-0 flex-col ${align === 'right' ? 'text-right' : ''}`}>
+      <span className="truncate text-sm font-medium text-black dark:text-white">{title}</span>
+      <span className="text-muted truncate text-xs">{subtitle}</span>
+    </div>
   );
 }

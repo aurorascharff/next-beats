@@ -57,6 +57,7 @@ function playerReducer(state: PlayerState, action: PlayerAction): PlayerState {
 }
 
 type PlayerContextValue = PlayerState & {
+  hasQueue: boolean;
   play: (track: Track, queue?: Track[]) => void;
   pause: () => void;
   resume: () => void;
@@ -144,14 +145,14 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
   }
 
   function next() {
-    if (!track || queue.length === 0) return;
+    if (!track || queue.length <= 1) return;
     const currentIdx = queueIndexRef.current;
     const nextIdx = currentIdx < queue.length - 1 ? currentIdx + 1 : 0;
     playAtIndex(nextIdx, queue);
   }
 
   function previous() {
-    if (!track || queue.length === 0) return;
+    if (!track || queue.length <= 1) return;
     const currentIdx = queueIndexRef.current;
     const prevIdx = currentIdx > 0 ? currentIdx - 1 : queue.length - 1;
     playAtIndex(prevIdx, queue);
@@ -170,6 +171,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
         isPlaying,
         progress,
         volume,
+        hasQueue: queue.length > 1,
         play,
         pause,
         resume,
