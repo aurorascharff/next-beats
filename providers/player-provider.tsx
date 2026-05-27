@@ -1,8 +1,9 @@
 'use client';
 
 import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
-import { getAudioContext, killAudio, resumeAudio, scheduleBar, suspendAudio } from '@/lib/audio/music-engine';
-import type { ScheduledNodes } from '@/lib/audio/music-engine';
+import { createAudioRefs, cancelTimers, resumeTrack, scheduleTrack, stopAll } from '@/lib/audio/audio-scheduler';
+import { getAudioContext, resumeAudio, suspendAudio } from '@/lib/audio/music-engine';
+import type { AudioRefs } from '@/lib/audio/audio-scheduler';
 import type { Track } from '@/types/track';
 
 type PlayerState = {
@@ -71,99 +72,41 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(playerReducer, initialState);
   const { track, queue, queueIndex, isPlaying, progress, volume } = state;
   const queueIndexRef = useRef(-1);
+  const audioRef = useRef<AudioRefs>(createAudioRefs());
 
   useEffect(() => {
     queueIndexRef.current = queueIndex;
   }, [queueIndex]);
 
-  const barsRef = useRef<ScheduledNodes[]>([]);
-  const schedulerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const progressRef = useRef<number | null>(null);
-  const volumeRef = useRef(75);
-  const audioGenRef = useRef(0);
-
   useEffect(() => {
-    volumeRef.current = volume;
-    // Update gain on active bars
-    for (const bar of barsRef.current) {
+    const refs = audioRef.current;
+    refs.volume = volume;
+    for (const bar of refs.bars) {
       const ctx = getAudioContext();
       bar.masterGain.gain.exponentialRampToValueAtTime(Math.max((volume / 100) * 0.15, 0.0001), ctx.currentTime + 0.1);
     }
   }, [volume]);
 
-  function stopAudio(immediate = false) {
-    if (schedulerRef.current) {
-      clearTimeout(schedulerRef.current);
-      schedulerRef.current = null;
-    }
-    if (immediate) {
-      // Close the entire AudioContext — kills all scheduled nodes instantly
-      killAudio();
-      barsRef.current = [];
+  function advanceQueue(q: Track[], crossfade: boolean) {
+    const currentIdx = queueIndexRef.current;
+    if (currentIdx >= 0 && currentIdx < q.length - 1) {
+      playAtIndex(currentIdx + 1, q, crossfade);
     } else {
-      for (const bar of barsRef.current) {
-        bar.stopAll(false);
-      }
-      barsRef.current = [];
-    }
-    if (progressRef.current) {
-      cancelAnimationFrame(progressRef.current);
-      progressRef.current = null;
+      dispatch({ type: 'ENDED' });
     }
   }
 
-  function startAudio(t: Track, onEnd: () => void) {
-    stopAudio(true);
-    const gen = ++audioGenRef.current;
-    const ctx = getAudioContext();
-    const bpm = 120;
-    const secPerBar = (60 / bpm) * 4;
-    let barIndex = 0;
-    let nextBarTime = ctx.currentTime + 0.05;
-
-    function scheduleAhead() {
-      if (audioGenRef.current !== gen) return; // stale — another play started
-      while (nextBarTime < ctx.currentTime + secPerBar * 2) {
-        const nodes = scheduleBar(t.id, t.genre, barIndex, nextBarTime, volumeRef.current);
-        barsRef.current.push(nodes);
-        barIndex++;
-        nextBarTime += secPerBar;
-        while (barsRef.current.length > 3) {
-          barsRef.current.shift();
-        }
-      }
-      schedulerRef.current = setTimeout(scheduleAhead, secPerBar * 0.5 * 1000);
-    }
-
-    scheduleAhead();
-
-    const startTime = Date.now();
-    const duration = t.duration * 1000;
-    function tick() {
-      if (audioGenRef.current !== gen) return; // stale
-      const elapsed = Date.now() - startTime;
-      const pct = Math.min((elapsed / duration) * 100, 100);
-      dispatch({ type: 'SET_PROGRESS', progress: pct });
-      if (pct < 100) {
-        progressRef.current = requestAnimationFrame(tick);
-      } else {
-        stopAudio();
-        onEnd();
-      }
-    }
-    progressRef.current = requestAnimationFrame(tick);
-  }
-
-  function playAtIndex(idx: number, q: Track[]) {
+  function playAtIndex(idx: number, q: Track[], crossfade = false) {
     const t = q[idx];
     dispatch({ type: 'PLAY', track: t, queue: q, index: idx });
-    startAudio(t, () => {
-      const currentIdx = queueIndexRef.current;
-      if (currentIdx >= 0 && currentIdx < q.length - 1) {
-        playAtIndex(currentIdx + 1, q);
-      } else {
-        dispatch({ type: 'ENDED' });
-      }
+    scheduleTrack({
+      trackId: t.id,
+      genre: t.genre,
+      duration: t.duration,
+      refs: audioRef.current,
+      crossfade,
+      onProgress: pct => dispatch({ type: 'SET_PROGRESS', progress: pct }),
+      onEnd: () => advanceQueue(q, true),
     });
   }
 
@@ -176,55 +119,22 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
   function pause() {
     dispatch({ type: 'PAUSE' });
     suspendAudio();
-    if (schedulerRef.current) {
-      clearTimeout(schedulerRef.current);
-      schedulerRef.current = null;
-    }
-    if (progressRef.current) {
-      cancelAnimationFrame(progressRef.current);
-      progressRef.current = null;
-    }
+    cancelTimers(audioRef.current);
   }
 
   function resume() {
     dispatch({ type: 'RESUME' });
     resumeAudio();
     if (track) {
-      const duration = track.duration * 1000;
-      const startTime = Date.now() - (progress / 100) * duration;
-
-      // Re-start the bar scheduler
-      const ctx = getAudioContext();
-      const secPerBar = (60 / 120) * 4;
-      let barIndex = Math.floor((progress / 100) * (track.duration / secPerBar));
-      let nextBarTime = ctx.currentTime + 0.05;
-
-      function scheduleAhead() {
-        while (nextBarTime < ctx.currentTime + secPerBar * 2) {
-          const nodes = scheduleBar(track!.id, track!.genre, barIndex, nextBarTime, volumeRef.current);
-          barsRef.current.push(nodes);
-          barIndex++;
-          nextBarTime += secPerBar;
-          while (barsRef.current.length > 3) {
-            barsRef.current.shift();
-          }
-        }
-        schedulerRef.current = setTimeout(scheduleAhead, secPerBar * 0.5 * 1000);
-      }
-      scheduleAhead();
-
-      function tick() {
-        const elapsed = Date.now() - startTime;
-        const pct = Math.min((elapsed / duration) * 100, 100);
-        dispatch({ type: 'SET_PROGRESS', progress: pct });
-        if (pct < 100) {
-          progressRef.current = requestAnimationFrame(tick);
-        } else {
-          stopAudio();
-          dispatch({ type: 'ENDED' });
-        }
-      }
-      progressRef.current = requestAnimationFrame(tick);
+      resumeTrack(
+        track.id,
+        track.genre,
+        track.duration,
+        progress,
+        audioRef.current,
+        pct => dispatch({ type: 'SET_PROGRESS', progress: pct }),
+        () => dispatch({ type: 'ENDED' }),
+      );
     }
   }
 

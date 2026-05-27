@@ -1,12 +1,8 @@
 import { Heart, Home, Library, Search } from 'lucide-react';
 import { NavLink } from './ui/nav-link';
 
-const mobileTab = ({ isActive }: { isActive: boolean }) =>
-  `flex flex-1 flex-col items-center gap-0.5 py-2.5 text-[10px] transition-colors ${
-    isActive
-      ? 'text-accent font-bold [&_svg]:stroke-[2.5]'
-      : 'text-gray font-medium hover:text-black dark:hover:text-white'
-  }`;
+const mobileTab =
+  'flex flex-1 flex-col items-center gap-0.5 py-2.5 text-[10px] font-medium transition-colors text-gray hover:text-black dark:hover:text-white aria-[current=page]:text-accent aria-[current=page]:font-bold aria-[current=page]:[&_svg]:stroke-[2.5]';
 
 export function MobileTabBar() {
   return (
