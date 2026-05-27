@@ -407,21 +407,21 @@ const PLAYLISTS: SeedPlaylist[] = [
     name: 'Late Night Coding',
     description: 'Beats for the midnight commit.',
     coverColor: 'from-violet-500 to-purple-600',
-    trackIds: ['t26', 't30', 't13', 't21', 't24', 't4', 't28'],
+    trackIds: ['t21', 't22', 't24', 't25', 't4', 't9', 't2'],
   },
   {
     id: 'pl2',
     name: 'Morning Vibes',
     description: 'Start the day right.',
     coverColor: 'from-purple-400 to-violet-500',
-    trackIds: ['t6', 't9', 't16', 't17', 't23', 't7'],
+    trackIds: ['t6', 't7', 't16', 't17', 't23', 't20'],
   },
   {
     id: 'pl3',
     name: 'High Energy',
     description: 'Turn it up to eleven.',
     coverColor: 'from-fuchsia-500 to-purple-600',
-    trackIds: ['t5', 't3', 't11', 't15', 't27', 't14', 't20'],
+    trackIds: ['t5', 't3', 't26', 't27', 't28', 't30', 't11', 't15'],
   },
 ];
 

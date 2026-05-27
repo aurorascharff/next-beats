@@ -25,8 +25,7 @@ function BoundaryOverlay() {
       let box = existingBoxes[boxIndex] as HTMLDivElement | undefined;
       if (!box) {
         box = document.createElement('div');
-        box.style.cssText =
-          'position:fixed;border:2px solid #4f6ef7;border-radius:6px;pointer-events:none;';
+        box.style.cssText = 'position:fixed;border:2px solid #4f6ef7;border-radius:6px;pointer-events:none;';
         const label = document.createElement('span');
         label.style.cssText =
           'position:absolute;top:-1px;left:8px;transform:translateY(-100%);background:#4f6ef7;color:white;font-size:10px;font-weight:600;line-height:1;padding:2px 6px;border-radius:4px 4px 0 0;white-space:nowrap;font-family:var(--font-mono);';
@@ -76,7 +75,11 @@ function BoundaryOverlay() {
   }, [updateBoxes, scheduleUpdate]);
 
   return createPortal(
-    <div ref={overlayRef} className="demo-toggles pointer-events-none fixed inset-0 z-[9998]" style={{ viewTransitionName: 'none' }} />,
+    <div
+      ref={overlayRef}
+      className="demo-toggles pointer-events-none fixed inset-0 z-[9998]"
+      style={{ viewTransitionName: 'none' }}
+    />,
     document.body,
   );
 }

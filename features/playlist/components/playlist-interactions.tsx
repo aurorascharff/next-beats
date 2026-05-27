@@ -1,12 +1,12 @@
 'use client';
 
 import * as Ariakit from '@ariakit/react';
-import { Trash2, X } from 'lucide-react';
+import { Check, Plus, Trash2, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { startTransition, useOptimistic } from 'react';
 import { toast } from 'sonner';
 import { ConfirmDialog } from '@/components/ui/confirm-dialog';
-import { ToggleMenu } from '@/components/ui/toggle-menu';
+import { cn } from '@/lib/utils';
 import { deletePlaylist, removeFromPlaylist, addToPlaylist } from '@/features/playlist/playlist-actions';
 
 export function DeletePlaylistButton({ playlistId, size = 'sm' }: { playlistId: string; size?: 'sm' | 'lg' }) {
@@ -83,7 +83,7 @@ export function AddToPlaylistButtons({
   trackId: string;
   items: { label: string; value: string; active: boolean }[];
 }) {
-  async function handleToggle(playlistId: string, currentlyActive: boolean) {
+  async function togglePlaylistAction(playlistId: string, currentlyActive: boolean) {
     if (currentlyActive) {
       const result = await removeFromPlaylist(playlistId, trackId);
       if (result?.error) toast.error(result.error);
@@ -93,5 +93,46 @@ export function AddToPlaylistButtons({
     }
   }
 
-  return <ToggleMenu items={items} toggleAction={handleToggle} />;
+  return (
+    <div className="flex flex-col gap-0.5" style={{ viewTransitionName: 'none' }}>
+      {items.map(item => (
+        <PlaylistToggleItem key={item.value} item={item} toggleAction={togglePlaylistAction} />
+      ))}
+    </div>
+  );
+}
+
+function PlaylistToggleItem({
+  item,
+  toggleAction,
+}: {
+  item: { label: string; value: string; active: boolean };
+  toggleAction: (value: string, active: boolean) => void | Promise<void>;
+}) {
+  const [optimisticActive, setOptimisticActive] = useOptimistic(item.active);
+
+  function handleClick() {
+    startTransition(async () => {
+      setOptimisticActive(!optimisticActive);
+      await toggleAction(item.value, optimisticActive);
+    });
+  }
+
+  return (
+    <Ariakit.MenuItem
+      onClick={(e: React.MouseEvent) => {
+        e.stopPropagation();
+        e.preventDefault();
+        handleClick();
+      }}
+      hideOnClick={false}
+      className={cn(
+        'hover:bg-card dark:hover:bg-card-dark data-active-item:bg-card dark:data-active-item:bg-card-dark flex w-full cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-left text-sm transition-colors outline-none',
+        optimisticActive ? 'text-accent' : 'text-black dark:text-white',
+      )}
+    >
+      {optimisticActive ? <Check className="h-4 w-4 shrink-0" /> : <Plus className="h-4 w-4 shrink-0" />}
+      <span className="truncate">{item.label}</span>
+    </Ariakit.MenuItem>
+  );
 }

@@ -16,21 +16,21 @@ export function AddToPlaylistMenu({
   itemsPromise: Promise<PlaylistMenuItem[]>;
   size?: 'sm' | 'lg';
 }) {
-  const popover = Ariakit.usePopoverStore({ placement: 'bottom-start' });
+  const menu = Ariakit.useMenuStore({ placement: 'bottom-start' });
 
   return (
     <>
-      <Ariakit.PopoverDisclosure
-        store={popover}
+      <Ariakit.MenuButton
+        store={menu}
         aria-label="Add to playlist"
         data-client="AddToPlaylist"
-        onClick={e => e.stopPropagation()}
+        onClick={(e: React.MouseEvent) => e.stopPropagation()}
         className={`text-gray data-[open]:text-accent dark:data-[open]:text-accent rounded-full transition-colors hover:text-black dark:hover:text-white ${size === 'lg' ? 'p-1.5' : 'p-1.5'}`}
       >
         <ListPlus className={size === 'lg' ? 'h-5 w-5' : 'h-4 w-4'} />
-      </Ariakit.PopoverDisclosure>
-      <Ariakit.Popover
-        store={popover}
+      </Ariakit.MenuButton>
+      <Ariakit.Menu
+        store={menu}
         className="border-divider dark:border-divider-dark z-50 w-56 rounded-xl border bg-white p-2 shadow-xl outline-none dark:bg-black"
         style={{ viewTransitionName: 'none' }}
         gutter={8}
@@ -51,7 +51,7 @@ export function AddToPlaylistMenu({
         >
           <PlaylistMenuItems trackId={trackId} itemsPromise={itemsPromise} />
         </Suspense>
-      </Ariakit.Popover>
+      </Ariakit.Menu>
     </>
   );
 }
