@@ -52,21 +52,33 @@ export function NowPlayingBar() {
         className="border-divider dark:border-divider-dark hidden shrink-0 border-t bg-white px-4 py-2 sm:block dark:bg-[#181818]"
         data-client="NowPlayingBar"
       >
-        <div className="mx-auto flex max-w-7xl items-center gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
-          <div className="hidden min-w-0 items-center gap-3 lg:flex">
-            <ViewTransition name="now-playing-art" default="none">
+        <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-4">
+          <div className="min-w-0">
+            <div className="hidden items-center gap-3 lg:flex">
+              <ViewTransition name="now-playing-art" default="none">
+                <AlbumArt
+                  coverColor={track?.coverColor ?? 'from-gray-400 to-gray-600'}
+                  size="sm"
+                  className="!h-14 !w-14 !rounded-sm"
+                />
+              </ViewTransition>
+              <ViewTransition key={track?.id ?? 'empty'} enter="fade-in" exit="fade-out" default="none">
+                <TrackInfo
+                  title={track?.title ?? 'No track playing'}
+                  subtitle={track ? `${track.artist} · ${track.album}` : 'Select a track to play'}
+                />
+              </ViewTransition>
+            </div>
+            <div className="flex items-center gap-3 lg:hidden">
               <AlbumArt
                 coverColor={track?.coverColor ?? 'from-gray-400 to-gray-600'}
                 size="sm"
-                className="!h-14 !w-14 !rounded-sm"
+                className="!h-10 !w-10 !rounded-sm"
               />
-            </ViewTransition>
-            <ViewTransition key={track?.id ?? 'empty'} enter="fade-in" exit="fade-out" default="none">
-              <TrackInfo
-                title={track?.title ?? 'No track playing'}
-                subtitle={track ? `${track.artist} · ${track.album}` : 'Select a track to play'}
-              />
-            </ViewTransition>
+              <ViewTransition key={track?.id ?? 'empty-sm'} enter="fade-in" exit="fade-out" default="none">
+                <TrackInfo title={track?.title ?? 'No track'} subtitle={track?.artist ?? ''} />
+              </ViewTransition>
+            </div>
           </div>
           <div className="flex flex-col items-center gap-1">
             <div className="flex items-center gap-5">
@@ -80,27 +92,16 @@ export function NowPlayingBar() {
               <span className="text-muted w-8 text-[10px]">{formatDuration(total)}</span>
             </div>
           </div>
-          <div className="hidden items-center justify-end gap-1.5 lg:flex">
+          <div className="flex items-center justify-end gap-1.5">
             <button
               type="button"
               onClick={() => setVolume(volume === 0 ? 75 : 0)}
-              className="text-muted transition-colors hover:text-black dark:hover:text-white"
+              className="text-muted hidden transition-colors hover:text-black lg:block dark:hover:text-white"
               aria-label={volume === 0 ? 'Unmute' : 'Mute'}
             >
               <VolumeIcon className="h-3.5 w-3.5" />
             </button>
-            <SliderBar value={volume} onChange={setVolume} className="w-20" label="Volume" />
-          </div>
-          {/* Compact track info for sm–lg (right side) */}
-          <div className="ml-auto flex min-w-0 items-center gap-3 lg:hidden">
-            <ViewTransition key={track?.id ?? 'empty-sm'} enter="fade-in" exit="fade-out" default="none">
-              <TrackInfo title={track?.title ?? 'No track'} subtitle={track?.artist ?? ''} align="right" />
-            </ViewTransition>
-            <AlbumArt
-              coverColor={track?.coverColor ?? 'from-gray-400 to-gray-600'}
-              size="sm"
-              className="!h-10 !w-10 !rounded-sm"
-            />
+            <SliderBar value={volume} onChange={setVolume} className="hidden w-20 lg:flex" label="Volume" />
           </div>
         </div>
       </div>
@@ -192,9 +193,9 @@ function PlayPauseButton({
   );
 }
 
-function TrackInfo({ title, subtitle, align = 'left' }: { title: string; subtitle: string; align?: 'left' | 'right' }) {
+function TrackInfo({ title, subtitle }: { title: string; subtitle: string }) {
   return (
-    <div className={`flex min-w-0 flex-col ${align === 'right' ? 'text-right' : ''}`}>
+    <div className="flex min-w-0 flex-col">
       <span className="truncate text-sm font-medium text-black dark:text-white">{title}</span>
       <span className="text-muted truncate text-xs">{subtitle}</span>
     </div>

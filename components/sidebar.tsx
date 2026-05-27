@@ -24,7 +24,7 @@ export function Sidebar() {
       <div className="bg-card dark:bg-card-dark rounded-lg p-3 lg:p-4">
         <Link
           href="/"
-          className="mb-4 hidden items-center gap-2 px-1 text-xl font-bold tracking-tight text-accent lg:inline-flex"
+          className="text-accent mb-4 hidden items-center gap-2 px-1 text-xl font-bold tracking-tight lg:inline-flex"
           aria-label="NextBeats home"
         >
           <MusicNote size={24} className="text-accent" />
