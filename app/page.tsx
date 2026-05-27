@@ -1,9 +1,8 @@
 import { Suspense } from 'react';
 import { Crossfade } from '@/components/ui/crossfade';
-import { Skeleton } from '@/components/ui/skeleton';
 import { TopGenresGrid } from '@/features/genre/components/genre-browse';
 import { PlaylistBrowse } from '@/features/playlist/components/playlist-browse';
-import { MostPlayed } from '@/features/track/components/most-played';
+import { MostPlayed, MostPlayedSkeleton } from '@/features/track/components/most-played';
 import { QuickPlayGrid, QuickPlayGridSkeleton } from '@/features/track/components/quick-play-grid';
 
 export const unstable_prefetch = 'force-runtime';
@@ -21,9 +20,7 @@ export default function HomePage() {
         fallback={
           <section className="mt-10">
             <h2 className="mb-4">Most Played</h2>
-            <div className="p-3">
-              <Skeleton className="h-40 w-40 rounded-md" />
-            </div>
+            <MostPlayedSkeleton />
           </section>
         }
       >
