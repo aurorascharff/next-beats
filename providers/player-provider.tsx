@@ -80,6 +80,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
   const schedulerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const progressRef = useRef<number | null>(null);
   const volumeRef = useRef(75);
+  const audioGenRef = useRef(0);
 
   useEffect(() => {
     volumeRef.current = volume;
@@ -113,21 +114,20 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
 
   function startAudio(t: Track, onEnd: () => void) {
     stopAudio(true);
+    const gen = ++audioGenRef.current;
     const ctx = getAudioContext();
-    const bpm = 120; // approximate — the genre config will override per bar
-    const secPerBar = (60 / bpm) * 4; // 4 beats per bar
+    const bpm = 120;
+    const secPerBar = (60 / bpm) * 4;
     let barIndex = 0;
-    let nextBarTime = ctx.currentTime + 0.05; // small delay for setup
+    let nextBarTime = ctx.currentTime + 0.05;
 
     function scheduleAhead() {
-      // Schedule 2 bars ahead
+      if (audioGenRef.current !== gen) return; // stale — another play started
       while (nextBarTime < ctx.currentTime + secPerBar * 2) {
         const nodes = scheduleBar(t.id, t.genre, barIndex, nextBarTime, volumeRef.current);
         barsRef.current.push(nodes);
         barIndex++;
         nextBarTime += secPerBar;
-
-        // Clean up old bars (keep last 3)
         while (barsRef.current.length > 3) {
           barsRef.current.shift();
         }
@@ -137,10 +137,10 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
 
     scheduleAhead();
 
-    // Progress tracking
     const startTime = Date.now();
     const duration = t.duration * 1000;
     function tick() {
+      if (audioGenRef.current !== gen) return; // stale
       const elapsed = Date.now() - startTime;
       const pct = Math.min((elapsed / duration) * 100, 100);
       dispatch({ type: 'SET_PROGRESS', progress: pct });

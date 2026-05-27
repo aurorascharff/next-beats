@@ -10,7 +10,7 @@ import { OfflineIndicator } from '@/components/offline-indicator';
 import { SeedNavLinksFromPathname } from '@/components/scripts/seed-nav-links-from-pathname';
 import { Sidebar } from '@/components/sidebar';
 import { ThemeProvider } from '@/components/theme/theme-provider';
-import { NowPlayingBar } from '@/features/player/components/now-playing-bar';
+import { NowPlayingBar } from '@/components/now-playing-bar';
 import { PlayerProvider } from '@/providers/player-provider';
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
