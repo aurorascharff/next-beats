@@ -3,6 +3,7 @@
 import { Heart, Play } from 'lucide-react';
 import Link from 'next/link';
 import { useOptimistic, useTransition } from 'react';
+import { Equalizer } from '@/components/ui/equalizer';
 import { toggleFavorite, incrementPlayCount } from '@/features/track/track-actions';
 import { cn } from '@/lib/utils';
 import { usePlayer } from '@/providers/player-provider';
@@ -151,22 +152,6 @@ export function TrackIndexCell({ trackId, index }: { trackId: string; index?: nu
       ) : (
         <Play className="hidden h-3.5 w-3.5 text-black group-hover/track:inline dark:text-white" fill="currentColor" />
       )}
-    </span>
-  );
-}
-
-export function Equalizer({ size = 'sm' }: { size?: 'sm' | 'md' | 'lg' }) {
-  const barClass = size === 'lg' ? 'w-1.5' : size === 'md' ? 'w-1' : 'w-0.75';
-  const gapClass = size === 'lg' ? 'gap-1' : size === 'md' ? 'gap-[3px]' : 'gap-0.5';
-  return (
-    <span className={cn('flex items-end', gapClass)}>
-      <span className={cn('bg-accent inline-block animate-[eq1_0.8s_ease-in-out_infinite] rounded-sm', barClass)} />
-      <span
-        className={cn('bg-accent inline-block animate-[eq2_0.6s_ease-in-out_infinite_0.2s] rounded-sm', barClass)}
-      />
-      <span
-        className={cn('bg-accent inline-block animate-[eq3_0.7s_ease-in-out_infinite_0.1s] rounded-sm', barClass)}
-      />
     </span>
   );
 }
