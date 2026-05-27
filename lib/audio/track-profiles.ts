@@ -61,7 +61,12 @@ export const trackProfiles: Record<string, TrackProfile> = {
   // t1: Async Await — pulsing anticipation, then release. Catchy arp buildup.
   t1: {
     bpm: 126,
-    chords: [[C4, E4, G4], [A3, C4, E4], [F3, A3, C4], [G3, B3, D4]],
+    chords: [
+      [C4, E4, G4],
+      [A3, C4, E4],
+      [F3, A3, C4],
+      [G3, B3, D4],
+    ],
     melodyNotes: [E4, G4, A4, B4, C5, D5, E5],
     melodyRhythm: [0, 2, 4, 6, 8, 10, 12, 14],
     arpeggiate: true,
@@ -73,7 +78,12 @@ export const trackProfiles: Record<string, TrackProfile> = {
   // t2: WebSocket Sunset — warm flowing melody, like data streaming into golden hour
   t2: {
     bpm: 120,
-    chords: [[F3, A3, C4, E4], [C4, E4, G4], [G3, B3, D4, F4], [A3, C4, E4]],
+    chords: [
+      [F3, A3, C4, E4],
+      [C4, E4, G4],
+      [G3, B3, D4, F4],
+      [A3, C4, E4],
+    ],
     melodyNotes: [A4, C5, D5, E5, G5, A4],
     melodyRhythm: [0, 2, 4, 8, 10, 12],
     melodyWave: 'sine',
@@ -85,7 +95,12 @@ export const trackProfiles: Record<string, TrackProfile> = {
   // t3: Server Sent Vibes — energetic, driving, non-stop delivery
   t3: {
     bpm: 134,
-    chords: [[C4, E4, G4], [Bb3, D4, F4], [Ab3, C4, Eb4], [G3, B3, D4]],
+    chords: [
+      [C4, E4, G4],
+      [Bb3, D4, F4],
+      [Ab3, C4, Eb4],
+      [G3, B3, D4],
+    ],
     melodyNotes: [C4, E4, F4, G4, Bb4, C5],
     melodyRhythm: [0, 2, 4, 6, 8, 10, 12, 14],
     arpeggiate: true,
@@ -97,7 +112,12 @@ export const trackProfiles: Record<string, TrackProfile> = {
   // t4: Hydration — smooth liquid layers, everything clicking into place
   t4: {
     bpm: 122,
-    chords: [[D4, F4, A4], [Bb3, D4, F4], [C4, E4, G4], [A3, C4, E4]],
+    chords: [
+      [D4, F4, A4],
+      [Bb3, D4, F4],
+      [C4, E4, G4],
+      [A3, C4, E4],
+    ],
     melodyNotes: [D4, F4, A4, C5, D5, F5],
     melodyRhythm: [0, 2, 4, 8, 10, 12, 14],
     melodyWave: 'sine',
@@ -109,7 +129,12 @@ export const trackProfiles: Record<string, TrackProfile> = {
   // t5: Hot Module Reload — fast, urgent, snappy square wave energy
   t5: {
     bpm: 140,
-    chords: [[E3, G3, B3], [A3, C4, E4], [D4, F4, A4], [G3, B3, D4]],
+    chords: [
+      [E3, G3, B3],
+      [A3, C4, E4],
+      [D4, F4, A4],
+      [G3, B3, D4],
+    ],
     melodyNotes: [E4, G4, A4, B4, D5, E5],
     melodyRhythm: [0, 2, 4, 6, 8, 10, 12, 14],
     melodyWave: 'square',
@@ -125,7 +150,12 @@ export const trackProfiles: Record<string, TrackProfile> = {
   // t6: Localhost Morning — bright acoustic feel, coffee and code
   t6: {
     bpm: 112,
-    chords: [[G3, B3, D4], [C4, E4, G4], [D4, F4, A4], [E3, G3, B3]],
+    chords: [
+      [G3, B3, D4],
+      [C4, E4, G4],
+      [D4, F4, A4],
+      [E3, G3, B3],
+    ],
     melodyNotes: [B4, D5, E5, G5, A4, B4],
     melodyRhythm: [0, 2, 4, 8, 10, 12],
     melodyWave: 'triangle',
@@ -137,7 +167,12 @@ export const trackProfiles: Record<string, TrackProfile> = {
   // t7: README Love Letter — sweet picking pattern, heartfelt
   t7: {
     bpm: 108,
-    chords: [[C4, E4, G4], [A3, C4, E4], [F3, A3, C4], [G3, B3, D4]],
+    chords: [
+      [C4, E4, G4],
+      [A3, C4, E4],
+      [F3, A3, C4],
+      [G3, B3, D4],
+    ],
     melodyNotes: [E4, G4, A4, B4, C5, D5, E5],
     melodyRhythm: [0, 2, 4, 6, 8, 10, 12],
     melodyWave: 'triangle',
@@ -149,7 +184,12 @@ export const trackProfiles: Record<string, TrackProfile> = {
   // t8: Open Source Crush — upbeat, hopeful, bouncy strumming feel
   t8: {
     bpm: 118,
-    chords: [[D4, F4, A4], [G3, B3, D4], [C4, E4, G4], [A3, C4, E4]],
+    chords: [
+      [D4, F4, A4],
+      [G3, B3, D4],
+      [C4, E4, G4],
+      [A3, C4, E4],
+    ],
     melodyNotes: [D4, F4, G4, A4, C5, D5],
     melodyRhythm: [0, 2, 4, 6, 8, 10, 12, 14],
     padFilter: 2800,
@@ -159,7 +199,12 @@ export const trackProfiles: Record<string, TrackProfile> = {
   // t9: Sunday Deploy — easygoing, sun through the window
   t9: {
     bpm: 104,
-    chords: [[G3, B3, D4, F4], [C4, E4, G4], [A3, C4, E4], [D4, F4, A4]],
+    chords: [
+      [G3, B3, D4, F4],
+      [C4, E4, G4],
+      [A3, C4, E4],
+      [D4, F4, A4],
+    ],
     melodyNotes: [B3, D4, E4, G4, A4, B4],
     melodyRhythm: [0, 4, 6, 8, 12, 14],
     melodyWave: 'triangle',
@@ -171,7 +216,12 @@ export const trackProfiles: Record<string, TrackProfile> = {
   // t10: npm install feelings — quirky, bouncy, playful staccato
   t10: {
     bpm: 116,
-    chords: [[A3, C4, E4], [D4, F4, A4], [G3, B3, D4], [F3, A3, C4]],
+    chords: [
+      [A3, C4, E4],
+      [D4, F4, A4],
+      [G3, B3, D4],
+      [F3, A3, C4],
+    ],
     melodyNotes: [A4, C5, D5, E5, G5, A4],
     melodyRhythm: [0, 2, 4, 6, 8, 10, 12, 14],
     melodyWave: 'triangle',
@@ -184,7 +234,12 @@ export const trackProfiles: Record<string, TrackProfile> = {
   // t11: Ship It — confident swagger, head-nodding groove
   t11: {
     bpm: 94,
-    chords: [[C3, E3, G3], [A3, C4, E4], [F3, A3, C4], [G3, B3, D4]],
+    chords: [
+      [C3, E3, G3],
+      [A3, C4, E4],
+      [F3, A3, C4],
+      [G3, B3, D4],
+    ],
     melodyNotes: [C4, E4, G4, A4, C5],
     melodyRhythm: [0, 2, 4, 8, 10, 12, 14],
     melodyGain: 0.1,
@@ -196,7 +251,12 @@ export const trackProfiles: Record<string, TrackProfile> = {
   // t12: Stack Overflow Flow — smooth, clever wordplay groove
   t12: {
     bpm: 90,
-    chords: [[D3, F3, A3], [G3, B3, D4], [C3, E3, G3], [A3, C4, E4]],
+    chords: [
+      [D3, F3, A3],
+      [G3, B3, D4],
+      [C3, E3, G3],
+      [A3, C4, E4],
+    ],
     melodyNotes: [D4, F4, G4, A4, C5, D5],
     melodyRhythm: [0, 2, 4, 6, 8, 10, 12],
     padFilter: 1200,
@@ -206,7 +266,12 @@ export const trackProfiles: Record<string, TrackProfile> = {
   // t13: 3 AM Push — dark but catchy, night drive energy
   t13: {
     bpm: 88,
-    chords: [[A3, C4, E4], [F3, A3, C4], [G3, B3, D4], [E3, G3, B3]],
+    chords: [
+      [A3, C4, E4],
+      [F3, A3, C4],
+      [G3, B3, D4],
+      [E3, G3, B3],
+    ],
     melodyNotes: [A4, C5, D5, E5, G5],
     melodyRhythm: [0, 2, 4, 8, 10, 14],
     melodyGain: 0.09,
@@ -218,7 +283,12 @@ export const trackProfiles: Record<string, TrackProfile> = {
   // t14: Merge Conflict — tense, rhythmic, two forces colliding
   t14: {
     bpm: 96,
-    chords: [[Eb3, G3, Bb3], [C3, E3, G3], [Ab3, C4, Eb4], [Bb3, D4, F4]],
+    chords: [
+      [Eb3, G3, Bb3],
+      [C3, E3, G3],
+      [Ab3, C4, Eb4],
+      [Bb3, D4, F4],
+    ],
     melodyNotes: [Eb4, F4, G4, Bb4, C5, Eb4],
     melodyRhythm: [0, 2, 4, 6, 8, 10, 12, 14],
     bassGain: 0.15,
@@ -229,7 +299,12 @@ export const trackProfiles: Record<string, TrackProfile> = {
   // t15: git push --force — bold, no hesitation, full send
   t15: {
     bpm: 100,
-    chords: [[G3, B3, D4], [E3, G3, B3], [A3, C4, E4], [D3, F3, A3]],
+    chords: [
+      [G3, B3, D4],
+      [E3, G3, B3],
+      [A3, C4, E4],
+      [D3, F3, A3],
+    ],
     melodyNotes: [G4, A4, B4, D5, E5, G5],
     melodyRhythm: [0, 2, 4, 6, 8, 10, 12, 14],
     melodyGain: 0.1,
@@ -323,7 +398,12 @@ export const trackProfiles: Record<string, TrackProfile> = {
   // t21: Slow Build — warm layers stacking, patient groove
   t21: {
     bpm: 82,
-    chords: [[G3, B3, D4, F4], [C4, E4, G4], [A3, C4, E4], [D4, F4, A4]],
+    chords: [
+      [G3, B3, D4, F4],
+      [C4, E4, G4],
+      [A3, C4, E4],
+      [D4, F4, A4],
+    ],
     melodyNotes: [B4, D5, E5, G5, A4, B4],
     melodyRhythm: [0, 4, 6, 8, 12, 14],
     melodyWave: 'triangle',
@@ -335,7 +415,12 @@ export const trackProfiles: Record<string, TrackProfile> = {
   // t22: Console Calm — steady, meditative, watching logs scroll peacefully
   t22: {
     bpm: 78,
-    chords: [[C4, E4, G4, B4], [A3, C4, E4], [F3, A3, C4, E4], [G3, B3, D4]],
+    chords: [
+      [C4, E4, G4, B4],
+      [A3, C4, E4],
+      [F3, A3, C4, E4],
+      [G3, B3, D4],
+    ],
     melodyNotes: [E4, G4, A4, B4, D5, E5],
     melodyRhythm: [0, 4, 8, 10, 12],
     melodyWave: 'triangle',
@@ -347,7 +432,12 @@ export const trackProfiles: Record<string, TrackProfile> = {
   // t23: Soft Reset — gentle restart, like a fresh terminal
   t23: {
     bpm: 84,
-    chords: [[D4, F4, A4], [G3, B3, D4], [C4, E4, G4], [A3, C4, E4]],
+    chords: [
+      [D4, F4, A4],
+      [G3, B3, D4],
+      [C4, E4, G4],
+      [A3, C4, E4],
+    ],
     melodyNotes: [D4, F4, G4, A4, C5, D5],
     melodyRhythm: [0, 2, 4, 8, 10, 12],
     padFilter: 2000,
@@ -357,7 +447,12 @@ export const trackProfiles: Record<string, TrackProfile> = {
   // t24: Idle Thread — floating, peaceful, nothing to process
   t24: {
     bpm: 74,
-    chords: [[F3, A3, C4, E4], [C4, E4, G4], [G3, B3, D4], [D4, F4, A4]],
+    chords: [
+      [F3, A3, C4, E4],
+      [C4, E4, G4],
+      [G3, B3, D4],
+      [D4, F4, A4],
+    ],
     melodyNotes: [A4, C5, D5, E5, G5],
     melodyRhythm: [0, 4, 8, 12, 14],
     melodyWave: 'sine',
@@ -369,7 +464,12 @@ export const trackProfiles: Record<string, TrackProfile> = {
   // t25: npm install sleep — drowsy, cozy, winding down but melodic
   t25: {
     bpm: 72,
-    chords: [[G3, B3, D4, F4], [C4, E4, G4], [A3, C4, E4], [F3, A3, C4]],
+    chords: [
+      [G3, B3, D4, F4],
+      [C4, E4, G4],
+      [A3, C4, E4],
+      [F3, A3, C4],
+    ],
     melodyNotes: [B4, D5, E5, G5, A4],
     melodyRhythm: [0, 4, 6, 8, 12],
     melodyWave: 'triangle',
@@ -383,7 +483,12 @@ export const trackProfiles: Record<string, TrackProfile> = {
   // t26: Neon Terminal — glowing arpeggios, retro-futuristic energy
   t26: {
     bpm: 118,
-    chords: [[A3, C4, E4], [F3, A3, C4], [G3, B3, D4], [E3, G3, B3]],
+    chords: [
+      [A3, C4, E4],
+      [F3, A3, C4],
+      [G3, B3, D4],
+      [E3, G3, B3],
+    ],
     melodyNotes: [A4, C5, D5, E5, G5, A4],
     melodyRhythm: [0, 2, 4, 6, 8, 10, 12, 14],
     melodyWave: 'sawtooth',
@@ -397,7 +502,12 @@ export const trackProfiles: Record<string, TrackProfile> = {
   // t27: Retro Compiler — precise, mechanical, 80s computer vibe with groove
   t27: {
     bpm: 124,
-    chords: [[D3, F3, A3], [G3, B3, D4], [C4, E4, G4], [A3, C4, E4]],
+    chords: [
+      [D3, F3, A3],
+      [G3, B3, D4],
+      [C4, E4, G4],
+      [A3, C4, E4],
+    ],
     melodyNotes: [D4, F4, G4, A4, C5, D5, F5],
     melodyRhythm: [0, 2, 4, 6, 8, 10, 12, 14],
     melodyWave: 'square',
@@ -411,7 +521,12 @@ export const trackProfiles: Record<string, TrackProfile> = {
   // t28: Cyber Monday — driving commercial synth energy
   t28: {
     bpm: 128,
-    chords: [[E3, G3, B3], [C3, E3, G3], [A3, C4, E4], [D3, F3, A3]],
+    chords: [
+      [E3, G3, B3],
+      [C3, E3, G3],
+      [A3, C4, E4],
+      [D3, F3, A3],
+    ],
     melodyNotes: [E4, G4, A4, B4, D5, E5],
     melodyRhythm: [0, 2, 4, 6, 8, 10, 12, 14],
     melodyWave: 'sawtooth',
@@ -424,7 +539,12 @@ export const trackProfiles: Record<string, TrackProfile> = {
   // t29: Chrome Dreams — shimmering, wide, nostalgic pads with melody
   t29: {
     bpm: 110,
-    chords: [[C4, E4, G4, B4], [A3, C4, E4, G4], [F3, A3, C4, E4], [G3, B3, D4]],
+    chords: [
+      [C4, E4, G4, B4],
+      [A3, C4, E4, G4],
+      [F3, A3, C4, E4],
+      [G3, B3, D4],
+    ],
     melodyNotes: [E4, G4, B4, C5, D5, E5],
     melodyRhythm: [0, 2, 4, 8, 10, 12],
     melodyWave: 'sawtooth',
@@ -438,7 +558,12 @@ export const trackProfiles: Record<string, TrackProfile> = {
   // t30: Midnight Deploy — dark urgency, pushing to production, full send
   t30: {
     bpm: 126,
-    chords: [[A3, C4, E4], [F3, A3, C4], [E3, G3, B3], [G3, B3, D4]],
+    chords: [
+      [A3, C4, E4],
+      [F3, A3, C4],
+      [E3, G3, B3],
+      [G3, B3, D4],
+    ],
     melodyNotes: [A4, C5, D5, E5, G5, A4],
     melodyRhythm: [0, 2, 4, 6, 8, 10, 12, 14],
     melodyWave: 'sawtooth',

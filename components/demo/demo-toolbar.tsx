@@ -59,19 +59,24 @@ function BoundaryOverlay() {
     const observer = new ResizeObserver(scheduleUpdate);
     observer.observe(document.body);
 
+    // Watch for DOM changes (navigation, streaming content)
+    const mutationObserver = new MutationObserver(scheduleUpdate);
+    mutationObserver.observe(document.body, { childList: true, subtree: true });
+
     scrollContainer?.addEventListener('scroll', scheduleUpdate, { passive: true });
     window.addEventListener('resize', scheduleUpdate, { passive: true });
 
     return () => {
       cancelAnimationFrame(rafId.current);
       observer.disconnect();
+      mutationObserver.disconnect();
       scrollContainer?.removeEventListener('scroll', scheduleUpdate);
       window.removeEventListener('resize', scheduleUpdate);
     };
   }, [updateBoxes, scheduleUpdate]);
 
   return createPortal(
-    <div ref={overlayRef} className="demo-toggles pointer-events-none fixed inset-0 z-[9998]" />,
+    <div ref={overlayRef} className="demo-toggles pointer-events-none fixed inset-0 z-[9998]" style={{ viewTransitionName: 'none' }} />,
     document.body,
   );
 }
