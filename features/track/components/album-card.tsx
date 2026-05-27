@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { ViewTransition } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { PlayButton } from '@/features/track/components/play-button';
-import { NowPlayingOverlay, NowPlayingTrackTitle } from '@/features/track/components/track-interactions';
+import { NowPlayingTrackTitle } from '@/features/track/components/track-interactions';
 import type { Track } from '@/types/track';
 
 export function AlbumCard({ track }: { track: Track }) {
@@ -31,7 +31,6 @@ export function AlbumCard({ track }: { track: Track }) {
             </svg>
           </div>
         </ViewTransition>
-        <NowPlayingOverlay trackId={track.id} />
         <PlayButton track={track} className="card-play-btn absolute right-2 bottom-2" />
       </div>
       <div className="flex min-w-0 flex-col gap-0.5">

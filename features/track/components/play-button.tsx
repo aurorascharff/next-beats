@@ -2,6 +2,7 @@
 
 import { Pause, Play } from 'lucide-react';
 import { useTransition } from 'react';
+import { Equalizer } from '@/components/ui/equalizer';
 import { incrementPlayCount } from '@/features/track/track-actions';
 import { usePlayer } from '@/providers/player-provider';
 import type { Track } from '@/types/track';
@@ -51,7 +52,7 @@ export function PlayButton({ track, className, size = 'md' }: Props) {
       className={`bg-accent flex items-center justify-center rounded-full text-white shadow-xl transition-transform hover:scale-105 ${sizes[size]} ${className ?? ''}`}
     >
       {isThisPlaying ? (
-        <Pause className={iconSizes[size]} fill="currentColor" />
+        <Equalizer size={size === 'md' ? 'md' : 'sm'} color="bg-white" />
       ) : (
         <Play className={`translate-x-[1px] ${iconSizes[size]}`} fill="currentColor" />
       )}

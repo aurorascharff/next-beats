@@ -156,25 +156,6 @@ export function TrackIndexCell({ trackId, index }: { trackId: string; index?: nu
   );
 }
 
-export function NowPlayingOverlay({ trackId }: { trackId: string }) {
-  const player = usePlayer();
-  const isPlaying = player.isPlaying && player.track?.id === trackId;
-  const isCurrent = player.track?.id === trackId;
-
-  if (!isCurrent) return null;
-
-  return (
-    <div
-      className={cn(
-        'absolute inset-0 flex items-center justify-center rounded-md transition-opacity',
-        isPlaying ? 'bg-black/40' : 'bg-black/25',
-      )}
-    >
-      {isPlaying ? <Equalizer size="lg" /> : null}
-    </div>
-  );
-}
-
 export function FavoriteButton({
   trackId,
   isFavorite,
