@@ -94,6 +94,29 @@ export function NowPlayingTrackLink({
   );
 }
 
+export function NowPlayingTrackTitle({
+  trackId,
+  children,
+  className,
+}: {
+  trackId: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
+  const player = usePlayer();
+  const isThisTrack = player.track?.id === trackId;
+  return (
+    <span
+      className={cn(
+        'truncate text-sm font-semibold',
+        isThisTrack ? 'text-accent' : (className ?? 'text-black dark:text-white'),
+      )}
+    >
+      {children}
+    </span>
+  );
+}
+
 export function TrackIndexCell({ trackId, index }: { trackId: string; index?: number }) {
   const player = usePlayer();
   const isPlaying = player.isPlaying && player.track?.id === trackId;
@@ -102,11 +125,7 @@ export function TrackIndexCell({ trackId, index }: { trackId: string; index?: nu
   if (isPlaying) {
     return (
       <span className="flex w-5 items-center justify-center">
-        <span className="equalizer flex items-end gap-0.5">
-          <span className="bg-accent inline-block w-0.75 animate-[eq1_0.8s_ease-in-out_infinite] rounded-sm" />
-          <span className="bg-accent inline-block w-0.75 animate-[eq2_0.6s_ease-in-out_infinite_0.2s] rounded-sm" />
-          <span className="bg-accent inline-block w-0.75 animate-[eq3_0.7s_ease-in-out_infinite_0.1s] rounded-sm" />
-        </span>
+        <Equalizer size="sm" />
       </span>
     );
   }
@@ -133,6 +152,41 @@ export function TrackIndexCell({ trackId, index }: { trackId: string; index?: nu
         <Play className="hidden h-3.5 w-3.5 text-black group-hover/track:inline dark:text-white" fill="currentColor" />
       )}
     </span>
+  );
+}
+
+export function Equalizer({ size = 'sm' }: { size?: 'sm' | 'md' | 'lg' }) {
+  const barClass = size === 'lg' ? 'w-1.5' : size === 'md' ? 'w-1' : 'w-0.75';
+  const gapClass = size === 'lg' ? 'gap-1' : size === 'md' ? 'gap-[3px]' : 'gap-0.5';
+  return (
+    <span className={cn('flex items-end', gapClass)}>
+      <span className={cn('bg-accent inline-block animate-[eq1_0.8s_ease-in-out_infinite] rounded-sm', barClass)} />
+      <span
+        className={cn('bg-accent inline-block animate-[eq2_0.6s_ease-in-out_infinite_0.2s] rounded-sm', barClass)}
+      />
+      <span
+        className={cn('bg-accent inline-block animate-[eq3_0.7s_ease-in-out_infinite_0.1s] rounded-sm', barClass)}
+      />
+    </span>
+  );
+}
+
+export function NowPlayingOverlay({ trackId }: { trackId: string }) {
+  const player = usePlayer();
+  const isPlaying = player.isPlaying && player.track?.id === trackId;
+  const isCurrent = player.track?.id === trackId;
+
+  if (!isCurrent) return null;
+
+  return (
+    <div
+      className={cn(
+        'absolute inset-0 flex items-center justify-center rounded-md transition-opacity',
+        isPlaying ? 'bg-black/40' : 'bg-black/25',
+      )}
+    >
+      {isPlaying ? <Equalizer size="lg" /> : null}
+    </div>
   );
 }
 
