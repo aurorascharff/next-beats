@@ -29,6 +29,14 @@ export function resumeAudio() {
   if (sharedCtx) sharedCtx.resume();
 }
 
+/** Kill all audio by closing the context. Next getAudioContext() creates a fresh one. */
+export function killAudio() {
+  if (sharedCtx) {
+    sharedCtx.close();
+    sharedCtx = null;
+  }
+}
+
 /** Simple seeded PRNG for deterministic track variations */
 function seededRandom(seed: number) {
   let s = Math.abs(seed) || 1;
