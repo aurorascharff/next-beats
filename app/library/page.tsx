@@ -2,9 +2,9 @@ import { Plus } from 'lucide-react';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { Crossfade } from '@/components/ui/crossfade';
-import { Skeleton } from '@/components/ui/skeleton';
 import { TopGenresGrid } from '@/features/genre/components/genre-browse';
 import { PlaylistBrowse } from '@/features/playlist/components/playlist-browse';
+import { MostPlayedSkeleton } from '@/features/track/components/most-played';
 import { LibraryGrid } from '@/features/track/components/library-grid';
 import { QuickPlayGrid, QuickPlayGridSkeleton } from '@/features/track/components/quick-play-grid';
 import type { Metadata } from 'next';
@@ -31,9 +31,7 @@ export default function LibraryPage() {
         fallback={
           <section className="mb-10">
             <h2 className="mb-4">All Tracks</h2>
-            <div className="p-3">
-              <Skeleton className="h-40 w-40 rounded-md" />
-            </div>
+            <MostPlayedSkeleton />
           </section>
         }
       >

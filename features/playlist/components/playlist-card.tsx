@@ -51,7 +51,7 @@ export function PlaylistList({ playlists }: { playlists: PlaylistSummary[] }) {
 export function PlaylistCardSkeleton() {
   return (
     <div className="rounded-lg p-3">
-      <Skeleton className="h-10 w-10 rounded-md" />
+      <Skeleton className="skeleton-subtle aspect-square w-full rounded-md" />
     </div>
   );
 }

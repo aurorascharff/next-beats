@@ -53,7 +53,7 @@ export function GenreGridSkeleton() {
   return (
     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
       {Array.from({ length: 6 }).map((_, i) => (
-        <Skeleton key={i} className="h-28 rounded-lg" />
+        <Skeleton key={i} className="skeleton-subtle h-28 rounded-lg" />
       ))}
     </div>
   );

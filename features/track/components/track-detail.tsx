@@ -63,7 +63,7 @@ export function TrackDetailSkeleton() {
   return (
     <div className="px-6 py-6 sm:px-8">
       <div className="mb-8 flex flex-col items-center gap-4 sm:flex-row sm:items-end sm:gap-6">
-        <Skeleton className="h-40 w-40 shrink-0 rounded-md shadow-2xl sm:h-48 sm:w-48" />
+        <Skeleton className="skeleton-subtle h-40 w-40 shrink-0 rounded-md shadow-2xl sm:h-48 sm:w-48" />
         <div className="flex min-w-0 flex-1 flex-col items-center gap-1 sm:items-start">
           <Skeleton className="h-3 w-12" />
           <Skeleton className="h-8 w-52 sm:h-9 sm:w-60" />
