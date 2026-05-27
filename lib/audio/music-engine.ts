@@ -8,6 +8,7 @@
  */
 
 import { genreConfigs, defaultGenreConfig } from './genre-configs';
+import { trackProfiles } from './track-profiles';
 import type { GenreConfig, DrumHit } from './genre-configs';
 
 let sharedCtx: AudioContext | null = null;
@@ -170,7 +171,9 @@ export function scheduleBar(
   startTime: number,
   volume: number,
 ): ScheduledNodes {
-  const config = genreConfigs[genre] ?? defaultGenreConfig;
+  const base = genreConfigs[genre] ?? defaultGenreConfig;
+  const profile = trackProfiles[trackId];
+  const config: GenreConfig = profile ? { ...base, ...profile } : base;
   const ctx = getAudioContext();
 
   // --- Per-track seed profile (computed once, deterministic per trackId) ---
