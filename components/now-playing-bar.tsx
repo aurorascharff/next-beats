@@ -18,36 +18,43 @@ export function NowPlayingBar() {
       {track ? (
         <div
           style={{ viewTransitionName: 'player-bar' }}
-          className="shrink-0 px-2 pb-2 sm:hidden"
+          className="border-divider dark:border-divider-dark shrink-0 border-t bg-white px-4 py-2 sm:hidden dark:bg-[#181818]"
           data-client="NowPlayingBar"
         >
-          <div className="bg-card dark:bg-card-dark rounded-xl px-4 py-3 shadow-lg">
+          <div className="flex items-center gap-3">
+            <AlbumArt coverColor={track.coverColor} size="sm" className="!h-12 !w-12 !rounded-sm" />
+            <div className="flex min-w-0 flex-1 flex-col">
+              <span className="truncate text-sm font-medium text-black dark:text-white">{track.title}</span>
+              <span className="text-muted truncate text-xs">{track.artist}</span>
+            </div>
             <div className="flex items-center gap-3">
-              <AlbumArt coverColor={track.coverColor} size="sm" className="!h-12 !w-12 !rounded-md shadow-md" />
-              <div className="flex min-w-0 flex-1 flex-col">
-                <span className="truncate text-sm font-semibold text-black dark:text-white">{track.title}</span>
-                <span className="text-muted truncate text-xs">{track.artist}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <SkipButton direction="back" onClick={previous} />
-                <button
-                  type="button"
-                  onClick={togglePlayPause}
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-black text-white dark:bg-white dark:text-black"
-                  aria-label={isPlaying ? 'Pause' : 'Play'}
-                >
-                  {isPlaying ? (
-                    <Pause className="h-5 w-5" fill="currentColor" />
-                  ) : (
-                    <Play className="h-5 w-5 translate-x-[1px]" fill="currentColor" />
-                  )}
-                </button>
-                <SkipButton direction="forward" onClick={next} />
+              <SkipButton direction="back" onClick={previous} />
+              <button
+                type="button"
+                onClick={togglePlayPause}
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-black text-white transition-transform hover:scale-105 dark:bg-white dark:text-black"
+                aria-label={isPlaying ? 'Pause' : 'Play'}
+              >
+                {isPlaying ? (
+                  <Pause className="h-4 w-4" fill="currentColor" />
+                ) : (
+                  <Play className="h-4 w-4 translate-x-[1px]" fill="currentColor" />
+                )}
+              </button>
+              <SkipButton direction="forward" onClick={next} />
+            </div>
+          </div>
+          <div className="mt-2 flex items-center gap-2">
+            <span className="text-muted w-8 text-right text-[10px]">{formatDuration(elapsed)}</span>
+            <div className="relative flex flex-1 items-center">
+              <div className="bg-divider dark:bg-divider-dark relative h-0.5 w-full rounded-full">
+                <div
+                  className="bg-accent absolute top-0 left-0 h-full rounded-full"
+                  style={{ width: `${progress}%` }}
+                />
               </div>
             </div>
-            <div className="bg-divider dark:bg-divider-dark mt-3 h-1 w-full overflow-hidden rounded-full">
-              <div className="bg-accent h-full rounded-full transition-all" style={{ width: `${progress}%` }} />
-            </div>
+            <span className="text-muted w-8 text-[10px]">{formatDuration(total)}</span>
           </div>
         </div>
       ) : null}
@@ -57,8 +64,8 @@ export function NowPlayingBar() {
         className="border-divider dark:border-divider-dark hidden shrink-0 border-t bg-white px-4 py-2 sm:block dark:bg-[#181818]"
         data-client="NowPlayingBar"
       >
-        <div className="mx-auto grid max-w-7xl grid-cols-3 items-center gap-4">
-          <div className="flex min-w-0 items-center gap-3">
+        <div className="mx-auto flex max-w-7xl items-center gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
+          <div className="hidden min-w-0 items-center gap-3 lg:flex">
             <ViewTransition name="now-playing-art" default="none">
               <AlbumArt
                 coverColor={track?.coverColor ?? 'from-gray-400 to-gray-600'}
@@ -111,6 +118,22 @@ export function NowPlayingBar() {
               <VolumeIcon className="h-3.5 w-3.5" />
             </button>
             <SliderBar value={volume} onChange={setVolume} className="w-20" label="Volume" />
+          </div>
+          {/* Compact track info for sm–lg (right side) */}
+          <div className="ml-auto flex min-w-0 items-center gap-3 lg:hidden">
+            <ViewTransition key={track?.id ?? 'empty-sm'} enter="fade-in" exit="fade-out" default="none">
+              <div className="flex min-w-0 flex-col text-right">
+                <span className="truncate text-sm font-medium text-black dark:text-white">
+                  {track?.title ?? 'No track'}
+                </span>
+                <span className="text-muted truncate text-xs">{track?.artist ?? ''}</span>
+              </div>
+            </ViewTransition>
+            <AlbumArt
+              coverColor={track?.coverColor ?? 'from-gray-400 to-gray-600'}
+              size="sm"
+              className="!h-10 !w-10 !rounded-sm"
+            />
           </div>
         </div>
       </div>
