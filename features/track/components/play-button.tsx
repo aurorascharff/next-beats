@@ -1,0 +1,60 @@
+'use client';
+
+import { Pause, Play } from 'lucide-react';
+import { useTransition } from 'react';
+import { incrementPlayCount } from '@/features/track/track-actions';
+import { usePlayer } from '@/providers/player-provider';
+import type { Track } from '@/types/track';
+
+type Props = {
+  track: Track;
+  className?: string;
+  size?: 'sm' | 'md';
+};
+
+const sizes = {
+  md: 'h-10 w-10',
+  sm: 'h-8 w-8',
+};
+
+const iconSizes = {
+  md: 'h-5 w-5',
+  sm: 'h-4 w-4',
+};
+
+export function PlayButton({ track, className, size = 'md' }: Props) {
+  const [, startTransition] = useTransition();
+  const player = usePlayer();
+  const isThisPlaying = player.isPlaying && player.track?.id === track.id;
+
+  function handleClick(e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (isThisPlaying) {
+      player.pause();
+    } else if (player.track?.id === track.id && !player.isPlaying) {
+      player.resume();
+    } else {
+      player.play(track);
+      startTransition(async () => {
+        await incrementPlayCount(track.id);
+      });
+    }
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={handleClick}
+      data-client="PlayButton"
+      aria-label={isThisPlaying ? `Pause ${track.title}` : `Play ${track.title}`}
+      className={`bg-accent flex items-center justify-center rounded-full text-white shadow-xl transition-transform hover:scale-105 ${sizes[size]} ${className ?? ''}`}
+    >
+      {isThisPlaying ? (
+        <Pause className={iconSizes[size]} fill="currentColor" />
+      ) : (
+        <Play className={`translate-x-[1px] ${iconSizes[size]}`} fill="currentColor" />
+      )}
+    </button>
+  );
+}
