@@ -6,12 +6,8 @@ export function Equalizer({ size = 'sm', color = 'bg-accent' }: { size?: 'sm' | 
   return (
     <span className={cn('flex items-end', gapClass)}>
       <span className={cn('inline-block animate-[eq1_0.8s_ease-in-out_infinite] rounded-sm', color, barClass)} />
-      <span
-        className={cn('inline-block animate-[eq2_0.6s_ease-in-out_infinite_0.2s] rounded-sm', color, barClass)}
-      />
-      <span
-        className={cn('inline-block animate-[eq3_0.7s_ease-in-out_infinite_0.1s] rounded-sm', color, barClass)}
-      />
+      <span className={cn('inline-block animate-[eq2_0.6s_ease-in-out_infinite_0.2s] rounded-sm', color, barClass)} />
+      <span className={cn('inline-block animate-[eq3_0.7s_ease-in-out_infinite_0.1s] rounded-sm', color, barClass)} />
     </span>
   );
 }

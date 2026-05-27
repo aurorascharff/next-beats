@@ -27,19 +27,16 @@ export default function LibraryPage() {
           </Crossfade>
         </Suspense>
       </section>
-      <Suspense
-        fallback={
-          <section className="mb-10">
-            <h2 className="mb-4">All Tracks</h2>
-            <MostPlayedSkeleton />
-          </section>
-        }
-      >
-        <Crossfade>
-          <section className="mb-10">
-            <h2 className="mb-4">All Tracks</h2>
+      <section className="mb-10">
+        <h2 className="mb-4">All Tracks</h2>
+        <Suspense fallback={<MostPlayedSkeleton />}>
+          <Crossfade>
             <LibraryGrid />
-          </section>
+          </Crossfade>
+        </Suspense>
+      </section>
+      <Suspense>
+        <Crossfade>
           <section className="mb-10">
             <div className="mb-4 flex items-center gap-2">
               <h2>Your Playlists</h2>
