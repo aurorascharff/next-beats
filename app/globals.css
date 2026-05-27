@@ -88,6 +88,18 @@
   animation: wave-lines 2s infinite ease-out;
 }
 
+.skeleton-animation.skeleton-subtle {
+  background: rgba(150, 150, 150, 0.08);
+  background: linear-gradient(
+    to right,
+    rgba(130, 130, 130, 0.08) 8%,
+    rgba(170, 170, 170, 0.12) 18%,
+    rgba(130, 130, 130, 0.08) 33%
+  );
+  background-size: 800px 100px;
+  animation: wave-lines 2.5s infinite ease-out;
+}
+
 .skeleton-animation:not([class*='rounded-']) {
   border-radius: var(--radius-sm);
 }

@@ -45,7 +45,7 @@ export function AlbumCard({ track }: { track: Track }) {
 export function AlbumCardSkeleton() {
   return (
     <div className="rounded-lg p-3">
-      <Skeleton className="aspect-square w-full rounded-md" />
+      <Skeleton className="skeleton-subtle aspect-square w-full rounded-md" />
     </div>
   );
 }

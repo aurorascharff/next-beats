@@ -18,7 +18,7 @@ export async function MostPlayed() {
 export function MostPlayedSkeleton() {
   return (
     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-      {Array.from({ length: 5 }).map((_, i) => (
+      {Array.from({ length: 3 }).map((_, i) => (
         <AlbumCardSkeleton key={i} />
       ))}
     </div>
