@@ -393,175 +393,181 @@ export const trackProfiles: Record<string, TrackProfile> = {
     reverb: 0.2,
   },
 
-  // ── Rock ──
+  // ── Lo-fi ──
 
-  // t21: Breaking Changes — heavy, dramatic, powerful riffs
+  // t21: Slow Build — gradual, patient, warm lo-fi layers
   t21: {
-    bpm: 140,
+    bpm: 75,
     chords: [
-      [E3, G3, B3],
-      [C3, E3, G3],
-      [D3, F3, A3],
-      [A3, C4, E4],
+      [G3, B3, D4, F4],
+      [C4, E4, G4],
+      [A3, C4, E4, G4],
+      [D4, F4, A4],
     ],
-    melodyNotes: [E4, G4, A4, B4, D5],
-    melodyRhythm: [0, 4, 8, 10, 12],
-    melodyWave: 'sawtooth',
-    bassWave: 'sawtooth',
-    bassGain: 0.12,
-    padFilter: 1600,
-    reverb: 0.2,
+    melodyNotes: [B3, D4, E4, G4, A4],
+    melodyRhythm: [0, 6, 8, 14],
+    melodyWave: 'triangle',
+    padFilter: 1400,
+    reverb: 0.6,
   },
 
-  // t22: Deprecation Warning — ominous, building tension
+  // t22: Console Calm — serene, steady, like watching logs scroll
   t22: {
-    bpm: 130,
+    bpm: 72,
     chords: [
-      [D3, F3, A3],
-      [Bb3, D4, F4],
-      [G3, Bb3, D4],
+      [C4, E4, G4, B4],
+      [A3, C4, E4],
+      [F3, A3, C4, E4],
+      [G3, B3, D4],
+    ],
+    melodyNotes: [E4, G4, A4, B4, D5],
+    melodyRhythm: [0, 4, 8, 12],
+    melodyWave: 'triangle',
+    melodyGain: 0.07,
+    padFilter: 1200,
+    reverb: 0.65,
+  },
+
+  // t23: Soft Reset — gentle restart, fresh beginning
+  t23: {
+    bpm: 80,
+    chords: [
+      [D4, F4, A4],
+      [G3, B3, D4],
+      [C4, E4, G4],
       [A3, C4, E4],
     ],
     melodyNotes: [D4, F4, G4, A4, C5],
-    melodyRhythm: [0, 4, 6, 8, 12, 14],
-    padWave: 'sawtooth',
-    padGain: 0.04,
-    padFilter: 1400,
-    reverb: 0.3,
+    melodyRhythm: [0, 4, 6, 8, 12],
+    padWave: 'sine',
+    padFilter: 1500,
+    reverb: 0.55,
   },
 
-  // t23: Edge Runtime — expansive, wide open, frontier feel
-  t23: {
-    bpm: 125,
-    chords: [
-      [A3, C4, E4],
-      [F3, A3, C4],
-      [G3, B3, D4],
-      [E3, G3, B3],
-    ],
-    melodyNotes: [A3, C4, E4, G4, A4, C5],
-    melodyRhythm: [0, 4, 8, 12],
-    padFilter: 2000,
-    reverb: 0.4,
-  },
-
-  // t24: Cache Invalidation — rhythmic, complex, intricate
+  // t24: Idle Thread — floating, peaceful, nothing to process
   t24: {
-    bpm: 138,
+    bpm: 68,
+    chords: [
+      [F3, A3, C4, E4],
+      [Bb3, D4, F4],
+      [C4, E4, G4],
+      [G3, Bb3, D4],
+    ],
+    melodyNotes: [A3, C4, E4, F4, A4],
+    melodyRhythm: [0, 8, 12],
+    melodyWave: 'sine',
+    melodyGain: 0.06,
+    padFilter: 1100,
+    reverb: 0.7,
+  },
+
+  // t25: npm install sleep — drowsy, cozy, winding down
+  t25: {
+    bpm: 65,
     chords: [
       [G3, Bb3, D4],
       [Eb3, G3, Bb3],
       [F3, A3, C4],
-      [C3, Eb3, G3],
+      [C4, Eb4, G4],
     ],
-    melodyNotes: [G4, Bb4, C5, D5, F5],
-    melodyRhythm: [0, 2, 4, 6, 8, 10, 12, 14],
-    melodyWave: 'sawtooth',
-    padFilter: 1800,
-    reverb: 0.2,
-  },
-
-  // t25: Turbopack — fast, driving, relentless energy
-  t25: {
-    bpm: 150,
-    chords: [
-      [E3, G3, B3],
-      [A3, C4, E4],
-      [D3, F3, A3],
-      [G3, B3, D4],
-    ],
-    melodyNotes: [E4, G4, A4, B4, D5, E5],
-    melodyRhythm: [0, 2, 4, 6, 8, 10, 12, 14],
-    melodyWave: 'sawtooth',
-    bassWave: 'sawtooth',
-    padFilter: 2200,
-    reverb: 0.15,
-  },
-
-  // ── Jazz ──
-
-  // t26: Late Night Refactor — smooth, contemplative, after-hours
-  t26: {
-    bpm: 92,
-    chords: [
-      [C3, E3, G3, Bb3],
-      [F3, A3, C4, E4],
-      [D3, F3, A3, C4],
-      [G3, B3, D4, F4],
-    ],
-    melodyNotes: [Bb3, C4, D4, E4, G4, A4, Bb4],
-    melodyRhythm: [0, 3, 4, 7, 8, 11, 12],
-    melodyWave: 'sine',
-    melodyGain: 0.1,
-    padFilter: 2000,
-    reverb: 0.65,
-  },
-
-  // t27: Smooth Operator Overload — silky, sophisticated, effortless
-  t27: {
-    bpm: 96,
-    chords: [
-      [A3, C4, E4, G4],
-      [D3, F3, A3, C4],
-      [G3, B3, D4, F4],
-      [C3, E3, G3, Bb3],
-    ],
-    melodyNotes: [A3, C4, D4, E4, G4, A4],
-    melodyRhythm: [0, 3, 6, 8, 11, 14],
-    melodyGain: 0.09,
-    padWave: 'sine',
-    padGain: 0.04,
-    padFilter: 2200,
-    reverb: 0.6,
-  },
-
-  // t28: Lazy Loading Blues — slow, soulful, taking its time
-  t28: {
-    bpm: 80,
-    chords: [
-      [E3, G3, Bb3, D4],
-      [A3, C4, E4, G4],
-      [D3, F3, Ab3, C4],
-      [G3, Bb3, D4, F4],
-    ],
-    melodyNotes: [E4, G4, Bb4, C5, D5],
-    melodyRhythm: [0, 4, 7, 8, 12],
-    melodyWave: 'sine',
-    melodyGain: 0.11,
-    padFilter: 1800,
+    melodyNotes: [Bb3, D4, Eb4, F4, G4],
+    melodyRhythm: [0, 6, 12],
+    melodyWave: 'triangle',
+    melodyGain: 0.06,
+    padFilter: 1000,
     reverb: 0.7,
   },
 
-  // t29: Promise Resolution — hopeful, resolving, satisfying conclusion
+  // ── Synthwave ──
+
+  // t26: Neon Terminal — glowing, pulsing, retro-futuristic
+  t26: {
+    bpm: 108,
+    chords: [
+      [A3, C4, E4],
+      [F3, Ab3, C4],
+      [G3, Bb3, D4],
+      [E3, G3, B3],
+    ],
+    melodyNotes: [A3, C4, D4, E4, G4, A4],
+    melodyRhythm: [0, 2, 4, 8, 10, 12, 14],
+    melodyWave: 'sawtooth',
+    melodyGain: 0.08,
+    arpeggiate: true,
+    arpSpeed: 2,
+    padFilter: 2400,
+    reverb: 0.35,
+  },
+
+  // t27: Retro Compiler — mechanical, precise, 80s processor vibes
+  t27: {
+    bpm: 115,
+    chords: [
+      [D3, F3, A3],
+      [Bb3, D4, F4],
+      [C4, E4, G4],
+      [G3, Bb3, D4],
+    ],
+    melodyNotes: [D4, F4, G4, A4, C5, D5],
+    melodyRhythm: [0, 2, 4, 6, 8, 12, 14],
+    melodyWave: 'square',
+    arpeggiate: true,
+    arpSpeed: 3,
+    padFilter: 2000,
+    reverb: 0.3,
+  },
+
+  // t28: Cyber Monday — driving, commercial energy, synth bass
+  t28: {
+    bpm: 120,
+    chords: [
+      [E3, G3, B3],
+      [C3, E3, G3],
+      [A3, C4, E4],
+      [D3, F3, A3],
+    ],
+    melodyNotes: [E4, G4, A4, B4, D5, E5],
+    melodyRhythm: [0, 2, 4, 8, 10, 14],
+    melodyWave: 'sawtooth',
+    bassWave: 'sawtooth',
+    bassGain: 0.14,
+    padFilter: 2600,
+    reverb: 0.2,
+  },
+
+  // t29: Chrome Dreams — shimmering, nostalgic, wide pads
   t29: {
     bpm: 100,
     chords: [
-      [D3, F3, A3, C4],
-      [G3, Bb3, D4, F4],
-      [C3, E3, G3, Bb3],
+      [C4, E4, G4, B4],
+      [A3, C4, E4, G4],
       [F3, A3, C4, E4],
+      [G3, B3, D4, F4],
     ],
-    melodyNotes: [D4, F4, A4, C5, D5, F5],
-    melodyRhythm: [0, 3, 4, 8, 11, 12],
-    melodyGain: 0.1,
-    padFilter: 2400,
-    reverb: 0.55,
+    melodyNotes: [E4, G4, B4, C5, D5],
+    melodyRhythm: [0, 4, 8, 12],
+    melodyWave: 'sawtooth',
+    melodyGain: 0.06,
+    padWave: 'sawtooth',
+    padGain: 0.05,
+    padFilter: 3000,
+    reverb: 0.5,
   },
 
-  // t30: Callback Serenade — playful, bouncy jazz, calling back
+  // t30: Midnight Deploy — dark, urgent, pushing to production at night
   t30: {
-    bpm: 108,
+    bpm: 118,
     chords: [
-      [G3, B3, D4, F4],
-      [C3, E3, G3, Bb3],
-      [F3, A3, C4, E4],
-      [Bb3, D4, F4, Ab4],
+      [A3, C4, E4],
+      [F3, Ab3, C4],
+      [E3, G3, B3],
+      [D3, F3, A3],
     ],
-    melodyNotes: [G4, A4, B4, D5, E5, G5],
-    melodyRhythm: [0, 2, 4, 7, 8, 10, 12, 15],
-    melodyWave: 'sine',
-    melodyGain: 0.1,
-    padFilter: 2600,
-    reverb: 0.5,
+    melodyNotes: [A4, C5, D5, E5, G5],
+    melodyRhythm: [0, 2, 6, 8, 10, 14],
+    melodyWave: 'sawtooth',
+    bassWave: 'sawtooth',
+    padFilter: 2200,
+    reverb: 0.25,
   },
 };

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import type { ReactNode } from 'react';
 import type { Route } from 'next';
+import type { ReactNode } from 'react';
 
 export function IconButtonLink({
   href,

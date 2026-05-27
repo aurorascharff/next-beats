@@ -28,18 +28,36 @@ export function NowPlayingBar() {
                 <span className="truncate text-sm font-semibold text-black dark:text-white">{track.title}</span>
                 <span className="text-muted truncate text-xs">{track.artist}</span>
               </div>
-              <button
-                type="button"
-                onClick={togglePlayPause}
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-black dark:bg-white dark:text-black"
-                aria-label={isPlaying ? 'Pause' : 'Play'}
-              >
-                {isPlaying ? (
-                  <Pause className="h-5 w-5" fill="currentColor" />
-                ) : (
-                  <Play className="h-5 w-5 translate-x-[1px]" fill="currentColor" />
-                )}
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => startTransition(() => previous())}
+                  className="text-muted p-1"
+                  aria-label="Previous"
+                >
+                  <SkipBack className="h-4 w-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={togglePlayPause}
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-black text-white dark:bg-white dark:text-black"
+                  aria-label={isPlaying ? 'Pause' : 'Play'}
+                >
+                  {isPlaying ? (
+                    <Pause className="h-5 w-5" fill="currentColor" />
+                  ) : (
+                    <Play className="h-5 w-5 translate-x-[1px]" fill="currentColor" />
+                  )}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => startTransition(() => next())}
+                  className="text-muted p-1"
+                  aria-label="Next"
+                >
+                  <SkipForward className="h-4 w-4" />
+                </button>
+              </div>
             </div>
             <div className="bg-divider dark:bg-divider-dark mt-3 h-1 w-full overflow-hidden rounded-full">
               <div className="bg-accent h-full rounded-full transition-all" style={{ width: `${progress}%` }} />

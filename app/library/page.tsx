@@ -4,8 +4,8 @@ import { Crossfade } from '@/components/ui/crossfade';
 import { IconButtonLink } from '@/components/ui/icon-button-link';
 import { TopGenresGrid } from '@/features/genre/components/genre-browse';
 import { PlaylistBrowse } from '@/features/playlist/components/playlist-browse';
-import { MostPlayedSkeleton } from '@/features/track/components/most-played';
 import { LibraryGrid } from '@/features/track/components/library-grid';
+import { MostPlayedSkeleton } from '@/features/track/components/most-played';
 import { QuickPlayGrid, QuickPlayGridSkeleton } from '@/features/track/components/quick-play-grid';
 import type { Metadata } from 'next';
 

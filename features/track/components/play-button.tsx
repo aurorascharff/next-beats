@@ -1,6 +1,6 @@
 'use client';
 
-import { Pause, Play } from 'lucide-react';
+import { Play } from 'lucide-react';
 import { useTransition } from 'react';
 import { Equalizer } from '@/components/ui/equalizer';
 import { incrementPlayCount } from '@/features/track/track-actions';
