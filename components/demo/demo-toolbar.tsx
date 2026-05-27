@@ -99,7 +99,7 @@ export function DemoToolbar({
       <div
         style={{ viewTransitionName: 'demo-toolbar' }}
         className={cn(
-          'flex items-center overflow-hidden rounded-full border text-xs font-medium shadow-lg backdrop-blur-md transition-colors',
+          'flex items-center overflow-hidden rounded-full border text-xs font-medium shadow-sm backdrop-blur-md transition-colors',
           'border-divider dark:border-divider-dark bg-white/80 dark:bg-black/80',
         )}
       >

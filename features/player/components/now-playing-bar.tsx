@@ -67,7 +67,7 @@ export function NowPlayingBar() {
               />
             </ViewTransition>
             <ViewTransition key={track?.id ?? 'empty'} enter="fade-in" exit="fade-out" default="none">
-              <div className="hidden min-w-0 flex-col lg:flex">
+              <div className="flex min-w-0 flex-col">
                 <span className="truncate text-sm font-medium text-black dark:text-white">
                   {track?.title ?? 'No track playing'}
                 </span>
