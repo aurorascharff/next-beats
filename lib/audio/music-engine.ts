@@ -32,7 +32,10 @@ export function resumeAudio() {
 /** Kill all audio by closing the context. Next getAudioContext() creates a fresh one. */
 export function killAudio() {
   if (sharedCtx) {
-    sharedCtx.close();
+    try {
+      sharedCtx.destination.disconnect();
+    } catch {}
+    sharedCtx.close().catch(() => {});
     sharedCtx = null;
   }
 }

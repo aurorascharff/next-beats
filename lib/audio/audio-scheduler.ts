@@ -68,9 +68,8 @@ type ScheduleOptions = {
  * tracking, and end-of-track cleanup.
  */
 export function scheduleTrack({ trackId, genre, duration, refs, onProgress, onEnd }: ScheduleOptions) {
-  stopAll(refs, true);
-
   const gen = ++refs.gen;
+  stopAll(refs, true);
   const ctx = getAudioContext();
   let barIndex = 0;
   let nextBarTime = ctx.currentTime + 0.05;
