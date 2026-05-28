@@ -1,5 +1,5 @@
-import { connection } from 'next/server';
 import { Suspense } from 'react';
+import { SeedGreetingFromTime } from '@/components/scripts/seed-greeting-from-time';
 import { Crossfade } from '@/components/ui/crossfade';
 import { PageHeader } from '@/components/ui/page-layout';
 import { TopGenresGrid } from '@/features/genre/components/genre-browse';
@@ -13,9 +13,10 @@ export default function HomePage() {
   return (
     <PageHeader
       title={
-        <Suspense fallback="Good evening">
-          <Greeting />
-        </Suspense>
+        <>
+          <span data-greeting>Good evening</span>
+          <SeedGreetingFromTime />
+        </>
       }
     >
       <h2 className="mb-4">Jump Back In</h2>
@@ -40,10 +41,4 @@ export default function HomePage() {
       </Suspense>
     </PageHeader>
   );
-}
-
-async function Greeting() {
-  await connection();
-  const hour = new Date().getHours();
-  return <>{hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening'}</>;
 }
