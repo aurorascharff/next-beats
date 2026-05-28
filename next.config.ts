@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   reactCompiler: true,
   experimental: {
+    inlineCss: true,
     cachedNavigations: true,
     instantInsights: {
       validationLevel: 'warning',

@@ -67,14 +67,7 @@ type ScheduleOptions = {
  * Start scheduling audio for a track. Handles the bar loop, progress
  * tracking, and end-of-track cleanup.
  */
-export function scheduleTrack({
-  trackId,
-  genre,
-  duration,
-  refs,
-  onProgress,
-  onEnd,
-}: ScheduleOptions) {
+export function scheduleTrack({ trackId, genre, duration, refs, onProgress, onEnd }: ScheduleOptions) {
   stopAll(refs, true);
 
   const gen = ++refs.gen;
