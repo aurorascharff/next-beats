@@ -1,7 +1,6 @@
 'use client';
 
 import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
-import { useFaviconEqualizer } from '@/hooks/use-favicon-equalizer';
 import { useListeningMilestones } from '@/hooks/use-listening-milestones';
 import { createAudioRefs, cancelTimers, resumeTrack, scheduleTrack, stopAll } from '@/lib/audio/audio-scheduler';
 import type { AudioRefs } from '@/lib/audio/audio-scheduler';
@@ -165,7 +164,6 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
   }
 
   useListeningMilestones(isPlaying);
-  useFaviconEqualizer(isPlaying);
 
   return (
     <PlayerContext.Provider
