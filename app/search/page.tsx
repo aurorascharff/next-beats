@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 import { Crossfade } from '@/components/ui/crossfade';
 import ErrorBoundary from '@/components/ui/error-boundary';
+import { PageHeader } from '@/components/ui/page-layout';
 import { GenreBrowse, GenreBrowseSkeleton } from '@/features/genre/components/genre-browse';
 import { SearchInput } from '@/features/search/components/search-input';
 import { SearchResults } from '@/features/search/components/search-results';
@@ -15,8 +16,7 @@ export const unstable_prefetch = 'force-runtime';
 
 export default function SearchPage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
   return (
-    <div className="px-6 py-6 sm:px-8">
-      <h1 className="mb-6 text-3xl font-bold">Search</h1>
+    <PageHeader title="Search">
       <div className="mb-8">
         <SearchInput />
       </div>
@@ -49,6 +49,6 @@ export default function SearchPage({ searchParams }: { searchParams: Promise<{ q
           </Crossfade>
         </Suspense>
       </ErrorBoundary>
-    </div>
+    </PageHeader>
   );
 }

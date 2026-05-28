@@ -2,6 +2,7 @@ import { Plus } from 'lucide-react';
 import { Suspense } from 'react';
 import { Crossfade } from '@/components/ui/crossfade';
 import { IconButtonLink } from '@/components/ui/icon-button-link';
+import { PageHeader } from '@/components/ui/page-layout';
 import { TopGenresGrid } from '@/features/genre/components/genre-browse';
 import { PlaylistBrowse } from '@/features/playlist/components/playlist-browse';
 import { LibraryGrid, LibraryGridSkeleton } from '@/features/track/components/library-grid';
@@ -15,8 +16,7 @@ export const unstable_prefetch = 'force-runtime';
 
 export default function LibraryPage() {
   return (
-    <div className="px-6 py-6 sm:px-8">
-      <h1 className="mb-6 text-3xl font-bold">Your Library</h1>
+    <PageHeader title="Your Library">
       <h2 className="mb-4">All Tracks</h2>
       <Suspense fallback={<LibraryGridSkeleton />}>
         <Crossfade>
@@ -38,6 +38,6 @@ export default function LibraryPage() {
           </section>
         </Crossfade>
       </Suspense>
-    </div>
+    </PageHeader>
   );
 }

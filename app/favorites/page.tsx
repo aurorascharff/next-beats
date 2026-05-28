@@ -1,6 +1,6 @@
-import { Heart } from 'lucide-react';
 import { Suspense, ViewTransition } from 'react';
 import { Crossfade } from '@/components/ui/crossfade';
+import { PageHeader } from '@/components/ui/page-layout';
 import { TopGenresGrid } from '@/features/genre/components/genre-browse';
 import { FavoritesFeed } from '@/features/track/components/favorites-feed';
 import { MostPlayed } from '@/features/track/components/most-played';
@@ -15,16 +15,7 @@ export const unstable_prefetch = 'force-runtime';
 
 export default function FavoritesPage() {
   return (
-    <div className="px-6 py-6 sm:px-8">
-      <div className="mb-6 flex items-center gap-4">
-        <div className="flex h-16 w-16 items-center justify-center rounded-md bg-linear-to-br from-indigo-500 to-purple-600">
-          <Heart className="h-8 w-8 text-white" fill="white" />
-        </div>
-        <div>
-          <h1 className="text-3xl font-bold">Liked Tracks</h1>
-          <p className="text-muted text-sm">Songs you&apos;ve favorited</p>
-        </div>
-      </div>
+    <PageHeader title="Liked Tracks">
       <Suspense fallback={<TrackListSkeleton count={5} showIndex />}>
         <Crossfade>
           <FavoritesFeed />
@@ -40,6 +31,6 @@ export default function FavoritesPage() {
           </ViewTransition>
         </Crossfade>
       </Suspense>
-    </div>
+    </PageHeader>
   );
 }
