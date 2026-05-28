@@ -73,13 +73,13 @@ export function NowPlayingBar() {
               <TrackInfo title={track?.title ?? 'No track'} subtitle={track?.artist ?? ''} />
             </div>
           </div>
-          <div className="flex flex-col items-center gap-1">
+          <div className="flex w-full max-w-sm flex-col items-center gap-1">
             <div className="flex items-center gap-5">
               <SkipButton direction="back" onClick={previous} disabled={!track || !hasQueue} />
               <PlayPauseButton isPlaying={isPlaying} onClick={togglePlayPause} disabled={!track} />
               <SkipButton direction="forward" onClick={next} disabled={!track || !hasQueue} />
             </div>
-            <div className="flex w-full max-w-md items-center gap-2">
+            <div className="flex w-full items-center gap-2">
               <span className="text-muted w-8 text-right text-[10px]">{formatDuration(elapsed)}</span>
               <SliderBar value={progress} onChange={() => {}} label="Seek" disabled />
               <span className="text-muted w-8 text-[10px]">{formatDuration(total)}</span>
