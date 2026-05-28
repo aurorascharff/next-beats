@@ -23,7 +23,7 @@ export async function TopGenresGrid() {
 export function TopGenresGridSkeleton() {
   return (
     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-      {Array.from({ length: 3 }).map((_, i) => (
+      {Array.from({ length: 6 }).map((_, i) => (
         <Skeleton key={i} className="skeleton-subtle h-28 rounded-lg" />
       ))}
     </div>

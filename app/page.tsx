@@ -3,7 +3,7 @@ import { Crossfade } from '@/components/ui/crossfade';
 import { PageHeader } from '@/components/ui/page-layout';
 import { TopGenresGrid } from '@/features/genre/components/genre-browse';
 import { PlaylistBrowse } from '@/features/playlist/components/playlist-browse';
-import { MostPlayed, MostPlayedSkeleton } from '@/features/track/components/most-played';
+import { MostPlayed } from '@/features/track/components/most-played';
 import { QuickPlayGrid, QuickPlayGridSkeleton } from '@/features/track/components/quick-play-grid';
 
 export const unstable_prefetch = 'force-runtime';
@@ -16,16 +16,12 @@ export default function HomePage() {
           <QuickPlayGrid />
         </Crossfade>
       </Suspense>
-      <section className="mt-10">
-        <h2 className="mb-4">Most Played</h2>
-        <Suspense fallback={<MostPlayedSkeleton />}>
-          <Crossfade>
-            <MostPlayed />
-          </Crossfade>
-        </Suspense>
-      </section>
       <Suspense>
         <Crossfade>
+          <section className="mt-10">
+            <h2 className="mb-4">Most Played</h2>
+            <MostPlayed />
+          </section>
           <section className="mt-10">
             <h2 className="mb-4">Your Playlists</h2>
             <PlaylistBrowse />

@@ -5,7 +5,6 @@ import { IconButtonLink } from '@/components/ui/icon-button-link';
 import { TopGenresGrid } from '@/features/genre/components/genre-browse';
 import { PlaylistBrowse } from '@/features/playlist/components/playlist-browse';
 import { LibraryGrid } from '@/features/track/components/library-grid';
-import { MostPlayedSkeleton } from '@/features/track/components/most-played';
 import { QuickPlayGrid, QuickPlayGridSkeleton } from '@/features/track/components/quick-play-grid';
 import type { Metadata } from 'next';
 
@@ -27,16 +26,12 @@ export default function LibraryPage() {
           </Crossfade>
         </Suspense>
       </section>
-      <section className="mb-10">
-        <h2 className="mb-4">All Tracks</h2>
-        <Suspense fallback={<MostPlayedSkeleton />}>
-          <Crossfade>
-            <LibraryGrid />
-          </Crossfade>
-        </Suspense>
-      </section>
       <Suspense>
         <Crossfade>
+          <section className="mb-10">
+            <h2 className="mb-4">All Tracks</h2>
+            <LibraryGrid />
+          </section>
           <section className="mb-10">
             <div className="mb-4 flex items-center gap-2">
               <h2>Your Playlists</h2>
