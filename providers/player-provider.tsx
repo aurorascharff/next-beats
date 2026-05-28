@@ -89,16 +89,16 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
     }
   }, [volume]);
 
-  function advanceQueue(q: Track[], crossfade: boolean) {
+  function advanceQueue(q: Track[]) {
     const currentIdx = queueIndexRef.current;
     if (currentIdx >= 0 && currentIdx < q.length - 1) {
-      playAtIndex(currentIdx + 1, q, crossfade);
+      playAtIndex(currentIdx + 1, q);
     } else {
       dispatch({ type: 'ENDED' });
     }
   }
 
-  function playAtIndex(idx: number, q: Track[], crossfade = false) {
+  function playAtIndex(idx: number, q: Track[]) {
     const t = q[idx];
     dispatch({ type: 'PLAY', track: t, queue: q, index: idx });
     scheduleTrack({
@@ -106,9 +106,8 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
       genre: t.genre,
       duration: t.duration,
       refs: audioRef.current,
-      crossfade,
       onProgress: pct => dispatch({ type: 'SET_PROGRESS', progress: pct }),
-      onEnd: () => advanceQueue(q, true),
+      onEnd: () => advanceQueue(q),
     });
   }
 

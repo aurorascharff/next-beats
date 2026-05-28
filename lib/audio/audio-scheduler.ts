@@ -8,7 +8,6 @@
 import { getAudioContext, killAudio, scheduleBar } from './music-engine';
 import type { ScheduledNodes } from './music-engine';
 
-const FADE_OUT_MS = 2000;
 const BPM_APPROX = 120;
 const SEC_PER_BAR = (60 / BPM_APPROX) * 4;
 
@@ -62,13 +61,11 @@ type ScheduleOptions = {
   refs: AudioRefs;
   onProgress: (pct: number) => void;
   onEnd: () => void;
-  /** If true, don't kill the context first (crossfade from previous track) */
-  crossfade?: boolean;
 };
 
 /**
  * Start scheduling audio for a track. Handles the bar loop, progress
- * tracking, and end-of-track crossfade.
+ * tracking, and end-of-track cleanup.
  */
 export function scheduleTrack({
   trackId,
@@ -77,11 +74,8 @@ export function scheduleTrack({
   refs,
   onProgress,
   onEnd,
-  crossfade = false,
 }: ScheduleOptions) {
-  if (!crossfade) {
-    stopAll(refs, true);
-  }
+  stopAll(refs, true);
 
   const gen = ++refs.gen;
   const ctx = getAudioContext();
@@ -104,7 +98,6 @@ export function scheduleTrack({
 
   const startTime = Date.now();
   const durationMs = duration * 1000;
-  let fadeStarted = false;
 
   function tick() {
     if (refs.gen !== gen) return;
@@ -112,24 +105,11 @@ export function scheduleTrack({
     const pct = Math.min((elapsed / durationMs) * 100, 100);
     onProgress(pct);
 
-    if (!fadeStarted && elapsed >= durationMs - FADE_OUT_MS) {
-      fadeStarted = true;
-      for (const bar of refs.bars) {
-        try {
-          bar.masterGain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + FADE_OUT_MS / 1000);
-        } catch {}
-      }
-    }
-
     if (pct < 100) {
       refs.progress = requestAnimationFrame(tick);
     } else {
       cancelTimers(refs);
-      const oldBars = [...refs.bars];
-      refs.bars = [];
-      setTimeout(() => {
-        for (const bar of oldBars) bar.stopAll(true);
-      }, 500);
+      stopAll(refs, true);
       onEnd();
     }
   }
