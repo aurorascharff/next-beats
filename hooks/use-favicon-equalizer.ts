@@ -13,7 +13,7 @@ export function useFaviconEqualizer(isPlaying: boolean) {
   const originalHref = useRef<string | null>(null);
 
   useEffect(() => {
-    const link = document.querySelector<HTMLLinkElement>('link[rel="icon"]');
+    const link = document.querySelector<HTMLLinkElement>('link[rel="icon"], link[rel="shortcut icon"]');
     if (!link) return;
 
     if (!originalHref.current) {
@@ -36,17 +36,26 @@ export function useFaviconEqualizer(isPlaying: boolean) {
     function draw() {
       ctx!.clearRect(0, 0, 32, 32);
       ctx!.fillStyle = '#4f6ef7';
-      const barWidth = 5;
+      const barW = 5;
       const gap = 3;
       const startX = 4;
+      const r = 2;
       const h = BAR_FRAMES[frame % BAR_FRAMES.length];
       for (let i = 0; i < 4; i++) {
-        const x = startX + i * (barWidth + gap);
+        const x = startX + i * (barW + gap);
+        const y = 32 - h[i];
         ctx!.beginPath();
-        ctx!.roundRect(x, 32 - h[i], barWidth, h[i], 2);
+        ctx!.moveTo(x + r, y);
+        ctx!.lineTo(x + barW - r, y);
+        ctx!.quadraticCurveTo(x + barW, y, x + barW, y + r);
+        ctx!.lineTo(x + barW, 32);
+        ctx!.lineTo(x, 32);
+        ctx!.lineTo(x, y + r);
+        ctx!.quadraticCurveTo(x, y, x + r, y);
+        ctx!.closePath();
         ctx!.fill();
       }
-      link!.href = canvas.toDataURL();
+      link!.href = canvas.toDataURL('image/png');
       frame++;
     }
 

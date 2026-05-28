@@ -12,21 +12,10 @@ import { trackProfiles } from './track-profiles';
 import type { GenreConfig, DrumHit } from './genre-configs';
 
 let sharedCtx: AudioContext | null = null;
-let silenceUnlocked = false;
-
-function unlockIOSAudio() {
-  if (silenceUnlocked) return;
-  silenceUnlocked = true;
-  const audio = document.createElement('audio');
-  audio.src =
-    'data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA//tQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAABhgC7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7//////////////////////////////////////////////////////////////////8AAAAATGF2YzU4LjEzAAAAAAAAAAAAAAAAJAAAAAAAAAAAAYYoRBqSAAAAAAAAAAAAAAAAAAAA//tQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAABhgC7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7//////////////////////////////////////////////////////////////////8AAAAATGF2YzU4LjEzAAAAAAAAAAAAAAAAJAAAAAAAAAAAAYYoRBqSAAAAAAAAAAAAAAAAAAAA';
-  audio.play().catch(() => {});
-}
 
 function getAudioContext(): AudioContext {
   if (!sharedCtx || sharedCtx.state === 'closed') {
     sharedCtx = new AudioContext();
-    unlockIOSAudio();
   }
   if (sharedCtx.state === 'suspended') sharedCtx.resume();
   return sharedCtx;

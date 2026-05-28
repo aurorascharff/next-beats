@@ -67,7 +67,7 @@ export function scheduleTrack({ trackId, genre, duration, refs, onProgress, onEn
   stopAll(refs);
   const ctx = getAudioContext();
   let barIndex = 0;
-  let nextBarTime = ctx.currentTime + 0.05;
+  let nextBarTime = ctx.currentTime + 0.15;
 
   function scheduleAhead() {
     if (refs.gen !== gen) return;
