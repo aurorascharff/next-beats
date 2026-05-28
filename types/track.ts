@@ -10,6 +10,7 @@ export type Track = {
   coverColor: string;
   playCount: number;
   isFavorite: boolean;
+  lastPlayedAt: Date | null;
   createdAt: Date;
 };
 
@@ -23,6 +24,7 @@ export function toTrack(row: PrismaTrack): Track {
     genre: row.genre,
     id: row.id,
     isFavorite: row.isFavorite,
+    lastPlayedAt: row.lastPlayedAt,
     playCount: row.playCount,
     title: row.title,
   };

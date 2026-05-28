@@ -15,9 +15,10 @@ model Track {
   duration   Int      // seconds
   genre      String
   coverColor String
-  playCount  Int      @default(0)
-  isFavorite Boolean  @default(false)
-  createdAt  DateTime @default(now())
+  playCount    Int       @default(0)
+  isFavorite   Boolean   @default(false)
+  lastPlayedAt DateTime?
+  createdAt    DateTime  @default(now())
 
   playlistTracks PlaylistTrack[]
 

@@ -101,6 +101,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
   function playAtIndex(idx: number, q: Track[]) {
     const t = q[idx];
     dispatch({ type: 'PLAY', track: t, queue: q, index: idx });
+    navigator.sendBeacon('/api/play', JSON.stringify({ trackId: t.id }));
     scheduleTrack({
       trackId: t.id,
       genre: t.genre,

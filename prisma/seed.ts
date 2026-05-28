@@ -17,6 +17,7 @@ type SeedTrack = {
   coverColor: string;
   playCount: number;
   isFavorite: boolean;
+  lastPlayedAt?: Date;
   createdAt: Date;
 };
 
@@ -85,6 +86,7 @@ const TRACKS: SeedTrack[] = [
     coverColor: 'from-sky-500 to-indigo-600',
     playCount: 3201,
     isFavorite: true,
+    lastPlayedAt: new Date(now - 25 * minute),
     createdAt: new Date(now - 1 * day),
   },
   // Indie
@@ -159,6 +161,7 @@ const TRACKS: SeedTrack[] = [
     coverColor: 'from-slate-500 to-blue-700',
     playCount: 4521,
     isFavorite: true,
+    lastPlayedAt: new Date(now - 5 * minute),
     createdAt: new Date(now - 1 * day),
   },
   {
@@ -171,6 +174,7 @@ const TRACKS: SeedTrack[] = [
     coverColor: 'from-indigo-600 to-blue-800',
     playCount: 3876,
     isFavorite: false,
+    lastPlayedAt: new Date(now - 45 * minute),
     createdAt: new Date(now - 1 * day),
   },
   {
@@ -220,6 +224,7 @@ const TRACKS: SeedTrack[] = [
     coverColor: 'from-blue-400 to-indigo-500',
     playCount: 5432,
     isFavorite: true,
+    lastPlayedAt: new Date(now - 2 * minute),
     createdAt: new Date(now - 0.5 * day),
   },
   {
@@ -232,6 +237,7 @@ const TRACKS: SeedTrack[] = [
     coverColor: 'from-indigo-400 to-sky-500',
     playCount: 4321,
     isFavorite: true,
+    lastPlayedAt: new Date(now - 12 * minute),
     createdAt: new Date(now - 0.5 * day),
   },
   {
@@ -244,6 +250,7 @@ const TRACKS: SeedTrack[] = [
     coverColor: 'from-sky-400 to-cyan-500',
     playCount: 3654,
     isFavorite: false,
+    lastPlayedAt: new Date(now - 1 * hour),
     createdAt: new Date(now - 2 * day),
   },
   {

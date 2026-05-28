@@ -50,9 +50,9 @@ export const getRecentlyPlayed = cache(async (limit: number = 8): Promise<Track[
 
   await delay(500);
   const rows = await prisma.track.findMany({
-    orderBy: { playCount: 'desc' },
+    orderBy: { lastPlayedAt: 'desc' },
     take: limit,
-    where: { playCount: { gt: 0 } },
+    where: { lastPlayedAt: { not: null } },
   });
   return rows.map(toTrack);
 });
