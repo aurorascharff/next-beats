@@ -4,19 +4,15 @@ import { TrackDetail, TrackDetailSkeleton } from '@/features/track/components/tr
 import { getTrack } from '@/features/track/track-queries';
 import type { Metadata } from 'next';
 
-type Props = {
-  params: Promise<{ id: string }>;
-};
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps<'/track/[id]'>): Promise<Metadata> {
   const { id } = await params;
   const track = await getTrack(id);
-  return { title: `${track.title} — ${track.artist}` };
+  return { title: track.title };
 }
 
 export const unstable_prefetch = 'force-runtime';
 
-export default function TrackPage({ params }: Props) {
+export default function TrackPage({ params }: PageProps<'/track/[id]'>) {
   return (
     <Suspense fallback={<TrackDetailSkeleton />}>
       <Crossfade>

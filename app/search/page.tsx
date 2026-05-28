@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export const unstable_prefetch = 'force-runtime';
 
-export default function SearchPage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
+export default function SearchPage({ searchParams }: PageProps<'/search'>) {
   return (
     <PageHeader title="Search">
       <div className="mb-8">

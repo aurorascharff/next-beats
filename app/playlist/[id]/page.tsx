@@ -5,11 +5,7 @@ import { PlaylistDetail, PlaylistDetailSkeleton } from '@/features/playlist/comp
 import { getPlaylist } from '@/features/playlist/playlist-queries';
 import type { Metadata } from 'next';
 
-type Props = {
-  params: Promise<{ id: string }>;
-};
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps<'/playlist/[id]'>): Promise<Metadata> {
   const { id } = await params;
   const playlist = await getPlaylist(id);
   return { title: playlist.name };
@@ -17,7 +13,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export const unstable_prefetch = 'force-runtime';
 
-export default function PlaylistDetailPage({ params }: Props) {
+export default function PlaylistDetailPage({ params }: PageProps<'/playlist/[id]'>) {
   return (
     <div className="px-6 py-6 sm:px-8">
       <Suspense fallback={<PlaylistDetailSkeleton />}>

@@ -6,11 +6,7 @@ import { GenreTracks } from '@/features/genre/components/genre-tracks';
 import { TrackListSkeleton } from '@/features/track/components/track-row';
 import type { Metadata } from 'next';
 
-type Props = {
-  params: Promise<{ genre: string }>;
-};
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps<'/genre/[genre]'>): Promise<Metadata> {
   const { genre } = await params;
   const label = decodeURIComponent(genre);
   return { title: label.charAt(0).toUpperCase() + label.slice(1) };
@@ -18,7 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export const unstable_prefetch = 'force-runtime';
 
-export default function GenreDetailPage({ params }: Props) {
+export default function GenreDetailPage({ params }: PageProps<'/genre/[genre]'>) {
   return (
     <div className="px-6 py-6 sm:px-8">
       <Suspense
