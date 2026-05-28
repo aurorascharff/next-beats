@@ -1,3 +1,4 @@
+import { connection } from 'next/server';
 import { Suspense } from 'react';
 import { Crossfade } from '@/components/ui/crossfade';
 import { PageHeader } from '@/components/ui/page-layout';
@@ -10,7 +11,14 @@ export const unstable_prefetch = 'force-runtime';
 
 export default function HomePage() {
   return (
-    <PageHeader title="Good evening">
+    <PageHeader
+      title={
+        <Suspense fallback="Good evening">
+          <Greeting />
+        </Suspense>
+      }
+    >
+      <h2 className="mb-4">Jump Back In</h2>
       <Suspense fallback={<QuickPlayGridSkeleton />}>
         <Crossfade>
           <QuickPlayGrid />
@@ -32,4 +40,10 @@ export default function HomePage() {
       </Suspense>
     </PageHeader>
   );
+}
+
+async function Greeting() {
+  await connection();
+  const hour = new Date().getHours();
+  return <>{hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening'}</>;
 }

@@ -5,7 +5,7 @@
  * crossfade between tracks, and cleanup. Used by PlayerProvider.
  */
 
-import { getAudioContext, killAudio, scheduleBar } from './music-engine';
+import { getAudioContext, scheduleBar } from './music-engine';
 import type { ScheduledNodes } from './music-engine';
 
 const BPM_APPROX = 120;
@@ -23,19 +23,14 @@ export function createAudioRefs(): AudioRefs {
   return { bars: [], scheduler: null, progress: null, volume: 75, gen: 0 };
 }
 
-/** Stop all audio. If immediate, closes the AudioContext entirely. */
-export function stopAll(refs: AudioRefs, immediate: boolean) {
+/** Stop all audio. Disconnects nodes and clears state. */
+export function stopAll(refs: AudioRefs) {
   if (refs.scheduler) {
     clearTimeout(refs.scheduler);
     refs.scheduler = null;
   }
-  if (immediate) {
-    killAudio();
-    refs.bars = [];
-  } else {
-    for (const bar of refs.bars) bar.stopAll(false);
-    refs.bars = [];
-  }
+  for (const bar of refs.bars) bar.stopAll(true);
+  refs.bars = [];
   if (refs.progress) {
     cancelAnimationFrame(refs.progress);
     refs.progress = null;
@@ -69,7 +64,7 @@ type ScheduleOptions = {
  */
 export function scheduleTrack({ trackId, genre, duration, refs, onProgress, onEnd }: ScheduleOptions) {
   const gen = ++refs.gen;
-  stopAll(refs, true);
+  stopAll(refs);
   const ctx = getAudioContext();
   let barIndex = 0;
   let nextBarTime = ctx.currentTime + 0.05;
@@ -101,7 +96,7 @@ export function scheduleTrack({ trackId, genre, duration, refs, onProgress, onEn
       refs.progress = requestAnimationFrame(tick);
     } else {
       cancelTimers(refs);
-      stopAll(refs, true);
+      stopAll(refs);
       onEnd();
     }
   }
@@ -149,7 +144,7 @@ export function resumeTrack(
     if (pct < 100) {
       refs.progress = requestAnimationFrame(tick);
     } else {
-      stopAll(refs, false);
+      stopAll(refs);
       onEnd();
     }
   }
