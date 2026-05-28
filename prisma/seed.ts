@@ -3,7 +3,8 @@ import 'dotenv/config';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '../generated/prisma/client';
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
+const connectionString = process.env.DATABASE_URL!.replace(/sslmode=require\b/, 'sslmode=verify-full');
+const adapter = new PrismaPg({ connectionString });
 const prisma = new PrismaClient({ adapter });
 
 type SeedTrack = {
