@@ -117,7 +117,7 @@ export function resumeTrack(
   const gen = ++refs.gen;
   const ctx = getAudioContext();
   let barIndex = Math.floor((currentProgress / 100) * (duration / SEC_PER_BAR));
-  let nextBarTime = ctx.currentTime + 0.05;
+  let nextBarTime = ctx.currentTime + 0.15;
 
   function scheduleAhead() {
     if (refs.gen !== gen) return;
