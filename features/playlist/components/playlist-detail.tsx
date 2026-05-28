@@ -45,9 +45,9 @@ export async function PlaylistDetail({ id }: { id: string }) {
 export function PlaylistDetailSkeleton() {
   return (
     <>
-      <div className="mb-8 flex flex-col items-center gap-4 sm:flex-row sm:items-center sm:gap-6">
+      <div className="mb-8 flex flex-col items-center gap-4 sm:flex-row sm:items-end sm:gap-6">
         <Skeleton className="skeleton-subtle h-40 w-40 shrink-0 rounded-md shadow-2xl sm:h-48 sm:w-48" />
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-2.5">
           <Skeleton className="h-8 w-44 sm:h-9 sm:w-52" />
           <Skeleton className="h-3 w-28" />
         </div>

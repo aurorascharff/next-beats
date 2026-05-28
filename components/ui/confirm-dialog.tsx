@@ -1,7 +1,7 @@
 'use client';
 
 import * as Ariakit from '@ariakit/react';
-import { startTransition, useTransition } from 'react';
+import { startTransition, useState } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 
 type Variant = 'danger' | 'primary';
@@ -28,13 +28,18 @@ export function ConfirmDialog({
   variant = 'danger',
   confirmAction,
 }: Props) {
-  const [isPending, startOuter] = useTransition();
+  const [isPending, setIsPending] = useState(false);
 
-  function handleConfirm() {
-    startOuter(async () => {
+  async function handleConfirm() {
+    setIsPending(true);
+    try {
       const ok = await confirmAction();
-      if (ok) startTransition(() => store.hide());
-    });
+      if (ok) {
+        startTransition(() => store.hide());
+      }
+    } finally {
+      setIsPending(false);
+    }
   }
 
   return (
