@@ -1,4 +1,4 @@
-import { updateTag } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 import { prisma } from '@/lib/db';
 
 export async function POST(req: Request) {
@@ -14,7 +14,7 @@ export async function POST(req: Request) {
       lastPlayedAt: new Date(),
     },
   });
-  updateTag('recently-played');
+  revalidateTag('recently-played', 'soft');
 
   return new Response(null, { status: 204 });
 }

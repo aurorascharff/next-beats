@@ -3,8 +3,8 @@
 import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
 import { toast } from 'sonner';
 import { createAudioRefs, cancelTimers, resumeTrack, scheduleTrack, stopAll } from '@/lib/audio/audio-scheduler';
-import { getAudioContext, resumeAudio, suspendAudio } from '@/lib/audio/music-engine';
 import type { AudioRefs } from '@/lib/audio/audio-scheduler';
+import { getAudioContext, resumeAudio, suspendAudio } from '@/lib/audio/music-engine';
 import type { Track } from '@/types/track';
 
 type PlayerState = {
