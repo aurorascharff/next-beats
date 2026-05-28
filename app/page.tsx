@@ -1,5 +1,4 @@
 import { Suspense } from 'react';
-import { SeedGreetingFromTime } from '@/components/scripts/seed-greeting-from-time';
 import { Crossfade } from '@/components/ui/crossfade';
 import { PageHeader } from '@/components/ui/page-layout';
 import { TopGenresGrid } from '@/features/genre/components/genre-browse';
@@ -11,15 +10,8 @@ export const unstable_prefetch = 'force-runtime';
 
 export default function HomePage() {
   return (
-    <PageHeader
-      title={
-        <>
-          <span data-greeting>Good evening</span>
-          <SeedGreetingFromTime />
-        </>
-      }
-    >
-      <h2 className="mb-4">Jump Back In</h2>
+    <PageHeader title="Welcome back">
+      <h2 className="mb-4">Recently Played</h2>
       <Suspense fallback={<QuickPlayGridSkeleton />}>
         <Crossfade>
           <QuickPlayGrid />
