@@ -1,7 +1,6 @@
 'use client';
 
 import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
-import { toast } from 'sonner';
 import { useFaviconEqualizer } from '@/hooks/use-favicon-equalizer';
 import { useListeningMilestones } from '@/hooks/use-listening-milestones';
 import { createAudioRefs, cancelTimers, resumeTrack, scheduleTrack, stopAll } from '@/lib/audio/audio-scheduler';
