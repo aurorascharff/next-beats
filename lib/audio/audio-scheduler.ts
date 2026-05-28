@@ -5,7 +5,7 @@
  * crossfade between tracks, and cleanup. Used by PlayerProvider.
  */
 
-import { getAudioContext, scheduleBar } from './music-engine';
+import { getAudioContext, resetAudioContext, scheduleBar } from './music-engine';
 import type { ScheduledNodes } from './music-engine';
 
 const BPM_APPROX = 120;
@@ -64,8 +64,9 @@ type ScheduleOptions = {
  */
 export function scheduleTrack({ trackId, genre, duration, refs, onProgress, onEnd }: ScheduleOptions) {
   const gen = ++refs.gen;
-  stopAll(refs);
-  const ctx = getAudioContext();
+  cancelTimers(refs);
+  refs.bars = [];
+  const ctx = resetAudioContext();
   let barIndex = 0;
   let nextBarTime = ctx.currentTime + 0.15;
 

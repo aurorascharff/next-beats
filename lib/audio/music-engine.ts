@@ -21,6 +21,14 @@ function getAudioContext(): AudioContext {
   return sharedCtx;
 }
 
+export function resetAudioContext(): AudioContext {
+  if (sharedCtx) {
+    sharedCtx.close().catch(() => {});
+  }
+  sharedCtx = new AudioContext();
+  return sharedCtx;
+}
+
 export function suspendAudio() {
   if (sharedCtx) sharedCtx.suspend();
 }
