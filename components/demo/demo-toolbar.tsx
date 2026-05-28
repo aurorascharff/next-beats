@@ -1,7 +1,7 @@
 'use client';
 
 import { Eye, EyeOff, Zap, ZapOff } from 'lucide-react';
-import { useCallback, useEffect, useOptimistic, useRef, useState } from 'react';
+import { useEffect, useOptimistic, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/lib/utils';
@@ -10,7 +10,7 @@ function BoundaryOverlay() {
   const overlayRef = useRef<HTMLDivElement>(null);
   const rafId = useRef(0);
 
-  const updateBoxes = useCallback(() => {
+  function updateBoxes() {
     const overlay = overlayRef.current;
     if (!overlay) return;
 
@@ -44,12 +44,12 @@ function BoundaryOverlay() {
     while (overlay.children.length > boxIndex) {
       overlay.removeChild(overlay.lastChild!);
     }
-  }, []);
+  }
 
-  const scheduleUpdate = useCallback(() => {
+  function scheduleUpdate() {
     cancelAnimationFrame(rafId.current);
     rafId.current = requestAnimationFrame(updateBoxes);
-  }, [updateBoxes]);
+  }
 
   useEffect(() => {
     updateBoxes();
@@ -58,7 +58,6 @@ function BoundaryOverlay() {
     const observer = new ResizeObserver(scheduleUpdate);
     observer.observe(document.body);
 
-    // Watch for DOM changes (navigation, streaming content)
     const mutationObserver = new MutationObserver(scheduleUpdate);
     mutationObserver.observe(document.body, { childList: true, subtree: true });
 

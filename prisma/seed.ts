@@ -428,18 +428,15 @@ const PLAYLISTS: SeedPlaylist[] = [
 async function main() {
   console.log('Seeding music player database...');
 
-  // Clear existing data
   await prisma.playlistTrack.deleteMany();
   await prisma.playlist.deleteMany();
   await prisma.track.deleteMany();
 
-  // Seed tracks
   for (const t of TRACKS) {
     await prisma.track.create({ data: t });
   }
   console.log(`  ${TRACKS.length} tracks created`);
 
-  // Seed playlists
   for (const pl of PLAYLISTS) {
     await prisma.playlist.create({
       data: {

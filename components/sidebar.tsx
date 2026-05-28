@@ -20,7 +20,6 @@ export function Sidebar() {
       style={{ viewTransitionName: 'sidebar' }}
       className="hidden w-[4.5rem] flex-col gap-2 p-2 sm:flex lg:w-[17.5rem]"
     >
-      {/* Top nav card */}
       <div className="bg-card dark:bg-card-dark rounded-lg p-3 lg:p-4">
         <Link
           href="/"
@@ -46,7 +45,6 @@ export function Sidebar() {
         </nav>
       </div>
 
-      {/* Library card */}
       <div className="bg-card dark:bg-card-dark flex min-h-0 flex-1 flex-col rounded-lg">
         <div className="flex items-center gap-2 px-3 py-3 lg:px-4">
           <Library className="text-gray h-5 w-5 shrink-0" />
