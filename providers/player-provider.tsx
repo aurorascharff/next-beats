@@ -2,9 +2,9 @@
 
 import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
 import { useListeningMilestones } from '@/hooks/use-listening-milestones';
-import { createAudioRefs, cancelTimers, resumeTrack, scheduleTrack, stopAll } from '@/lib/audio/audio-scheduler';
+import { createAudioRefs, resumeTrack, scheduleTrack, stopAll } from '@/lib/audio/audio-scheduler';
 import type { AudioRefs } from '@/lib/audio/audio-scheduler';
-import { getAudioContext, resumeAudio, suspendAudio } from '@/lib/audio/music-engine';
+import { getAudioContext, killAudio, resumeAudio, suspendAudio } from '@/lib/audio/music-engine';
 import type { Track } from '@/types/track';
 
 type PlayerState = {
@@ -82,6 +82,14 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const refs = audioRef.current;
+    return () => {
+      stopAll(refs);
+      killAudio();
+    };
+  }, []);
+
+  useEffect(() => {
+    const refs = audioRef.current;
     refs.volume = volume;
     for (const bar of refs.bars) {
       const ctx = getAudioContext();
@@ -120,8 +128,8 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
 
   function pause() {
     dispatch({ type: 'PAUSE' });
+    stopAll(audioRef.current);
     suspendAudio();
-    cancelTimers(audioRef.current);
   }
 
   function resume() {
@@ -135,7 +143,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
         progress,
         audioRef.current,
         pct => dispatch({ type: 'SET_PROGRESS', progress: pct }),
-        () => dispatch({ type: 'ENDED' }),
+        () => advanceQueue(queue),
       );
     }
   }

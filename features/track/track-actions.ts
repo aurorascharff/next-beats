@@ -22,13 +22,3 @@ export async function toggleFavorite(trackId: string) {
   updateTag('library');
   return { ok: true as const };
 }
-
-export async function incrementPlayCount(trackId: string) {
-  const id = trackIdSchema.parse(trackId);
-  await prisma.track.update({
-    data: { playCount: { increment: 1 } },
-    where: { id },
-  });
-  updateTag(`track-${id}`);
-  updateTag('recently-played');
-}

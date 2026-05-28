@@ -4,7 +4,7 @@ import { Heart, Play } from 'lucide-react';
 import Link from 'next/link';
 import { useOptimistic, useTransition } from 'react';
 import { Equalizer } from '@/components/ui/equalizer';
-import { toggleFavorite, incrementPlayCount } from '@/features/track/track-actions';
+import { toggleFavorite } from '@/features/track/track-actions';
 import { cn } from '@/lib/utils';
 import { usePlayer } from '@/providers/player-provider';
 import type { Track } from '@/types/track';
@@ -12,7 +12,6 @@ import type { Route } from 'next';
 
 export function TrackPlayRow({ track, queue, children }: { track: Track; queue?: Track[]; children: React.ReactNode }) {
   const player = usePlayer();
-  const [, startTransition] = useTransition();
   const isThisPlaying = player.isPlaying && player.track?.id === track.id;
   const isThisTrack = player.track?.id === track.id;
 
@@ -23,9 +22,6 @@ export function TrackPlayRow({ track, queue, children }: { track: Track; queue?:
       player.resume();
     } else {
       player.play(track, queue);
-      startTransition(async () => {
-        await incrementPlayCount(track.id);
-      });
     }
   }
 

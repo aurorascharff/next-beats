@@ -5,11 +5,8 @@
  * crossfade between tracks, and cleanup. Used by PlayerProvider.
  */
 
-import { getAudioContext, resetAudioContext, scheduleBar } from './music-engine';
+import { getAudioContext, getSecondsPerBar, resetAudioContext, scheduleBar } from './music-engine';
 import type { ScheduledNodes } from './music-engine';
-
-const BPM_APPROX = 120;
-const SEC_PER_BAR = (60 / BPM_APPROX) * 4;
 
 export type AudioRefs = {
   bars: ScheduledNodes[];
@@ -37,16 +34,8 @@ export function stopAll(refs: AudioRefs) {
   }
 }
 
-/** Cancel scheduler and progress without touching audio nodes. */
-export function cancelTimers(refs: AudioRefs) {
-  if (refs.scheduler) {
-    clearTimeout(refs.scheduler);
-    refs.scheduler = null;
-  }
-  if (refs.progress) {
-    cancelAnimationFrame(refs.progress);
-    refs.progress = null;
-  }
+function trimScheduledBars(refs: AudioRefs) {
+  while (refs.bars.length > 3) refs.bars.shift()?.stopAll(true);
 }
 
 type ScheduleOptions = {
@@ -63,23 +52,23 @@ type ScheduleOptions = {
  * tracking, and end-of-track cleanup.
  */
 export function scheduleTrack({ trackId, genre, duration, refs, onProgress, onEnd }: ScheduleOptions) {
+  stopAll(refs);
   const gen = ++refs.gen;
-  cancelTimers(refs);
-  refs.bars = [];
   const ctx = resetAudioContext();
+  const secPerBar = getSecondsPerBar(trackId, genre);
   let barIndex = 0;
   let nextBarTime = ctx.currentTime + 0.15;
 
   function scheduleAhead() {
     if (refs.gen !== gen) return;
-    while (nextBarTime < ctx.currentTime + SEC_PER_BAR * 2) {
+    while (nextBarTime < ctx.currentTime + secPerBar * 2) {
       const nodes = scheduleBar(trackId, genre, barIndex, nextBarTime, refs.volume);
       refs.bars.push(nodes);
       barIndex++;
-      nextBarTime += SEC_PER_BAR;
-      while (refs.bars.length > 3) refs.bars.shift();
+      nextBarTime += secPerBar;
+      trimScheduledBars(refs);
     }
-    refs.scheduler = setTimeout(scheduleAhead, SEC_PER_BAR * 0.5 * 1000);
+    refs.scheduler = setTimeout(scheduleAhead, secPerBar * 0.5 * 1000);
   }
 
   scheduleAhead();
@@ -96,7 +85,6 @@ export function scheduleTrack({ trackId, genre, duration, refs, onProgress, onEn
     if (pct < 100) {
       refs.progress = requestAnimationFrame(tick);
     } else {
-      cancelTimers(refs);
       stopAll(refs);
       onEnd();
     }
@@ -115,21 +103,23 @@ export function resumeTrack(
   onProgress: (pct: number) => void,
   onEnd: () => void,
 ) {
+  stopAll(refs);
   const gen = ++refs.gen;
   const ctx = getAudioContext();
-  let barIndex = Math.floor((currentProgress / 100) * (duration / SEC_PER_BAR));
+  const secPerBar = getSecondsPerBar(trackId, genre);
+  let barIndex = Math.floor((currentProgress / 100) * (duration / secPerBar));
   let nextBarTime = ctx.currentTime + 0.15;
 
   function scheduleAhead() {
     if (refs.gen !== gen) return;
-    while (nextBarTime < ctx.currentTime + SEC_PER_BAR * 2) {
+    while (nextBarTime < ctx.currentTime + secPerBar * 2) {
       const nodes = scheduleBar(trackId, genre, barIndex, nextBarTime, refs.volume);
       refs.bars.push(nodes);
       barIndex++;
-      nextBarTime += SEC_PER_BAR;
-      while (refs.bars.length > 3) refs.bars.shift();
+      nextBarTime += secPerBar;
+      trimScheduledBars(refs);
     }
-    refs.scheduler = setTimeout(scheduleAhead, SEC_PER_BAR * 0.5 * 1000);
+    refs.scheduler = setTimeout(scheduleAhead, secPerBar * 0.5 * 1000);
   }
 
   scheduleAhead();

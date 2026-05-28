@@ -71,6 +71,25 @@ function pickSeeded<T>(arr: T[], rand: () => number): T {
   return arr[Math.floor(rand() * arr.length)];
 }
 
+function getTrackConfig(trackId: string, genre: string): GenreConfig {
+  const base = genreConfigs[genre] ?? defaultGenreConfig;
+  const profile = trackProfiles[trackId];
+  return profile ? { ...base, ...profile } : base;
+}
+
+function getBpmForConfig(config: GenreConfig, rand: () => number): number {
+  // Tempo: ±5% variation (subtle, keeps the groove tight)
+  const tempoMult = 0.95 + rand() * 0.1;
+  return Math.round(config.bpm * tempoMult);
+}
+
+export function getSecondsPerBar(trackId: string, genre: string): number {
+  const config = getTrackConfig(trackId, genre);
+  const profileRand = seededRandom(hashString(trackId));
+  const bpm = getBpmForConfig(config, profileRand);
+  return (60 / bpm) * 4;
+}
+
 /** Create a convolver reverb node */
 function createReverb(ctx: AudioContext, amount: number): ConvolverNode {
   const convolver = ctx.createConvolver();
@@ -190,18 +209,13 @@ export function scheduleBar(
   startTime: number,
   volume: number,
 ): ScheduledNodes {
-  const base = genreConfigs[genre] ?? defaultGenreConfig;
-  const profile = trackProfiles[trackId];
-  const config: GenreConfig = profile ? { ...base, ...profile } : base;
+  const config = getTrackConfig(trackId, genre);
   const ctx = getAudioContext();
 
   // --- Per-track seed profile (computed once, deterministic per trackId) ---
   const trackHash = hashString(trackId);
   const profileRand = seededRandom(trackHash);
-
-  // Tempo: ±5% variation (subtle, keeps the groove tight)
-  const tempoMult = 0.95 + profileRand() * 0.1;
-  const bpm = Math.round(config.bpm * tempoMult);
+  const bpm = getBpmForConfig(config, profileRand);
 
   // Chord rotation: start at a different point in the progression
   const chordOffset = Math.floor(profileRand() * config.chords.length);

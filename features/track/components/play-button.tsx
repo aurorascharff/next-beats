@@ -1,9 +1,7 @@
 'use client';
 
 import { Play } from 'lucide-react';
-import { useTransition } from 'react';
 import { Equalizer } from '@/components/ui/equalizer';
-import { incrementPlayCount } from '@/features/track/track-actions';
 import { usePlayer } from '@/providers/player-provider';
 import type { Track } from '@/types/track';
 
@@ -24,7 +22,6 @@ const iconSizes = {
 };
 
 export function PlayButton({ track, className, size = 'md' }: Props) {
-  const [, startTransition] = useTransition();
   const player = usePlayer();
   const isThisPlaying = player.isPlaying && player.track?.id === track.id;
 
@@ -37,9 +34,6 @@ export function PlayButton({ track, className, size = 'md' }: Props) {
       player.resume();
     } else {
       player.play(track);
-      startTransition(async () => {
-        await incrementPlayCount(track.id);
-      });
     }
   }
 
