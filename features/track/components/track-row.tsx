@@ -39,7 +39,7 @@ export function TrackRow({ track, index, showAlbum = true, queue }: Props & { qu
 
 export function TrackList({ tracks, showIndex = false }: { tracks: TrackT[]; showIndex?: boolean }) {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-0.5">
       {tracks.map((track, i) => (
         <TrackRow key={track.id} track={track} index={showIndex ? i : undefined} queue={tracks} />
       ))}
@@ -74,7 +74,7 @@ export function TrackRowSkeleton({ showIndex = false, index }: { showIndex?: boo
 
 export function TrackListSkeleton({ count = 5, showIndex = false }: { count?: number; showIndex?: boolean }) {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-0.5">
       {Array.from({ length: count }).map((_, i) => (
         <TrackRowSkeleton key={i} showIndex={showIndex} index={i} />
       ))}
