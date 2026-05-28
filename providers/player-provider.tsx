@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
+import { toast } from 'sonner';
 import { createAudioRefs, cancelTimers, resumeTrack, scheduleTrack, stopAll } from '@/lib/audio/audio-scheduler';
 import { getAudioContext, resumeAudio, suspendAudio } from '@/lib/audio/music-engine';
 import type { AudioRefs } from '@/lib/audio/audio-scheduler';
@@ -161,6 +162,29 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
   function setVolume(v: number) {
     dispatch({ type: 'SET_VOLUME', volume: v });
   }
+
+  const listenedRef = useRef(0);
+  const milestonesHit = useRef(new Set<number>());
+
+  useEffect(() => {
+    if (!isPlaying) return;
+    const interval = setInterval(() => {
+      listenedRef.current += 1;
+      const s = listenedRef.current;
+      const milestones: [number, string][] = [
+        [60, '♪ No MP3s were harmed in the making of this music'],
+        [300, '♪ 5 min of math → sound — all Web Audio API'],
+        [600, '♪ 10 min. You should probably ship something'],
+      ];
+      for (const [threshold, message] of milestones) {
+        if (s >= threshold && !milestonesHit.current.has(threshold)) {
+          milestonesHit.current.add(threshold);
+          toast(message, { id: 'easter-egg', duration: 15000 });
+        }
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [isPlaying]);
 
   return (
     <PlayerContext.Provider
