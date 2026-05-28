@@ -51,7 +51,7 @@ export function NowPlayingBar() {
         className="border-divider dark:border-divider-dark hidden shrink-0 border-t bg-white px-4 py-2 sm:block dark:bg-[#181818]"
         data-client="NowPlayingBar"
       >
-        <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-4">
+        <div className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)_2fr] items-center gap-4 lg:grid-cols-[minmax(0,1fr)_2fr_minmax(0,1fr)]">
           <div className="min-w-0">
             <div className="hidden items-center gap-3 lg:flex">
               <AlbumArt
@@ -73,7 +73,7 @@ export function NowPlayingBar() {
               <TrackInfo title={track?.title ?? 'No track'} subtitle={track?.artist ?? ''} />
             </div>
           </div>
-          <div className="flex w-full max-w-sm flex-col items-center gap-1">
+          <div className="flex w-full flex-col items-center gap-1">
             <div className="flex items-center gap-5">
               <SkipButton direction="back" onClick={previous} disabled={!track || !hasQueue} />
               <PlayPauseButton isPlaying={isPlaying} onClick={togglePlayPause} disabled={!track} />
@@ -85,16 +85,16 @@ export function NowPlayingBar() {
               <span className="text-muted w-8 text-[10px]">{formatDuration(total)}</span>
             </div>
           </div>
-          <div className="flex items-center justify-end gap-1.5">
+          <div className="hidden items-center justify-end gap-1.5 lg:flex">
             <button
               type="button"
               onClick={() => setVolume(volume === 0 ? 75 : 0)}
-              className="text-muted hidden transition-colors hover:text-black lg:block dark:hover:text-white"
+              className="text-muted transition-colors hover:text-black dark:hover:text-white"
               aria-label={volume === 0 ? 'Unmute' : 'Mute'}
             >
               <VolumeIcon className="h-3.5 w-3.5" />
             </button>
-            <SliderBar value={volume} onChange={setVolume} className="hidden w-20 lg:flex" label="Volume" />
+            <SliderBar value={volume} onChange={setVolume} className="w-20" label="Volume" />
           </div>
         </div>
       </div>

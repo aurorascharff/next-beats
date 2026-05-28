@@ -48,7 +48,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <DemoToggles />
             </Suspense>
           </div>
-          <Toaster theme="system" position="bottom-right" />
+          <Toaster
+            theme="system"
+            position="bottom-right"
+            toastOptions={{ style: { viewTransitionName: 'none' } }}
+            style={{ zIndex: 9999 }}
+          />
         </ThemeProvider>
         <Analytics />
         <SpeedInsights />
