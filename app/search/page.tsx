@@ -3,8 +3,8 @@ import { Crossfade } from '@/components/ui/crossfade';
 import ErrorBoundary from '@/components/ui/error-boundary';
 import { PageHeader } from '@/components/ui/page-layout';
 import { GenreBrowse, GenreBrowseSkeleton } from '@/features/genre/components/genre-browse';
-import { SearchInput } from '@/features/search/components/search-input';
-import { SearchResults } from '@/features/search/components/search-results';
+import { SearchInput } from '@/features/track/components/search-input';
+import { SearchResults } from '@/features/track/components/search-results';
 import { TrackListSkeleton } from '@/features/track/components/track-row';
 import type { Metadata } from 'next';
 

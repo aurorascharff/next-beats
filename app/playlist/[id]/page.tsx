@@ -1,5 +1,6 @@
 import { Suspense, ViewTransition } from 'react';
 import { Crossfade } from '@/components/ui/crossfade';
+import { PageWrapper } from '@/components/ui/page-layout';
 import { OtherPlaylists } from '@/features/playlist/components/playlist-browse';
 import { PlaylistDetail, PlaylistDetailSkeleton } from '@/features/playlist/components/playlist-detail';
 import { getPlaylist } from '@/features/playlist/playlist-queries';
@@ -15,7 +16,7 @@ export const unstable_prefetch = 'force-runtime';
 
 export default function PlaylistDetailPage({ params }: PageProps<'/playlist/[id]'>) {
   return (
-    <div className="px-6 py-6 sm:px-8">
+    <PageWrapper>
       <Suspense fallback={<PlaylistDetailSkeleton />}>
         <Crossfade>
           {params.then(({ id }) => (
@@ -31,6 +32,6 @@ export default function PlaylistDetailPage({ params }: PageProps<'/playlist/[id]
           ))}
         </Crossfade>
       </Suspense>
-    </div>
+    </PageWrapper>
   );
 }

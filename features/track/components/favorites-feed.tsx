@@ -9,7 +9,7 @@ export async function FavoritesFeed() {
     return <EmptyState title="No liked tracks yet" body="Tap the heart on a track to save it here." />;
   }
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-0.5">
       {tracks.map((track, i) => (
         <ViewTransition key={track.id}>
           <TrackRow track={track} index={i} queue={tracks} />

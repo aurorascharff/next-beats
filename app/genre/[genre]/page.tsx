@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import { Crossfade } from '@/components/ui/crossfade';
+import { PageWrapper } from '@/components/ui/page-layout';
 import { Skeleton } from '@/components/ui/skeleton';
 import { TopGenresGrid, TopGenresGridSkeleton } from '@/features/genre/components/genre-browse';
 import { GenreTracks } from '@/features/genre/components/genre-tracks';
@@ -16,7 +17,7 @@ export const unstable_prefetch = 'force-runtime';
 
 export default function GenreDetailPage({ params }: PageProps<'/genre/[genre]'>) {
   return (
-    <div className="px-6 py-6 sm:px-8">
+    <PageWrapper>
       <Suspense
         fallback={
           <>
@@ -45,6 +46,6 @@ export default function GenreDetailPage({ params }: PageProps<'/genre/[genre]'>)
           </Crossfade>
         </Suspense>
       </section>
-    </div>
+    </PageWrapper>
   );
 }

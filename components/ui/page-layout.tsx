@@ -8,3 +8,7 @@ export function PageHeader({ title, children }: { title: string; children?: Reac
     </div>
   );
 }
+
+export function PageWrapper({ children }: { children: ReactNode }) {
+  return <div className="px-6 py-6 sm:px-8">{children}</div>;
+}
