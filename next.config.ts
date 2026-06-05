@@ -6,10 +6,6 @@ const nextConfig: NextConfig = {
   experimental: {
     inlineCss: true,
     cachedNavigations: true,
-    instantInsights: {
-      validationLevel: 'warning',
-    },
-    instantNavigationDevToolsToggle: true,
     useOffline: true,
     viewTransition: true,
   },

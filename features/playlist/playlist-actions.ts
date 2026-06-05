@@ -3,6 +3,7 @@
 import { updateTag } from 'next/cache';
 import { z } from 'zod';
 import { SEED_PLAYLIST_IDS } from '@/features/playlist/playlist-constants';
+import { verifyAuth } from '@/features/user/user-queries';
 import { prisma } from '@/lib/db';
 import { delay } from '@/lib/utils';
 
@@ -20,6 +21,7 @@ const colors = [
 ];
 
 export async function createPlaylist(formData: FormData) {
+  await verifyAuth();
   await delay(300);
   const parsed = createPlaylistSchema.safeParse({ name: formData.get('name') });
   if (!parsed.success) {
@@ -37,6 +39,7 @@ export async function createPlaylist(formData: FormData) {
 }
 
 export async function addToPlaylist(playlistId: string, trackId: string) {
+  await verifyAuth();
   await delay(200);
   if (SEED_PLAYLIST_IDS.has(playlistId)) return { error: "Can't modify a demo playlist", ok: false as const };
   const existing = await prisma.playlistTrack.findUnique({
@@ -62,6 +65,7 @@ export async function addToPlaylist(playlistId: string, trackId: string) {
 }
 
 export async function removeFromPlaylist(playlistId: string, trackId: string) {
+  await verifyAuth();
   await delay(200);
   if (SEED_PLAYLIST_IDS.has(playlistId)) return { error: "Can't modify a demo playlist", ok: false as const };
   await prisma.playlistTrack.delete({
@@ -73,6 +77,7 @@ export async function removeFromPlaylist(playlistId: string, trackId: string) {
 }
 
 export async function deletePlaylist(playlistId: string) {
+  await verifyAuth();
   const id = z.string().min(1).parse(playlistId);
   if (SEED_PLAYLIST_IDS.has(id)) return { error: "Can't delete a demo playlist", ok: false as const };
   await delay(300);

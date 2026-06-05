@@ -31,7 +31,7 @@ export const getLibrary = cache(async (page: number = 1): Promise<LibraryPage> =
 });
 
 export const getFavorites = cache(async (): Promise<Track[]> => {
-  'use cache';
+  'use cache: private';
   cacheTag('favorites');
   cacheLife('seconds');
 
@@ -44,7 +44,7 @@ export const getFavorites = cache(async (): Promise<Track[]> => {
 });
 
 export const getRecentlyPlayed = cache(async (limit: number = 8): Promise<Track[]> => {
-  'use cache';
+  'use cache: private';
   cacheTag('recently-played');
   cacheLife('seconds');
 
