@@ -18,7 +18,7 @@ export function Boundary({ children, label }: Props) {
     const checkSize = () => {
       if (containerRef.current) {
         const { width, height } = containerRef.current.getBoundingClientRect();
-        setIsSmall(width < 60 || height < 60);
+        setIsSmall(width < 36 && height < 36);
       }
     };
 
