@@ -1,6 +1,7 @@
 'use client';
 
 import { Pause, Play, SkipBack, SkipForward, Volume1, Volume2, VolumeX } from 'lucide-react';
+import { Boundary } from '@/components/internal/boundary';
 import { AlbumArt } from '@/components/ui/album-art';
 import { formatDuration } from '@/lib/utils';
 import { usePlayer } from '@/providers/player-provider';
@@ -13,12 +14,11 @@ export function NowPlayingBar() {
   const total = track?.duration ?? 0;
 
   return (
-    <>
+    <Boundary label="NowPlayingBar">
       {track ? (
         <div
           style={{ viewTransitionName: 'player-bar' }}
           className="border-divider dark:border-divider-dark shrink-0 border-t bg-white px-4 py-2 sm:hidden dark:bg-[#181818]"
-          data-client="NowPlayingBar"
         >
           <div className="flex items-center gap-3">
             <AlbumArt coverColor={track.coverColor} size="sm" className="!h-12 !w-12 !rounded-sm" />
@@ -49,7 +49,6 @@ export function NowPlayingBar() {
       <div
         style={{ viewTransitionName: 'player-bar-desktop' }}
         className="border-divider dark:border-divider-dark hidden shrink-0 border-t bg-white px-4 py-2 sm:block dark:bg-[#181818]"
-        data-client="NowPlayingBar"
       >
         <div className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)_2fr] items-center gap-4 lg:grid-cols-[minmax(0,1fr)_2fr_minmax(0,1fr)]">
           <div className="min-w-0">
@@ -98,7 +97,7 @@ export function NowPlayingBar() {
           </div>
         </div>
       </div>
-    </>
+    </Boundary>
   );
 }
 

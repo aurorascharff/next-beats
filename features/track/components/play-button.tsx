@@ -1,6 +1,7 @@
 'use client';
 
 import { Play } from 'lucide-react';
+import { Boundary } from '@/components/internal/boundary';
 import { Equalizer } from '@/components/ui/equalizer';
 import { usePlayer } from '@/providers/player-provider';
 import type { Track } from '@/types/track';
@@ -38,19 +39,20 @@ export function PlayButton({ track, className, size = 'md' }: Props) {
   }
 
   return (
-    <button
-      type="button"
-      onClick={handleClick}
-      data-client="PlayButton"
-      data-playing={isThisPlaying || undefined}
-      aria-label={isThisPlaying ? `Pause ${track.title}` : `Play ${track.title}`}
-      className={`bg-accent flex items-center justify-center rounded-full text-white shadow-xl transition-transform hover:scale-105 ${sizes[size]} ${className ?? ''}`}
-    >
-      {isThisPlaying ? (
-        <Equalizer size={size === 'md' ? 'md' : 'sm'} color="bg-white" />
-      ) : (
-        <Play className={`translate-x-[1px] ${iconSizes[size]}`} fill="currentColor" />
-      )}
-    </button>
+    <Boundary label="PlayButton">
+      <button
+        type="button"
+        onClick={handleClick}
+        data-playing={isThisPlaying || undefined}
+        aria-label={isThisPlaying ? `Pause ${track.title}` : `Play ${track.title}`}
+        className={`bg-accent flex items-center justify-center rounded-full text-white shadow-xl transition-transform hover:scale-105 ${sizes[size]} ${className ?? ''}`}
+      >
+        {isThisPlaying ? (
+          <Equalizer size={size === 'md' ? 'md' : 'sm'} color="bg-white" />
+        ) : (
+          <Play className={`translate-x-[1px] ${iconSizes[size]}`} fill="currentColor" />
+        )}
+      </button>
+    </Boundary>
   );
 }

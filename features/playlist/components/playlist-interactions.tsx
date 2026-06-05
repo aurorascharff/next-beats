@@ -5,9 +5,10 @@ import { Check, Plus, Trash2, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { startTransition, useOptimistic } from 'react';
 import { toast } from 'sonner';
+import { Boundary } from '@/components/internal/boundary';
 import { ConfirmDialog } from '@/components/ui/confirm-dialog';
-import { cn } from '@/lib/utils';
 import { deletePlaylist, removeFromPlaylist, addToPlaylist } from '@/features/playlist/playlist-actions';
+import { cn } from '@/lib/utils';
 
 export function DeletePlaylistButton({ playlistId, size = 'sm' }: { playlistId: string; size?: 'sm' | 'lg' }) {
   const dialog = Ariakit.useDialogStore();
@@ -26,18 +27,19 @@ export function DeletePlaylistButton({ playlistId, size = 'sm' }: { playlistId: 
 
   return (
     <>
-      <button
-        type="button"
-        onClick={e => {
-          e.stopPropagation();
-          dialog.show();
-        }}
-        aria-label="Delete playlist"
-        data-client="DeletePlaylistButton"
-        className={`text-gray hover:text-danger rounded-full transition-colors ${size === 'lg' ? 'p-1.5' : 'p-1.5'}`}
-      >
-        <Trash2 className={size === 'lg' ? 'h-5 w-5' : 'h-4 w-4'} />
-      </button>
+      <Boundary label="DeletePlaylistButton">
+        <button
+          type="button"
+          onClick={e => {
+            e.stopPropagation();
+            dialog.show();
+          }}
+          aria-label="Delete playlist"
+          className={`text-gray hover:text-danger rounded-full transition-colors ${size === 'lg' ? 'p-1.5' : 'p-1.5'}`}
+        >
+          <Trash2 className={size === 'lg' ? 'h-5 w-5' : 'h-4 w-4'} />
+        </button>
+      </Boundary>
       <ConfirmDialog
         store={dialog}
         title="Delete playlist?"
@@ -62,17 +64,18 @@ export function RemoveFromPlaylistButton({ playlistId, trackId }: { playlistId: 
   }
 
   return (
-    <button
-      type="button"
-      onClick={handleRemove}
-      disabled={isPending}
-      data-pending={isPending || undefined}
-      data-client="RemoveButton"
-      aria-label="Remove from playlist"
-      className="text-gray hover:text-danger rounded-full p-1.5 transition-colors"
-    >
-      <X className="h-4 w-4" />
-    </button>
+    <Boundary label="RemoveButton">
+      <button
+        type="button"
+        onClick={handleRemove}
+        disabled={isPending}
+        data-pending={isPending || undefined}
+        aria-label="Remove from playlist"
+        className="text-gray hover:text-danger rounded-full p-1.5 transition-colors"
+      >
+        <X className="h-4 w-4" />
+      </button>
+    </Boundary>
   );
 }
 

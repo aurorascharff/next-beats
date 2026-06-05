@@ -3,6 +3,7 @@
 import { Heart, Play } from 'lucide-react';
 import Link from 'next/link';
 import { useOptimistic, useTransition } from 'react';
+import { Boundary } from '@/components/internal/boundary';
 import { Equalizer } from '@/components/ui/equalizer';
 import { toggleFavorite } from '@/features/track/track-actions';
 import { cn } from '@/lib/utils';
@@ -26,25 +27,26 @@ export function TrackPlayRow({ track, queue, children }: { track: Track; queue?:
   }
 
   return (
-    <article
-      role="button"
-      tabIndex={0}
-      onClick={handleClick}
-      data-client="TrackPlayRow"
-      onKeyDown={e => {
-        if ((e.key === 'Enter' || e.key === ' ') && e.target === e.currentTarget) {
-          e.preventDefault();
-          handleClick();
-        }
-      }}
-      aria-label={isThisPlaying ? `Pause ${track.title}` : `Play ${track.title}`}
-      className={cn(
-        'group/track cursor-pointer rounded-md transition-colors',
-        isThisTrack ? 'bg-card/40 dark:bg-card-dark/40' : 'hover:bg-card/60 dark:hover:bg-card-dark/60',
-      )}
-    >
-      {children}
-    </article>
+    <Boundary label="TrackPlayRow">
+      <article
+        role="button"
+        tabIndex={0}
+        onClick={handleClick}
+        onKeyDown={e => {
+          if ((e.key === 'Enter' || e.key === ' ') && e.target === e.currentTarget) {
+            e.preventDefault();
+            handleClick();
+          }
+        }}
+        aria-label={isThisPlaying ? `Pause ${track.title}` : `Play ${track.title}`}
+        className={cn(
+          'group/track cursor-pointer rounded-md transition-colors',
+          isThisTrack ? 'bg-card/40 dark:bg-card-dark/40' : 'hover:bg-card/60 dark:hover:bg-card-dark/60',
+        )}
+      >
+        {children}
+      </article>
+    </Boundary>
   );
 }
 
@@ -171,19 +173,22 @@ export function FavoriteButton({
   }
 
   return (
-    <button
-      type="button"
-      onClick={handleToggle}
-      disabled={isPending}
-      data-client="FavoriteButton"
-      aria-label={optimisticFavorite ? 'Remove from favorites' : 'Add to favorites'}
-      className={cn(
-        'rounded-full transition-colors',
-        size === 'lg' ? 'p-1.5' : 'p-1.5',
-        optimisticFavorite ? 'text-accent hover:text-accent-hover' : 'text-gray hover:text-black dark:hover:text-white',
-      )}
-    >
-      <Heart className={cn(size === 'lg' ? 'h-5 w-5' : 'h-4 w-4', optimisticFavorite && 'fill-current')} />
-    </button>
+    <Boundary label="FavoriteButton">
+      <button
+        type="button"
+        onClick={handleToggle}
+        disabled={isPending}
+        aria-label={optimisticFavorite ? 'Remove from favorites' : 'Add to favorites'}
+        className={cn(
+          'rounded-full transition-colors',
+          size === 'lg' ? 'p-1.5' : 'p-1.5',
+          optimisticFavorite
+            ? 'text-accent hover:text-accent-hover'
+            : 'text-gray hover:text-black dark:hover:text-white',
+        )}
+      >
+        <Heart className={cn(size === 'lg' ? 'h-5 w-5' : 'h-4 w-4', optimisticFavorite && 'fill-current')} />
+      </button>
+    </Boundary>
   );
 }
