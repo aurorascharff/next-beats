@@ -9,6 +9,7 @@ import { MusicNote } from '@/components/ui/music-note';
 import { NavLink } from '@/components/ui/nav-link';
 import { Skeleton } from '@/components/ui/skeleton';
 import { getPlaylists } from '@/features/playlist/playlist-queries';
+import { CurrentUserAvatar, CurrentUserAvatarSkeleton } from '@/features/user/components/current-user-avatar';
 import type { Route } from 'next';
 
 const sidebarLink =
@@ -70,7 +71,12 @@ export function Sidebar() {
           </ErrorBoundary>
         </nav>
         <div className="border-divider dark:border-divider-dark hidden items-center justify-between border-t px-3 py-2 lg:flex">
-          <ThemeToggle variant="inline" />
+          <div className="flex items-center gap-2">
+            <Suspense fallback={<CurrentUserAvatarSkeleton />}>
+              <CurrentUserAvatar />
+            </Suspense>
+            <ThemeToggle variant="inline" />
+          </div>
           <a
             href="https://github.com/vercel-labs/next-beats"
             target="_blank"
