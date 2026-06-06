@@ -11,21 +11,9 @@ type BoundaryContextType = {
 
 const BoundaryContext = createContext<BoundaryContextType | null>(null);
 
-const BOUNDARY_MODE_KEY = 'boundaryMode';
-
 export function BoundaryProvider({ children }: { children: React.ReactNode }) {
-  const [mode, setMode] = useState<BoundaryMode>(() => {
-    if (typeof window === 'undefined') return 'off';
-    return localStorage.getItem(BOUNDARY_MODE_KEY) === 'on' ? 'on' : 'off';
-  });
-
-  const toggleMode = () => {
-    setMode(prev => {
-      const next = prev === 'off' ? 'on' : 'off';
-      localStorage.setItem(BOUNDARY_MODE_KEY, next);
-      return next;
-    });
-  };
+  const [mode, setMode] = useState<BoundaryMode>('off');
+  const toggleMode = () => setMode(prev => (prev === 'off' ? 'on' : 'off'));
 
   return <BoundaryContext.Provider value={{ mode, toggleMode }}>{children}</BoundaryContext.Provider>;
 }
