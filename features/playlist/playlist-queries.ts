@@ -29,7 +29,7 @@ export const getPlaylists = cache(async (): Promise<PlaylistSummary[]> => {
   cacheTag('playlists');
   cacheLife('hours');
 
-  await delay(1000);
+  await delay(900);
   const rows = await prisma.playlist.findMany({
     include: { _count: { select: { tracks: true } } },
     orderBy: { createdAt: 'desc' },
@@ -48,7 +48,7 @@ export const getPlaylist = cache(async (id: string): Promise<PlaylistWithTracks>
   cacheTag('playlists', `playlist-${id}`);
   cacheLife('hours');
 
-  await delay(600);
+  await delay(500);
   const row = await prisma.playlist.findUnique({
     include: {
       tracks: {

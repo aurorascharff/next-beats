@@ -42,7 +42,7 @@ Scope (shared vs per-session) and lifetime are independent. The app uses all fou
 | **Shared**  |                       | `getMostPlayed`, `getPlaylistMenuItems`   | catalog queries (hours); `getGenres`, `getTopGenres` (days)   |
 | **Private** | `getRecentlyPlayed`   |                                           | `getFavorites` (hours)                                        |
 
-Lifetimes are long on purpose. Mutations call `updateTag`, so freshness comes from the tag rather than the clock. `cacheLife` is the safety net for entries that never get invalidated. Short profiles like `seconds` are reserved for things that should feel live regardless of mutations, like recently-played.
+Lifetimes are long on purpose. Mutations push-invalidate via `updateTag` from Server Functions or `revalidateTag(tag, 'soft')` from Route Handlers, so freshness comes from the tag rather than the clock. `cacheLife` is the safety net for entries that never get invalidated. Short profiles like `seconds` are reserved for things that should feel live regardless of mutations, like recently-played.
 
 ## Getting started
 

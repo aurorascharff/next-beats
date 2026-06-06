@@ -15,7 +15,7 @@ export const getGenres = cache(async (): Promise<GenreSummary[]> => {
   cacheTag('genres');
   cacheLife('days');
 
-  await delay(400);
+  await delay(600);
   const rows = await prisma.track.groupBy({
     by: ['genre'],
     _count: { genre: true },
@@ -32,7 +32,7 @@ export const getTopGenres = cache(async (limit: number = 5): Promise<GenreSummar
   cacheTag('genres');
   cacheLife('days');
 
-  await delay(500);
+  await delay(1200);
   const rows = await prisma.track.groupBy({
     by: ['genre'],
     _count: { genre: true },

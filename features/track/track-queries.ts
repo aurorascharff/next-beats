@@ -16,7 +16,7 @@ export const getLibrary = cache(async (page: number = 1): Promise<LibraryPage> =
   cacheTag('library');
   cacheLife('hours');
 
-  await delay(1000);
+  await delay(500);
   const rows = await prisma.track.findMany({
     orderBy: { createdAt: 'desc' },
     skip: (page - 1) * LIBRARY_PAGE_SIZE,
@@ -48,7 +48,7 @@ export const getRecentlyPlayed = cache(async (limit: number = 8): Promise<Track[
   cacheTag('recently-played');
   cacheLife('seconds');
 
-  await delay(500);
+  await delay(300);
   const rows = await prisma.track.findMany({
     orderBy: { lastPlayedAt: 'desc' },
     take: limit,
@@ -62,7 +62,7 @@ export const getMostPlayed = cache(async (limit: number = 8): Promise<Track[]> =
   cacheTag('tracks');
   cacheLife('minutes');
 
-  await delay(500);
+  await delay(600);
   const rows = await prisma.track.findMany({
     orderBy: { playCount: 'desc' },
     take: limit,

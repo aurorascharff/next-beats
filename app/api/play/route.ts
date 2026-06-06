@@ -23,7 +23,6 @@ export async function POST(req: Request) {
   revalidateTag('tracks', 'soft');
   revalidateTag(`track-${trackId}`, 'soft');
   revalidateTag(`genre-${track.genre}`, 'soft');
-  revalidateTag('recently-played', 'soft');
   if (track.isFavorite) revalidateTag('favorites', 'soft');
 
   return new Response(null, { status: 204 });

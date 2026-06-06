@@ -1,21 +1,25 @@
 'use client';
 
-import { Eye, EyeOff, Zap, ZapOff } from 'lucide-react';
-import { useOptimistic } from 'react';
+import { Eye, EyeOff, RefreshCw, Zap, ZapOff } from 'lucide-react';
+import { startTransition, useOptimistic } from 'react';
 import { useBoundaryMode } from '@/components/internal/boundary-provider';
 import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/lib/utils';
+import { bustCache, togglePrefetch } from './demo-actions';
 
-export function DemoToolbar({
-  prefetchEnabled,
-  togglePrefetchAction,
-}: {
-  prefetchEnabled: boolean;
-  togglePrefetchAction: (enable: boolean) => Promise<void>;
-}) {
+export function DemoToolbar({ prefetchEnabled }: { prefetchEnabled: boolean }) {
   const { mode, toggleMode } = useBoundaryMode();
   const [optimisticPrefetch, setOptimisticPrefetch] = useOptimistic(prefetchEnabled);
   const prefetchPending = optimisticPrefetch !== prefetchEnabled;
+  const [isBustPending, setIsBustPending] = useOptimistic(false);
+
+  function handleBustCache() {
+    startTransition(async () => {
+      setIsBustPending(true);
+      await bustCache();
+      window.location.reload();
+    });
+  }
 
   return (
     <div
@@ -28,7 +32,7 @@ export function DemoToolbar({
       <form
         action={async () => {
           setOptimisticPrefetch(!optimisticPrefetch);
-          await togglePrefetchAction(!optimisticPrefetch);
+          await togglePrefetch(!optimisticPrefetch);
           window.location.reload();
         }}
       >
@@ -52,6 +56,22 @@ export function DemoToolbar({
           <span className="hidden sm:inline">Prefetch</span>
         </button>
       </form>
+
+      <div className="bg-divider dark:bg-divider-dark h-5 w-px" />
+
+      <button
+        type="button"
+        onClick={handleBustCache}
+        disabled={isBustPending}
+        aria-label={isBustPending ? 'Busting cache…' : 'Bust cache'}
+        className={cn(
+          'text-gray flex items-center gap-1.5 px-3 py-1.5 transition-colors',
+          isBustPending && 'cursor-not-allowed opacity-70',
+        )}
+      >
+        {isBustPending ? <Spinner className="size-3.5" /> : <RefreshCw className="size-3.5" />}
+        <span className="hidden sm:inline">Bust cache</span>
+      </button>
 
       <div className="bg-divider dark:bg-divider-dark h-5 w-px" />
 
