@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   experimental: {
     inlineCss: true,
-    cachedNavigations: true,
+    appShells: true,
     useOffline: true,
     viewTransition: true,
   },
