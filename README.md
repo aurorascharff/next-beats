@@ -33,22 +33,16 @@ Open with DevTools, Network tab visible:
 
 ## Cache profiles
 
-[`'use cache'`](https://nextjs.org/docs/app/api-reference/directives/use-cache) results are stored on the server (shared across users) and mirrored to the browser for the `stale` window so revisits are instant. Server entries are keyed by [`cacheTag`](https://nextjs.org/docs/app/api-reference/functions/cacheTag), with revalidate and expire times set by [`cacheLife`](https://nextjs.org/docs/app/api-reference/functions/cacheLife).
+See the [caching docs](https://nextjs.org/docs/app/getting-started/caching) for how [`'use cache'`](https://nextjs.org/docs/app/api-reference/directives/use-cache), [`'use cache: private'`](https://nextjs.org/docs/app/api-reference/directives/use-cache-private), [`cacheTag`](https://nextjs.org/docs/app/api-reference/functions/cacheTag), [`cacheLife`](https://nextjs.org/docs/app/api-reference/functions/cacheLife), and [`updateTag`](https://nextjs.org/docs/app/api-reference/functions/updateTag) fit together.
 
-[`'use cache: private'`](https://nextjs.org/docs/app/api-reference/directives/use-cache-private) results are **never stored on the server**. They live only in the browser's memory for the current session and clear on reload, which is how a cached function can safely read runtime APIs like `cookies()` and `headers()`.
-
-In addition, the **client navigation cache** holds prefetched and visited routes in the browser. Back/forward and revisits render from it without an RSC request.
-
-[`updateTag`](https://nextjs.org/docs/app/api-reference/functions/updateTag) from a Server Function expires the matching tag on the server and clears the client navigation cache, so the next render fetches fresh data.
-
-Scope (shared `'use cache'` vs per-session `'use cache: private'`) and lifetime (`cacheLife`) are independent. The app uses all four corners.
+Scope (shared vs per-session) and lifetime are independent. The app uses all four corners:
 
 |             | `seconds`             | `minutes`                                 | `hours` / `days`                                              |
 | ----------- | --------------------- | ----------------------------------------- | ------------------------------------------------------------- |
 | **Shared**  |                       | `getMostPlayed`, `getPlaylistMenuItems`   | catalog queries (hours); `getGenres`, `getTopGenres` (days)   |
 | **Private** | `getRecentlyPlayed`   |                                           | `getFavorites` (hours)                                        |
 
-Lifetimes are long on purpose. Mutations call `updateTag`, so freshness comes from the tag rather than the clock. `cacheLife` is the safety net for entries that never get invalidated (the catalog changes shape, a tag is missed). Short profiles like `seconds` are reserved for things that should feel live regardless of mutations, like recently-played.
+Lifetimes are long on purpose. Mutations call `updateTag`, so freshness comes from the tag rather than the clock. `cacheLife` is the safety net for entries that never get invalidated. Short profiles like `seconds` are reserved for things that should feel live regardless of mutations, like recently-played.
 
 ## Getting started
 
