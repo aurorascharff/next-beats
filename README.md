@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="public/logo.svg" alt="NextBeats" width="72" height="72" />
+
 # NextBeats
 
 A Next.js 16.3 music player demonstrating [Instant Navigations](https://next-site-git-worktree-instant-navs-blog-post.vercel.sh/blog/next-16-3). <!-- TODO: swap to https://nextjs.org/blog/next-16-3 once the post ships -->
@@ -60,4 +62,12 @@ pnpm run dev
 
 ## Stack
 
-Next.js 16.3 · React 19 · TypeScript · Tailwind v4 · Prisma 7 on PostgreSQL · Web Audio API
+- [Next.js 16.3](https://nextjs.org/) — App Router, Cache Components, Server Functions
+- [React 19](https://react.dev/) — Suspense, View Transitions, `useOptimistic`
+- [TypeScript](https://www.typescriptlang.org/), [Tailwind CSS v4](https://tailwindcss.com/)
+- [Prisma 7](https://www.prisma.io/) on PostgreSQL
+- [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API) for procedural per-genre synthesis
+
+## License
+
+[MIT](LICENSE)
