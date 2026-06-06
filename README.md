@@ -1,57 +1,52 @@
+<div align="center">
+
 # NextBeats
 
-A Next.js 16.3 music player demo for **Instant Navigations**. Every route transition feels native-app fast, even with dynamic, personalized data.
+A music player built with **Next.js 16.3**: Cache Components, Partial Prefetching, App Shells.
 
-**[Live Demo](https://next-beats.dev)**
+[**Live demo →**](https://next-beats.dev)
 
-## App Features
+</div>
 
-- **Home**: Quick play grid, most played tracks, playlists, and genre browse
-- **Library / Favorites**: Full track catalog with sorting and favorites
-- **Playlists**: Create, rename, delete, and reorder with optimistic UI
-- **Genre pages**: Browse by genre with streaming track lists
-- **Search**: Streaming search results as you type
-- **Track detail**: Per-track view with album art, play count, and playlist management
-- **Now playing**: Persistent player bar with procedural Web Audio synthesis per genre
-- **Prefetch toggle**: Toolbar to disable prefetching and feel the difference
+---
 
-## Instant Navigation Patterns
+## Overview
 
-Three primitives do most of the work:
+NextBeats demonstrates Instant Navigations end-to-end. Open it, click anywhere, hit back. The network tab stays quiet.
 
-- **Block**: `async/await` directly in components, no client data layer
-- **Cache**: `'use cache'` (shared) and `'use cache: private'` (per-user) for server-side caching
-- **Stream**: `<Suspense>` to stream content as soon as it's ready
+## Features
 
-| Where              | What happens                                                       | How                                                                |
-| ------------------ | ------------------------------------------------------------------ | ------------------------------------------------------------------ |
-| All pages          | Static shell paints instantly, dynamic content streams in          | `cacheComponents: true` plus `<Suspense>` boundaries on every page |
-| All pages          | Personalized data is prefetched at runtime, not just static shells | `unstable_prefetch = 'force-runtime'` on every page                |
-| Shared data        | Catalog data appears in the shell immediately                      | `'use cache'` plus custom `catalog` cacheLife profile plus `cacheTag` |
-| Per-user data      | Favorites and recently-played are cached per session, not globally | `'use cache: private'` on user-scoped queries                      |
-| Mutations          | Cache updates are push-driven, not polled                          | `updateTag` / `revalidateTag('…', 'soft')` from Server Actions     |
-| Development        | Surfaces components that block instant navigation                  | **Instant Insights** (built-in DevTools)                           |
-| Development        | Visualize the prefetched shell before dynamic content streams in   | **Navigation Inspector** (built-in DevTools)                       |
-| E2E tests          | Assert the prefetched shell renders before dynamic content         | `@next/playwright` `instant()` helper                              |
-| Prefetch toggle    | Compare instant vs blocking navigations side by side               | `(demo)/noprefetch` route group with `unstable_prefetch = 'force-disabled'` |
+- **Cache Components** with `cacheComponents: true`
+- **Partial Prefetching** with `unstable_prefetch = 'force-runtime'`
+- **App Shells** for instant first paint on dynamic routes
+- **Per-user caching** with `'use cache: private'`
+- **Push-driven invalidation** with `updateTag` from Server Actions
+- **View Transitions** on Suspense reveals
+- **Optimistic UI** with `useOptimistic`
+- **Instant Insights** dev overlay with **Copy prompt** for AI agents
+- **`instant()` e2e tests** with `@next/playwright`
 
-See the [Next.js 16.3 release post](https://nextjs.org/blog/next-16-3) for the full Instant Navigations story.
+## Cache profiles
 
-## Setup
+Scope (`'use cache'` vs `'use cache: private'`) and lifetime (`cacheLife`) are independent. The app uses all four corners.
+
+|                     | `seconds`             | `minutes`                                 | `hours` / `days`                                              |
+| ------------------- | --------------------- | ----------------------------------------- | ------------------------------------------------------------- |
+| **Shared**          |                       | `getMostPlayed`, `getPlaylistMenuItems`   | catalog queries (hours); `getGenres`, `getTopGenres` (days)   |
+| **Private**         | `getRecentlyPlayed`   |                                           | `getFavorites` (hours)                                        |
+
+> **Good to know:** Lifetimes are long because mutations push-invalidate. The lifetime is the safety net, not the freshness contract.
+
+## Getting started
 
 ```bash
+cp .env.sample .env.local   # set DATABASE_URL (PostgreSQL)
 pnpm install
 pnpm run prisma.push
 pnpm run prisma.seed
 pnpm run dev
 ```
 
-## Tech Stack
+## Stack
 
-- Next.js 16.3 App Router (Cache Components, Partial Prefetching, App Shells)
-- React 19 (Server Components, Suspense, `<ViewTransition>`, React Compiler)
-- TypeScript
-- Tailwind CSS v4
-- Prisma 7 on PostgreSQL
-- Web Audio API (procedural music synthesis)
-- Geist Sans and Mono fonts
+Next.js 16.3 · React 19 · TypeScript · Tailwind v4 · Prisma 7 on PostgreSQL · Web Audio API
