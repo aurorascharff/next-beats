@@ -1,7 +1,13 @@
 import { revalidateTag } from 'next/cache';
+import { cookies } from 'next/headers';
 import { prisma } from '@/lib/db';
 
+const SESSION_COOKIE = 'beats-user';
+
 export async function POST(req: Request) {
+  const store = await cookies();
+  if (!store.has(SESSION_COOKIE)) return new Response(null, { status: 401 });
+
   const { trackId } = await req.json();
   if (typeof trackId !== 'string') {
     return new Response(null, { status: 400 });

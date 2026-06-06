@@ -1,4 +1,4 @@
-import { Heart, Home, Library, ListMusic, Plus, Search, Music } from 'lucide-react';
+import { Heart, Home, Library, ListMusic, LogOut, Plus, Search, Music } from 'lucide-react';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { ThemeToggle } from '@/components/theme/theme-toggle';
@@ -10,6 +10,7 @@ import { NavLink } from '@/components/ui/nav-link';
 import { Skeleton } from '@/components/ui/skeleton';
 import { getPlaylists } from '@/features/playlist/playlist-queries';
 import { CurrentUserAvatar, CurrentUserAvatarSkeleton } from '@/features/user/components/current-user-avatar';
+import { signOut } from '@/features/user/user-actions';
 import type { Route } from 'next';
 
 const sidebarLink =
@@ -22,14 +23,25 @@ export function Sidebar() {
       className="hidden w-[4.5rem] flex-col gap-2 p-2 sm:flex lg:w-[17.5rem]"
     >
       <div className="bg-card dark:bg-card-dark rounded-lg p-3 lg:p-4">
-        <Link
-          href="/"
-          className="text-accent mb-4 hidden items-center gap-2 px-1 text-xl font-bold tracking-tight lg:inline-flex"
-          aria-label="NextBeats home"
-        >
-          <MusicNote size={24} className="text-accent" />
-          <span>NextBeats</span>
-        </Link>
+        <div className="mb-4 hidden items-center justify-between lg:flex">
+          <Link
+            href="/"
+            className="text-accent inline-flex items-center gap-2 px-1 text-xl font-bold tracking-tight"
+            aria-label="NextBeats home"
+          >
+            <MusicNote size={24} className="text-accent" />
+            <span>NextBeats</span>
+          </Link>
+          <a
+            href="https://github.com/vercel-labs/next-beats"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray rounded-full p-1.5 transition-colors hover:text-black dark:hover:text-white"
+            aria-label="View source on GitHub"
+          >
+            <GitHubIcon className="h-4 w-4" />
+          </a>
+        </div>
         <nav className="flex flex-col gap-1 text-sm font-medium">
           <NavLink href="/" aria-label="Home" className={sidebarLink}>
             <Home className="h-5 w-5" />
@@ -75,17 +87,18 @@ export function Sidebar() {
             <Suspense fallback={<CurrentUserAvatarSkeleton />}>
               <CurrentUserAvatar />
             </Suspense>
-            <ThemeToggle variant="inline" />
+            <form action={signOut}>
+              <button
+                type="submit"
+                aria-label="Sign out"
+                title="Sign out"
+                className="text-gray rounded-full p-1.5 transition-colors hover:text-black dark:hover:text-white"
+              >
+                <LogOut className="h-4 w-4" />
+              </button>
+            </form>
           </div>
-          <a
-            href="https://github.com/vercel-labs/next-beats"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full p-1.5 text-black/60 transition-colors hover:text-black dark:text-white/60 dark:hover:text-white"
-            aria-label="View source on GitHub"
-          >
-            <GitHubIcon className="h-5 w-5" />
-          </a>
+          <ThemeToggle variant="inline" />
         </div>
       </div>
     </aside>

@@ -6,13 +6,8 @@ import { Suspense } from 'react';
 import { Toaster } from 'sonner';
 import { BoundaryProvider } from '@/components/demo/boundary-provider';
 import { DemoToggles } from '@/components/demo/demo-toggles';
-import { MobileTabBar } from '@/components/mobile-nav';
-import { NowPlayingBar } from '@/components/now-playing-bar';
 import { OfflineIndicator } from '@/components/offline-indicator';
-import { SeedNavLinksFromPathname } from '@/components/scripts/seed-nav-links-from-pathname';
-import { Sidebar } from '@/components/sidebar';
 import { ThemeProvider } from '@/components/theme/theme-provider';
-import { PlayerProvider } from '@/providers/player-provider';
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 
@@ -36,15 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider>
           <BoundaryProvider>
             <OfflineIndicator />
-            <PlayerProvider>
-              <div className="flex min-h-0 flex-1">
-                <Sidebar />
-                <main className="min-w-0 flex-1 overflow-y-auto pb-24 sm:pb-0">{children}</main>
-              </div>
-              <NowPlayingBar />
-              <MobileTabBar />
-              <SeedNavLinksFromPathname />
-            </PlayerProvider>
+            {children}
             <div className="demo-toggles fixed top-3 right-3 z-50 hidden items-end gap-2 sm:flex">
               <Suspense>
                 <DemoToggles />

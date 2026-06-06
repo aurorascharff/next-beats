@@ -1,20 +1,20 @@
 import 'server-only';
 
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { cache } from 'react';
 
 const SESSION_COOKIE = 'beats-user';
-const DEFAULT_USER = 'listener';
 
 export const getCurrentUser = cache(async (): Promise<string> => {
   'use cache: private';
 
   const store = await cookies();
-  return store.get(SESSION_COOKIE)?.value ?? DEFAULT_USER;
+  const user = store.get(SESSION_COOKIE)?.value;
+  if (!user) redirect('/login');
+  return user;
 });
 
 export async function verifyAuth(): Promise<string> {
-  const user = await getCurrentUser();
-  if (!user) throw new Error('Unauthorized');
-  return user;
+  return getCurrentUser();
 }
