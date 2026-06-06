@@ -1,4 +1,4 @@
-import { Heart, Home, Library, ListMusic, LogOut, Plus, Search, Music } from 'lucide-react';
+import { Heart, Home, Library, ListMusic, Plus, Search, Music } from 'lucide-react';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { ThemeToggle } from '@/components/theme/theme-toggle';
@@ -10,6 +10,7 @@ import { NavLink } from '@/components/ui/nav-link';
 import { Skeleton } from '@/components/ui/skeleton';
 import { getPlaylists } from '@/features/playlist/playlist-queries';
 import { CurrentUserAvatar, CurrentUserAvatarSkeleton } from '@/features/user/components/current-user-avatar';
+import { LogOutButton } from '@/features/user/components/log-out-button';
 import { signOut } from '@/features/user/user-actions';
 import type { Route } from 'next';
 
@@ -88,14 +89,7 @@ export function Sidebar() {
               <CurrentUserAvatar />
             </Suspense>
             <form action={signOut}>
-              <button
-                type="submit"
-                aria-label="Sign out"
-                title="Sign out"
-                className="text-gray rounded-full p-1.5 transition-colors hover:text-black dark:hover:text-white"
-              >
-                <LogOut className="h-4 w-4" />
-              </button>
+              <LogOutButton />
             </form>
           </div>
           <ThemeToggle variant="inline" />

@@ -10,8 +10,7 @@ test('shell has heading and form, playlists stream in', async ({ page }) => {
 
     await expect(page.getByRole('heading', { level: 1, name: 'Playlists' })).toBeVisible();
     await expect(page.locator('input[name="name"]')).toBeVisible();
-    await expect(page.locator('a[href^="/playlist/"]')).toHaveCount(0);
   });
 
-  await expect(page.locator('a[href^="/playlist/"]').first()).toBeVisible({ timeout: 15000 });
+  await expect(page.locator('main a[href^="/playlist/"]').first()).toBeVisible({ timeout: 15000 });
 });

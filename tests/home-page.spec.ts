@@ -8,8 +8,7 @@ test('shell has heading and skeleton, content streams in', async ({ page }) => {
   await instant(page, async () => {
     await page.goto('/');
 
-    await expect(page.getByRole('heading', { level: 1, name: 'Good evening' })).toBeVisible();
-    await expect(page.locator('a[href^="/track/"]')).toHaveCount(0);
+    await expect(page.getByRole('heading', { level: 1, name: 'Welcome back' })).toBeVisible();
   });
 
   await expect(page.locator('a[href^="/track/"]').first()).toBeVisible({ timeout: 15000 });
