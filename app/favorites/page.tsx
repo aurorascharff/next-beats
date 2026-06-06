@@ -4,7 +4,7 @@ import ErrorBoundary from '@/components/ui/error-boundary';
 import { PageHeader } from '@/components/ui/page-layout';
 import { TopGenresGrid, TopGenresGridSkeleton } from '@/features/genre/components/genre-browse';
 import { FavoritesFeed } from '@/features/track/components/favorites-feed';
-import { MostPlayed, MostPlayedSkeleton } from '@/features/track/components/most-played';
+import { MostPlayed } from '@/features/track/components/most-played';
 import { TrackListSkeleton } from '@/features/track/components/track-row';
 import type { Metadata } from 'next';
 
