@@ -27,7 +27,7 @@ export type PlaylistSummary = {
 export const getPlaylists = cache(async (): Promise<PlaylistSummary[]> => {
   'use cache';
   cacheTag('playlists');
-  cacheLife('seconds');
+  cacheLife('hours');
 
   await delay(1000);
   const rows = await prisma.playlist.findMany({
@@ -46,7 +46,7 @@ export const getPlaylists = cache(async (): Promise<PlaylistSummary[]> => {
 export const getPlaylist = cache(async (id: string): Promise<PlaylistWithTracks> => {
   'use cache';
   cacheTag('playlists', `playlist-${id}`);
-  cacheLife('seconds');
+  cacheLife('hours');
 
   await delay(600);
   const row = await prisma.playlist.findUnique({
@@ -74,7 +74,7 @@ export type PlaylistMenuItem = { label: string; value: string; active: boolean }
 export const getPlaylistMenuItems = cache(async (trackId: string): Promise<PlaylistMenuItem[]> => {
   'use cache';
   cacheTag('playlists');
-  cacheLife('seconds');
+  cacheLife('minutes');
 
   const playlists = await prisma.playlist.findMany({
     include: { _count: { select: { tracks: true } } },

@@ -13,7 +13,7 @@ export type GenreSummary = {
 export const getGenres = cache(async (): Promise<GenreSummary[]> => {
   'use cache';
   cacheTag('genres');
-  cacheLife('minutes');
+  cacheLife('days');
 
   await delay(400);
   const rows = await prisma.track.groupBy({
@@ -30,7 +30,7 @@ export const getGenres = cache(async (): Promise<GenreSummary[]> => {
 export const getTopGenres = cache(async (limit: number = 5): Promise<GenreSummary[]> => {
   'use cache';
   cacheTag('genres');
-  cacheLife('minutes');
+  cacheLife('days');
 
   await delay(500);
   const rows = await prisma.track.groupBy({

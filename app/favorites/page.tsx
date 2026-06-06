@@ -1,5 +1,6 @@
 import { Suspense, ViewTransition } from 'react';
 import { Crossfade } from '@/components/ui/crossfade';
+import ErrorBoundary from '@/components/ui/error-boundary';
 import { PageHeader } from '@/components/ui/page-layout';
 import { TopGenresGrid } from '@/features/genre/components/genre-browse';
 import { FavoritesFeed } from '@/features/track/components/favorites-feed';
@@ -20,14 +21,16 @@ export default function FavoritesPage() {
         <Crossfade>
           <FavoritesFeed />
           <ViewTransition>
-            <section className="mt-10">
-              <h2 className="mb-4">You Might Also Like</h2>
-              <MostPlayed />
-            </section>
-            <section className="mt-10">
-              <h2 className="mb-4">Explore Genres</h2>
-              <TopGenresGrid />
-            </section>
+            <ErrorBoundary title="Couldn't load recommendations">
+              <section className="mt-10">
+                <h2 className="mb-4">You Might Also Like</h2>
+                <MostPlayed />
+              </section>
+              <section className="mt-10">
+                <h2 className="mb-4">Explore Genres</h2>
+                <TopGenresGrid />
+              </section>
+            </ErrorBoundary>
           </ViewTransition>
         </Crossfade>
       </Suspense>

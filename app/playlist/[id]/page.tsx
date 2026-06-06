@@ -1,5 +1,6 @@
 import { Suspense, ViewTransition } from 'react';
 import { Crossfade } from '@/components/ui/crossfade';
+import ErrorBoundary from '@/components/ui/error-boundary';
 import { PageWrapper } from '@/components/ui/page-layout';
 import { OtherPlaylists } from '@/features/playlist/components/playlist-browse';
 import { PlaylistDetail, PlaylistDetailSkeleton } from '@/features/playlist/components/playlist-detail';
@@ -25,7 +26,9 @@ export default function PlaylistDetailPage({ params }: PageProps<'/playlist/[id]
               <ViewTransition>
                 <section className="mt-10">
                   <h2 className="mb-4">Other Playlists</h2>
-                  <OtherPlaylists excludeId={id} />
+                  <ErrorBoundary title="Couldn't load other playlists">
+                    <OtherPlaylists excludeId={id} />
+                  </ErrorBoundary>
                 </section>
               </ViewTransition>
             </>

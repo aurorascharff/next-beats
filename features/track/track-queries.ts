@@ -14,7 +14,7 @@ type LibraryPage = { tracks: Track[]; hasMore: boolean };
 export const getLibrary = cache(async (page: number = 1): Promise<LibraryPage> => {
   'use cache';
   cacheTag('library');
-  cacheLife('seconds');
+  cacheLife('hours');
 
   await delay(1000);
   const rows = await prisma.track.findMany({
@@ -33,7 +33,7 @@ export const getLibrary = cache(async (page: number = 1): Promise<LibraryPage> =
 export const getFavorites = cache(async (): Promise<Track[]> => {
   'use cache: private';
   cacheTag('favorites');
-  cacheLife('seconds');
+  cacheLife('hours');
 
   await delay(500);
   const rows = await prisma.track.findMany({
@@ -60,7 +60,7 @@ export const getRecentlyPlayed = cache(async (limit: number = 8): Promise<Track[
 export const getMostPlayed = cache(async (limit: number = 8): Promise<Track[]> => {
   'use cache';
   cacheTag('tracks');
-  cacheLife('seconds');
+  cacheLife('minutes');
 
   await delay(500);
   const rows = await prisma.track.findMany({
@@ -74,7 +74,7 @@ export const getMostPlayed = cache(async (limit: number = 8): Promise<Track[]> =
 export const getTrack = cache(async (id: string) => {
   'use cache';
   cacheTag('tracks', `track-${id}`);
-  cacheLife('seconds');
+  cacheLife('hours');
 
   await delay(400);
   const row = await prisma.track.findUnique({ where: { id } });
@@ -85,7 +85,7 @@ export const getTrack = cache(async (id: string) => {
 export const getTracksByGenre = cache(async (genre: string): Promise<Track[]> => {
   'use cache';
   cacheTag('tracks', `genre-${genre}`);
-  cacheLife('seconds');
+  cacheLife('hours');
 
   await delay(900);
   const rows = await prisma.track.findMany({
@@ -98,7 +98,7 @@ export const getTracksByGenre = cache(async (genre: string): Promise<Track[]> =>
 export const searchTracks = cache(async (query: string): Promise<Track[]> => {
   'use cache';
   cacheTag('search');
-  cacheLife('seconds');
+  cacheLife('hours');
 
   await delay(800);
   const rows = await prisma.track.findMany({

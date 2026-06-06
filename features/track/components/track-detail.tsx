@@ -1,6 +1,7 @@
 import { Suspense, ViewTransition } from 'react';
 import { AlbumArt } from '@/components/ui/album-art';
 import { Crossfade } from '@/components/ui/crossfade';
+import ErrorBoundary from '@/components/ui/error-boundary';
 import { Skeleton } from '@/components/ui/skeleton';
 import { GenrePill } from '@/features/genre/components/genre-card';
 import { AddToPlaylistMenu } from '@/features/playlist/components/add-to-playlist-menu';
@@ -44,11 +45,13 @@ export async function TrackDetail({ id }: { id: string }) {
       </div>
       <section>
         <h2 className="mb-4">More {track.genre}</h2>
-        <Suspense fallback={<TrackListSkeleton count={3} />}>
-          <Crossfade>
-            <MoreFromGenre genre={track.genre} excludeId={track.id} />
-          </Crossfade>
-        </Suspense>
+        <ErrorBoundary title="Couldn't load similar tracks">
+          <Suspense fallback={<TrackListSkeleton count={3} />}>
+            <Crossfade>
+              <MoreFromGenre genre={track.genre} excludeId={track.id} />
+            </Crossfade>
+          </Suspense>
+        </ErrorBoundary>
       </section>
     </div>
   );
