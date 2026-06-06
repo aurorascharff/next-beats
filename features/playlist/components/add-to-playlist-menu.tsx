@@ -38,21 +38,23 @@ export function AddToPlaylistMenu({
         gutter={8}
         unmountOnHide
       >
-        <p className="text-muted mb-1 px-3 py-1 text-xs font-semibold">Add to Playlist</p>
-        <Suspense
-          fallback={
-            <div className="flex flex-col gap-0.5">
-              {Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="flex items-center gap-2 rounded-md px-3 py-2">
-                  <Skeleton className="h-4 w-4 shrink-0" />
-                  <Skeleton className={`h-4 ${i === 0 ? 'w-24' : i === 1 ? 'w-20' : 'w-28'}`} />
-                </div>
-              ))}
-            </div>
-          }
-        >
-          <PlaylistMenuItems trackId={trackId} itemsPromise={itemsPromise} />
-        </Suspense>
+        <Boundary label="AddToPlaylist">
+          <p className="text-muted mb-1 px-3 py-1 text-xs font-semibold">Add to Playlist</p>
+          <Suspense
+            fallback={
+              <div className="flex flex-col gap-0.5">
+                {Array.from({ length: 3 }).map((_, i) => (
+                  <div key={i} className="flex items-center gap-2 rounded-md px-3 py-2">
+                    <Skeleton className="h-4 w-4 shrink-0" />
+                    <Skeleton className={`h-4 ${i === 0 ? 'w-24' : i === 1 ? 'w-20' : 'w-28'}`} />
+                  </div>
+                ))}
+              </div>
+            }
+          >
+            <PlaylistMenuItems trackId={trackId} itemsPromise={itemsPromise} />
+          </Suspense>
+        </Boundary>
       </Ariakit.Menu>
     </>
   );
