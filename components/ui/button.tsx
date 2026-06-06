@@ -2,8 +2,8 @@
 
 import { type ButtonHTMLAttributes, type ReactNode } from 'react';
 import { useFormStatus } from 'react-dom';
-import { Spinner } from '@/components/ui/spinner';
 import { Boundary } from '@/components/internal/boundary';
+import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/lib/utils';
 
 type Variant = 'primary' | 'secondary' | 'ghost';

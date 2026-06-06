@@ -3,8 +3,8 @@
 import * as Ariakit from '@ariakit/react';
 import { ListPlus } from 'lucide-react';
 import { Suspense, use } from 'react';
-import { Skeleton } from '@/components/ui/skeleton';
 import { Boundary } from '@/components/internal/boundary';
+import { Skeleton } from '@/components/ui/skeleton';
 import { AddToPlaylistButtons } from '@/features/playlist/components/playlist-interactions';
 import type { PlaylistMenuItem } from '@/features/playlist/playlist-queries';
 

@@ -37,10 +37,10 @@ See the [caching docs](https://nextjs.org/docs/app/getting-started/caching) for 
 
 Scope (shared vs per-session) and lifetime are independent. The app uses all four corners:
 
-|             | `seconds`             | `minutes`                                 | `hours` / `days`                                              |
-| ----------- | --------------------- | ----------------------------------------- | ------------------------------------------------------------- |
-| **Shared**  |                       | `getMostPlayed`, `getPlaylistMenuItems`   | catalog queries (hours); `getGenres`, `getTopGenres` (days)   |
-| **Private** | `getRecentlyPlayed`   |                                           | `getFavorites` (hours)                                        |
+|             | `seconds`           | `minutes`                               | `hours` / `days`                                            |
+| ----------- | ------------------- | --------------------------------------- | ----------------------------------------------------------- |
+| **Shared**  |                     | `getMostPlayed`, `getPlaylistMenuItems` | catalog queries (hours); `getGenres`, `getTopGenres` (days) |
+| **Private** | `getRecentlyPlayed` |                                         | `getFavorites` (hours)                                      |
 
 Lifetimes are long on purpose. Mutations push-invalidate via `updateTag` from Server Functions or `revalidateTag(tag, 'soft')` from Route Handlers, so freshness comes from the tag rather than the clock. `cacheLife` is the safety net for entries that never get invalidated. Short profiles like `seconds` are reserved for things that should feel live regardless of mutations, like recently-played.
 
