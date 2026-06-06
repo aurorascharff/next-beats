@@ -71,6 +71,20 @@ export const getMostPlayed = cache(async (limit: number = 8): Promise<Track[]> =
   return rows.map(toTrack);
 });
 
+export const getDiscover = cache(async (limit: number = 8): Promise<Track[]> => {
+  'use cache: private';
+  cacheTag('discover');
+  cacheLife('hours');
+
+  await delay(1100);
+  const rows = await prisma.track.findMany({
+    orderBy: { createdAt: 'desc' },
+    take: limit,
+    where: { isFavorite: false, lastPlayedAt: null },
+  });
+  return rows.map(toTrack);
+});
+
 export const getTrack = cache(async (id: string) => {
   'use cache';
   cacheTag('tracks', `track-${id}`);

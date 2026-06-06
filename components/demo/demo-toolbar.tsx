@@ -2,7 +2,7 @@
 
 import { Eye, EyeOff, Server, ServerOff, Zap, ZapOff } from 'lucide-react';
 import { useOptimistic } from 'react';
-import { useBoundaryMode } from '@/components/internal/boundary-provider';
+import { useBoundaryMode } from '@/components/demo/boundary-provider';
 import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/lib/utils';
 import { toggleDraftMode, togglePrefetch } from './demo-actions';
@@ -54,7 +54,9 @@ export function DemoToolbar({ prefetchEnabled, cacheDisabled }: { prefetchEnable
 
       <form
         action={async () => {
-          setOptimisticCacheDisabled(!optimisticCacheDisabled);
+          const enabling = !optimisticCacheDisabled;
+          setOptimisticCacheDisabled(enabling);
+          if (enabling) setOptimisticPrefetch(false);
           await toggleDraftMode();
           window.location.reload();
         }}

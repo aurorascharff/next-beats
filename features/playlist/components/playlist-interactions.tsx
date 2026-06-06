@@ -5,7 +5,7 @@ import { Check, Plus, Trash2, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { startTransition, useOptimistic } from 'react';
 import { toast } from 'sonner';
-import { Boundary } from '@/components/internal/boundary';
+import { Boundary } from '@/components/demo/boundary';
 import { ConfirmDialog } from '@/components/ui/confirm-dialog';
 import { deletePlaylist, removeFromPlaylist, addToPlaylist } from '@/features/playlist/playlist-actions';
 import { cn } from '@/lib/utils';

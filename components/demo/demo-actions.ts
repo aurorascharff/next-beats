@@ -15,10 +15,13 @@ export async function togglePrefetch(enable: boolean) {
 
 export async function toggleDraftMode() {
   const draft = await draftMode();
+  const store = await cookies();
   if (draft.isEnabled) {
     draft.disable();
   } else {
     draft.enable();
+    // Cache off implies prefetch off: prefetching would repopulate the client navigation cache instantly.
+    store.set(COOKIE_NAME, '1', { path: '/', sameSite: 'lax' });
   }
 }
 

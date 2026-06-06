@@ -3,7 +3,7 @@
 import { Heart, Play } from 'lucide-react';
 import Link from 'next/link';
 import { useOptimistic, useTransition } from 'react';
-import { Boundary } from '@/components/internal/boundary';
+import { Boundary } from '@/components/demo/boundary';
 import { Equalizer } from '@/components/ui/equalizer';
 import { toggleFavorite } from '@/features/track/track-actions';
 import { cn } from '@/lib/utils';

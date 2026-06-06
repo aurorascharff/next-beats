@@ -2,7 +2,7 @@
 
 import { type ButtonHTMLAttributes, type ReactNode } from 'react';
 import { useFormStatus } from 'react-dom';
-import { Boundary } from '@/components/internal/boundary';
+import { Boundary } from '@/components/demo/boundary';
 import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/lib/utils';
 

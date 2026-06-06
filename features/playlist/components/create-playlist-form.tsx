@@ -1,7 +1,7 @@
 'use client';
 
 import { toast } from 'sonner';
-import { Boundary } from '@/components/internal/boundary';
+import { Boundary } from '@/components/demo/boundary';
 import { Button } from '@/components/ui/button';
 import { createPlaylist } from '@/features/playlist/playlist-actions';
 

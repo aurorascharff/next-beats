@@ -2,7 +2,7 @@
 
 import * as Ariakit from '@ariakit/react';
 import { startTransition, useState } from 'react';
-import { Boundary } from '@/components/internal/boundary';
+import { Boundary } from '@/components/demo/boundary';
 import { Spinner } from '@/components/ui/spinner';
 
 type Variant = 'danger' | 'primary';

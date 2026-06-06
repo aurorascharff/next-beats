@@ -3,7 +3,7 @@
 import { Monitor, Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useSyncExternalStore } from 'react';
-import { Boundary } from '@/components/internal/boundary';
+import { Boundary } from '@/components/demo/boundary';
 import { cn } from '@/lib/utils';
 
 type Props = { variant?: 'pill' | 'inline' };

@@ -1,7 +1,7 @@
 'use client';
 
 import Link, { useLinkStatus } from 'next/link';
-import { Boundary } from '@/components/internal/boundary';
+import { Boundary } from '@/components/demo/boundary';
 import { useClientPathname } from '@/hooks/use-client-pathname';
 import type { Route } from 'next';
 

@@ -22,5 +22,6 @@ export async function toggleFavorite(trackId: string) {
   updateTag(`track-${id}`);
   updateTag('favorites');
   updateTag('library');
+  updateTag('discover');
   return { ok: true as const };
 }

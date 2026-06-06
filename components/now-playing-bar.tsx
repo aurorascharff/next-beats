@@ -1,7 +1,7 @@
 'use client';
 
 import { Pause, Play, SkipBack, SkipForward, Volume1, Volume2, VolumeX } from 'lucide-react';
-import { Boundary } from '@/components/internal/boundary';
+import { Boundary } from '@/components/demo/boundary';
 import { AlbumArt } from '@/components/ui/album-art';
 import { formatDuration } from '@/lib/utils';
 import { usePlayer } from '@/providers/player-provider';

@@ -1,7 +1,7 @@
 'use client';
 
 import { Play } from 'lucide-react';
-import { Boundary } from '@/components/internal/boundary';
+import { Boundary } from '@/components/demo/boundary';
 import { Equalizer } from '@/components/ui/equalizer';
 import { usePlayer } from '@/providers/player-provider';
 import type { Track } from '@/types/track';

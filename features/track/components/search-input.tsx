@@ -3,7 +3,7 @@
 import { Search } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useId, useRef, useTransition } from 'react';
-import { Boundary } from '@/components/internal/boundary';
+import { Boundary } from '@/components/demo/boundary';
 import { SeedFromSearchParam } from '@/components/scripts/seed-from-search-param';
 import { Spinner } from '@/components/ui/spinner';
 import { useSyncInputToSearchParam } from '@/hooks/use-sync-input-to-search-param';
