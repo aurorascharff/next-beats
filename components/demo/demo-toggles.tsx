@@ -1,8 +1,8 @@
-import { isPrefetchEnabled } from './demo-actions';
+import { isCacheDisabled, isPrefetchEnabled } from './demo-actions';
 import { DemoToolbar } from './demo-toolbar';
 
 export async function DemoToggles() {
-  const enabled = await isPrefetchEnabled();
+  const [prefetchEnabled, cacheDisabled] = await Promise.all([isPrefetchEnabled(), isCacheDisabled()]);
 
-  return <DemoToolbar prefetchEnabled={enabled} />;
+  return <DemoToolbar prefetchEnabled={prefetchEnabled} cacheDisabled={cacheDisabled} />;
 }

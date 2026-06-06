@@ -1,11 +1,8 @@
 'use server';
 
-import { updateTag } from 'next/cache';
-import { cookies } from 'next/headers';
+import { cookies, draftMode } from 'next/headers';
 
 const COOKIE_NAME = 'no-prefetch';
-
-const BUST_TAGS = ['library', 'tracks', 'favorites', 'recently-played', 'playlists', 'genres', 'search'] as const;
 
 export async function togglePrefetch(enable: boolean) {
   const store = await cookies();
@@ -16,11 +13,21 @@ export async function togglePrefetch(enable: boolean) {
   }
 }
 
-export async function bustCache() {
-  for (const tag of BUST_TAGS) updateTag(tag);
+export async function toggleDraftMode() {
+  const draft = await draftMode();
+  if (draft.isEnabled) {
+    draft.disable();
+  } else {
+    draft.enable();
+  }
 }
 
 export async function isPrefetchEnabled() {
   const store = await cookies();
   return !store.has(COOKIE_NAME);
+}
+
+export async function isCacheDisabled() {
+  const draft = await draftMode();
+  return draft.isEnabled;
 }

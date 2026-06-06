@@ -1,25 +1,18 @@
 'use client';
 
-import { Eye, EyeOff, RefreshCw, Zap, ZapOff } from 'lucide-react';
-import { startTransition, useOptimistic } from 'react';
+import { Eye, EyeOff, Server, ServerOff, Zap, ZapOff } from 'lucide-react';
+import { useOptimistic } from 'react';
 import { useBoundaryMode } from '@/components/internal/boundary-provider';
 import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/lib/utils';
-import { bustCache, togglePrefetch } from './demo-actions';
+import { toggleDraftMode, togglePrefetch } from './demo-actions';
 
-export function DemoToolbar({ prefetchEnabled }: { prefetchEnabled: boolean }) {
+export function DemoToolbar({ prefetchEnabled, cacheDisabled }: { prefetchEnabled: boolean; cacheDisabled: boolean }) {
   const { mode, toggleMode } = useBoundaryMode();
   const [optimisticPrefetch, setOptimisticPrefetch] = useOptimistic(prefetchEnabled);
   const prefetchPending = optimisticPrefetch !== prefetchEnabled;
-  const [isBustPending, setIsBustPending] = useOptimistic(false);
-
-  function handleBustCache() {
-    startTransition(async () => {
-      setIsBustPending(true);
-      await bustCache();
-      window.location.reload();
-    });
-  }
+  const [optimisticCacheDisabled, setOptimisticCacheDisabled] = useOptimistic(cacheDisabled);
+  const cachePending = optimisticCacheDisabled !== cacheDisabled;
 
   return (
     <div
@@ -59,19 +52,33 @@ export function DemoToolbar({ prefetchEnabled }: { prefetchEnabled: boolean }) {
 
       <div className="bg-divider dark:bg-divider-dark h-5 w-px" />
 
-      <button
-        type="button"
-        onClick={handleBustCache}
-        disabled={isBustPending}
-        aria-label={isBustPending ? 'Busting cache…' : 'Bust cache'}
-        className={cn(
-          'text-gray flex items-center gap-1.5 px-3 py-1.5 transition-colors',
-          isBustPending && 'cursor-not-allowed opacity-70',
-        )}
+      <form
+        action={async () => {
+          setOptimisticCacheDisabled(!optimisticCacheDisabled);
+          await toggleDraftMode();
+          window.location.reload();
+        }}
       >
-        {isBustPending ? <Spinner className="size-3.5" /> : <RefreshCw className="size-3.5" />}
-        <span className="hidden sm:inline">Bust cache</span>
-      </button>
+        <button
+          type="submit"
+          disabled={cachePending}
+          aria-label={cachePending ? 'Updating…' : optimisticCacheDisabled ? 'Cache off' : 'Cache on'}
+          className={cn(
+            'flex items-center gap-1.5 px-3 py-1.5 transition-colors',
+            optimisticCacheDisabled ? 'text-gray' : 'text-accent',
+            cachePending && 'cursor-not-allowed opacity-70',
+          )}
+        >
+          {cachePending ? (
+            <Spinner className="size-3.5" />
+          ) : optimisticCacheDisabled ? (
+            <ServerOff className="size-3.5" />
+          ) : (
+            <Server className="size-3.5" />
+          )}
+          <span className="hidden sm:inline">Cache</span>
+        </button>
+      </form>
 
       <div className="bg-divider dark:bg-divider-dark h-5 w-px" />
 
