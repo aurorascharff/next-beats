@@ -5,7 +5,7 @@ import { useOptimistic } from 'react';
 import { useBoundaryMode } from '@/components/demo/boundary-provider';
 import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/lib/utils';
-import { toggleDraftMode, togglePrefetch } from './demo-actions';
+import { setCacheDisabled, togglePrefetch } from './demo-actions';
 
 export function DemoToolbar({ prefetchEnabled, cacheDisabled }: { prefetchEnabled: boolean; cacheDisabled: boolean }) {
   const { mode, toggleMode } = useBoundaryMode();
@@ -57,7 +57,7 @@ export function DemoToolbar({ prefetchEnabled, cacheDisabled }: { prefetchEnable
           const enabling = !optimisticCacheDisabled;
           setOptimisticCacheDisabled(enabling);
           if (enabling) setOptimisticPrefetch(false);
-          await toggleDraftMode();
+          await setCacheDisabled(enabling);
           window.location.reload();
         }}
       >
