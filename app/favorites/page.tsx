@@ -2,9 +2,9 @@ import { Suspense, ViewTransition } from 'react';
 import { Crossfade } from '@/components/ui/crossfade';
 import ErrorBoundary from '@/components/ui/error-boundary';
 import { PageHeader } from '@/components/ui/page-layout';
-import { TopGenresGrid } from '@/features/genre/components/genre-browse';
+import { TopGenresGrid, TopGenresGridSkeleton } from '@/features/genre/components/genre-browse';
 import { FavoritesFeed } from '@/features/track/components/favorites-feed';
-import { MostPlayed } from '@/features/track/components/most-played';
+import { MostPlayed, MostPlayedSkeleton } from '@/features/track/components/most-played';
 import { TrackListSkeleton } from '@/features/track/components/track-row';
 import type { Metadata } from 'next';
 
@@ -28,7 +28,11 @@ export default function FavoritesPage() {
               </section>
               <section className="mt-10">
                 <h2 className="mb-4">Explore Genres</h2>
-                <TopGenresGrid />
+                <Suspense fallback={<TopGenresGridSkeleton />}>
+                  <Crossfade>
+                    <TopGenresGrid />
+                  </Crossfade>
+                </Suspense>
               </section>
             </ErrorBoundary>
           </ViewTransition>

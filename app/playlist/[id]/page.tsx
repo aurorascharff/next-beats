@@ -2,7 +2,7 @@ import { Suspense, ViewTransition } from 'react';
 import { Crossfade } from '@/components/ui/crossfade';
 import ErrorBoundary from '@/components/ui/error-boundary';
 import { PageWrapper } from '@/components/ui/page-layout';
-import { OtherPlaylists } from '@/features/playlist/components/playlist-browse';
+import { OtherPlaylists, PlaylistBrowseSkeleton } from '@/features/playlist/components/playlist-browse';
 import { PlaylistDetail, PlaylistDetailSkeleton } from '@/features/playlist/components/playlist-detail';
 import { getPlaylist } from '@/features/playlist/playlist-queries';
 import type { Metadata } from 'next';
@@ -27,7 +27,11 @@ export default function PlaylistDetailPage({ params }: PageProps<'/playlist/[id]
                 <section className="mt-10">
                   <h2 className="mb-4">Other Playlists</h2>
                   <ErrorBoundary title="Couldn't load other playlists">
-                    <OtherPlaylists excludeId={id} />
+                    <Suspense fallback={<PlaylistBrowseSkeleton count={3} />}>
+                      <Crossfade>
+                        <OtherPlaylists excludeId={id} />
+                      </Crossfade>
+                    </Suspense>
                   </ErrorBoundary>
                 </section>
               </ViewTransition>

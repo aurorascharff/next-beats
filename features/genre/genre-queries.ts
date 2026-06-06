@@ -32,7 +32,7 @@ export const getTopGenres = cache(async (limit: number = 5): Promise<GenreSummar
   cacheTag('genres');
   cacheLife('days');
 
-  await delay(1200);
+  await delay(1500);
   const rows = await prisma.track.groupBy({
     by: ['genre'],
     _count: { genre: true },
