@@ -7,8 +7,6 @@ const SESSION_COOKIE = 'beats-user';
 const DEFAULT_USER = 'listener';
 
 export const getCurrentUser = cache(async (): Promise<string> => {
-  'use cache: private';
-
   const store = await cookies();
   return store.get(SESSION_COOKIE)?.value ?? DEFAULT_USER;
 });

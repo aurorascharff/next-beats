@@ -1,6 +1,5 @@
 import 'server-only';
 
-import { cacheLife, cacheTag } from 'next/cache';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { prisma } from '@/lib/db';
@@ -25,10 +24,6 @@ export type PlaylistSummary = {
 };
 
 export const getPlaylists = cache(async (): Promise<PlaylistSummary[]> => {
-  'use cache';
-  cacheTag('playlists');
-  cacheLife('hours');
-
   await delay(900);
   const rows = await prisma.playlist.findMany({
     include: { _count: { select: { tracks: true } } },
@@ -44,10 +39,6 @@ export const getPlaylists = cache(async (): Promise<PlaylistSummary[]> => {
 });
 
 export const getPlaylist = cache(async (id: string): Promise<PlaylistWithTracks> => {
-  'use cache';
-  cacheTag('playlists', `playlist-${id}`);
-  cacheLife('hours');
-
   await delay(500);
   const row = await prisma.playlist.findUnique({
     include: {
@@ -72,10 +63,6 @@ export const getPlaylist = cache(async (id: string): Promise<PlaylistWithTracks>
 export type PlaylistMenuItem = { label: string; value: string; active: boolean };
 
 export const getPlaylistMenuItems = cache(async (trackId: string): Promise<PlaylistMenuItem[]> => {
-  'use cache';
-  cacheTag('playlists');
-  cacheLife('minutes');
-
   const playlists = await prisma.playlist.findMany({
     include: { _count: { select: { tracks: true } } },
     orderBy: { createdAt: 'desc' },

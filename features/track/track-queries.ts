@@ -1,6 +1,5 @@
 import 'server-only';
 
-import { cacheLife, cacheTag } from 'next/cache';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { prisma } from '@/lib/db';
@@ -12,10 +11,6 @@ const LIBRARY_PAGE_SIZE = 20;
 type LibraryPage = { tracks: Track[]; hasMore: boolean };
 
 export const getLibrary = cache(async (page: number = 1): Promise<LibraryPage> => {
-  'use cache';
-  cacheTag('library');
-  cacheLife('hours');
-
   await delay(500);
   const rows = await prisma.track.findMany({
     orderBy: { createdAt: 'desc' },
@@ -31,10 +26,6 @@ export const getLibrary = cache(async (page: number = 1): Promise<LibraryPage> =
 });
 
 export const getFavorites = cache(async (): Promise<Track[]> => {
-  'use cache: private';
-  cacheTag('favorites');
-  cacheLife('hours');
-
   await delay(500);
   const rows = await prisma.track.findMany({
     orderBy: { createdAt: 'desc' },
@@ -44,10 +35,6 @@ export const getFavorites = cache(async (): Promise<Track[]> => {
 });
 
 export const getRecentlyPlayed = cache(async (limit: number = 8): Promise<Track[]> => {
-  'use cache: private';
-  cacheTag('recently-played');
-  cacheLife('seconds');
-
   await delay(300);
   const rows = await prisma.track.findMany({
     orderBy: { lastPlayedAt: 'desc' },
@@ -58,10 +45,6 @@ export const getRecentlyPlayed = cache(async (limit: number = 8): Promise<Track[
 });
 
 export const getMostPlayed = cache(async (limit: number = 8): Promise<Track[]> => {
-  'use cache';
-  cacheTag('tracks');
-  cacheLife('minutes');
-
   await delay(600);
   const rows = await prisma.track.findMany({
     orderBy: { playCount: 'desc' },
@@ -72,10 +55,6 @@ export const getMostPlayed = cache(async (limit: number = 8): Promise<Track[]> =
 });
 
 export const getDiscover = cache(async (limit: number = 8): Promise<Track[]> => {
-  'use cache: private';
-  cacheTag('discover');
-  cacheLife('hours');
-
   await delay(1100);
   const rows = await prisma.track.findMany({
     orderBy: { createdAt: 'desc' },
@@ -86,10 +65,6 @@ export const getDiscover = cache(async (limit: number = 8): Promise<Track[]> => 
 });
 
 export const getTrack = cache(async (id: string) => {
-  'use cache';
-  cacheTag('tracks', `track-${id}`);
-  cacheLife('hours');
-
   await delay(400);
   const row = await prisma.track.findUnique({ where: { id } });
   if (!row) notFound();
@@ -97,10 +72,6 @@ export const getTrack = cache(async (id: string) => {
 });
 
 export const getTracksByGenre = cache(async (genre: string): Promise<Track[]> => {
-  'use cache';
-  cacheTag('tracks', `genre-${genre}`);
-  cacheLife('hours');
-
   await delay(900);
   const rows = await prisma.track.findMany({
     orderBy: { playCount: 'desc' },
@@ -110,10 +81,6 @@ export const getTracksByGenre = cache(async (genre: string): Promise<Track[]> =>
 });
 
 export const searchTracks = cache(async (query: string): Promise<Track[]> => {
-  'use cache';
-  cacheTag('search');
-  cacheLife('hours');
-
   await delay(800);
   const rows = await prisma.track.findMany({
     orderBy: { playCount: 'desc' },

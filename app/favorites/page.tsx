@@ -12,8 +12,6 @@ export const metadata: Metadata = {
   title: 'Liked Tracks',
 };
 
-export const unstable_prefetch = 'force-runtime';
-
 export default function FavoritesPage() {
   return (
     <PageHeader title="Liked Tracks">
