@@ -1,15 +1,12 @@
-import { Suspense, ViewTransition } from 'react';
+import { ViewTransition } from 'react';
 import { AlbumArt } from '@/components/ui/album-art';
-import { Crossfade } from '@/components/ui/crossfade';
-import ErrorBoundary from '@/components/ui/error-boundary';
 import { Skeleton } from '@/components/ui/skeleton';
 import { GenrePill } from '@/features/genre/components/genre-card';
 import { AddToPlaylistMenu } from '@/features/playlist/components/add-to-playlist-menu';
 import { getPlaylistMenuItems } from '@/features/playlist/playlist-queries';
 import { PlayButton } from '@/features/track/components/play-button';
 import { FavoriteButton } from '@/features/track/components/track-interactions';
-import { TrackList, TrackListSkeleton } from '@/features/track/components/track-row';
-import { getTrack, getTracksByGenre } from '@/features/track/track-queries';
+import { getTrack } from '@/features/track/track-queries';
 import { formatDuration, formatCount } from '@/lib/utils';
 
 export async function TrackDetail({ id }: { id: string }) {
@@ -39,29 +36,12 @@ export async function TrackDetail({ id }: { id: string }) {
         </div>
       </div>
       <div className="mb-8 flex items-center gap-4">
-        <PlayButton track={track} className="!h-14 !w-14 [&_svg]:!h-6 [&_svg]:!w-6" />
+        <PlayButton track={track} className="!h-14 !w-14 [&_svg]:h-6! [&_svg]:w-6!" />
         <FavoriteButton trackId={track.id} isFavorite={track.isFavorite} size="lg" />
         <AddToPlaylistMenu trackId={track.id} itemsPromise={getPlaylistMenuItems(track.id)} size="lg" />
       </div>
-      <section>
-        <h2 className="mb-4">More {track.genre}</h2>
-        <ErrorBoundary title="Couldn't load similar tracks">
-          <Suspense fallback={<TrackListSkeleton count={3} />}>
-            <Crossfade>
-              <MoreFromGenre genre={track.genre} excludeId={track.id} />
-            </Crossfade>
-          </Suspense>
-        </ErrorBoundary>
-      </section>
     </div>
   );
-}
-
-async function MoreFromGenre({ genre, excludeId }: { genre: string; excludeId: string }) {
-  const tracks = await getTracksByGenre(genre);
-  const filtered = tracks.filter(t => t.id !== excludeId).slice(0, 5);
-  if (filtered.length === 0) return null;
-  return <TrackList tracks={filtered} />;
 }
 
 export function TrackDetailSkeleton() {
