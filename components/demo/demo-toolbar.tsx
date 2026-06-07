@@ -23,6 +23,7 @@ export function DemoToolbar({ prefetchEnabled, cacheDisabled }: { prefetchEnable
       )}
     >
       <form
+        hidden
         action={async () => {
           setOptimisticPrefetch(!optimisticPrefetch);
           await togglePrefetch(!optimisticPrefetch);
@@ -50,7 +51,7 @@ export function DemoToolbar({ prefetchEnabled, cacheDisabled }: { prefetchEnable
         </button>
       </form>
 
-      <div className="bg-divider dark:bg-divider-dark h-5 w-px" />
+      <div hidden className="bg-divider dark:bg-divider-dark h-5 w-px" />
 
       <form
         action={async () => {
