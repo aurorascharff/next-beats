@@ -45,4 +45,3 @@ export default function TrackPage({ params }: PageProps<'/track/[id]'>) {
     </PageWrapper>
   );
 }
-
