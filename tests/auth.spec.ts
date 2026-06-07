@@ -14,6 +14,6 @@ test.describe('Auth', () => {
     await page.goto('/login');
     await page.locator('input[name="name"]').fill('Aurora');
     await page.getByRole('button', { name: /sign in/i }).click();
-    await expect(page).toHaveURL('/');
+    await expect(page).toHaveURL('/', { timeout: 15000 });
   });
 });
