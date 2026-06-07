@@ -1,8 +1,10 @@
 import { Suspense } from 'react';
 import { Crossfade } from '@/components/ui/crossfade';
 import ErrorBoundary from '@/components/ui/error-boundary';
+import { PageWrapper } from '@/components/ui/page-layout';
 import { MoreFromGenre, MoreFromGenreSkeleton } from '@/features/track/components/more-from-genre';
-import { TrackDetail, TrackDetailSkeleton } from '@/features/track/components/track-detail';
+import { TrackControls, TrackControlsSkeleton } from '@/features/track/components/track-controls';
+import { TrackHeader, TrackHeaderSkeleton } from '@/features/track/components/track-header';
 import { getTrack } from '@/features/track/track-queries';
 import type { Metadata } from 'next';
 
@@ -16,11 +18,18 @@ export const unstable_prefetch = 'force-runtime';
 
 export default function TrackPage({ params }: PageProps<'/track/[id]'>) {
   return (
-    <>
-      <Suspense fallback={<TrackDetailSkeleton />}>
+    <PageWrapper>
+      <Suspense fallback={<TrackHeaderSkeleton />}>
         <Crossfade>
           {params.then(({ id }) => (
-            <TrackDetail id={id} />
+            <TrackHeader id={id} />
+          ))}
+        </Crossfade>
+      </Suspense>
+      <Suspense fallback={<TrackControlsSkeleton />}>
+        <Crossfade>
+          {params.then(({ id }) => (
+            <TrackControls id={id} />
           ))}
         </Crossfade>
       </Suspense>
@@ -33,6 +42,7 @@ export default function TrackPage({ params }: PageProps<'/track/[id]'>) {
           </Crossfade>
         </Suspense>
       </ErrorBoundary>
-    </>
+    </PageWrapper>
   );
 }
+
