@@ -1,54 +1,74 @@
 'use client';
 
 import Link, { useLinkStatus } from 'next/link';
+import { usePathname } from 'next/navigation';
+import { Suspense } from 'react';
 import { Boundary } from '@/components/demo/boundary';
-import { useClientPathname } from '@/hooks/use-client-pathname';
 import type { Route } from 'next';
 
-type ActiveProps = { isActive: boolean };
-type RenderProps = ActiveProps & { isPending: boolean };
+type RenderProps = { isActive: boolean; isPending: boolean };
+type Renderable<T> = T | ((props: RenderProps) => T);
 
-type Props<T extends string = string> = {
+type Props<T extends string = string> = Omit<React.ComponentProps<typeof Link>, 'href' | 'className' | 'children'> & {
   href: Route<T> | URL;
-  className: string | ((props: ActiveProps) => string);
-  children: React.ReactNode | ((props: RenderProps) => React.ReactNode);
+  className?: Renderable<string | undefined>;
+  children?: Renderable<React.ReactNode>;
   exact?: boolean;
-} & Omit<React.ComponentProps<typeof Link>, 'href' | 'className' | 'children'>;
+};
 
-function checkActive(pathname: string | null, href: string, exact: boolean): boolean {
-  if (pathname === null) return false;
+function checkActive(pathname: string, href: string, exact?: boolean): boolean {
   if (exact || href === '/') return pathname === href;
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-function resolve<T, P>(value: T | ((props: P) => T), props: P): T {
-  return typeof value === 'function' ? (value as (props: P) => T)(props) : value;
+function resolve<T>(value: Renderable<T> | undefined, props: RenderProps): T | undefined {
+  return typeof value === 'function' ? (value as (p: RenderProps) => T)(props) : value;
 }
 
-export function NavLink<T extends string>({ href, className, children, exact = false, ...rest }: Props<T>) {
-  const pathname = useClientPathname();
-  const isActive = checkActive(pathname, href.toString(), exact);
-
+// `<Link>` with active and pending state.
+// - `className` accepts a value or `({ isActive }) => value`.
+// - `children` accepts a value or `({ isActive, isPending }) => value`.
+// - Sets `aria-current="page"` when active.
+//
+// Outer `<Suspense>` makes `usePathname` safe under `cacheComponents` on
+// dynamic routes; the fallback renders the link inactive so layout is stable.
+export function NavLink<T extends string>(props: Props<T>) {
   return (
     <Boundary label="NavLink">
-      <Link
-        href={href as Route}
-        aria-current={isActive ? 'page' : undefined}
-        className={resolve(className, { isActive })}
-        data-navlink-href={href.toString()}
-        data-navlink-exact={exact || undefined}
-        data-navlink-active={resolve(className, { isActive: true })}
-        data-navlink-inactive={resolve(className, { isActive: false })}
-        suppressHydrationWarning
-        {...rest}
-      >
-        <NavLinkContent isActive={isActive}>{children}</NavLinkContent>
-      </Link>
+      <Suspense fallback={<NavLinkShell {...props} isActive={false} />}>
+        <NavLinkInner {...props} />
+      </Suspense>
     </Boundary>
   );
 }
 
-function NavLinkContent({ isActive, children }: { isActive: boolean; children: Props['children'] }) {
+function NavLinkInner<T extends string>(props: Props<T>) {
+  const pathname = usePathname();
+  const isActive = checkActive(pathname, props.href.toString(), props.exact);
+  return <NavLinkShell {...props} isActive={isActive} />;
+}
+
+function NavLinkShell<T extends string>({
+  href,
+  className,
+  children,
+  exact: _exact,
+  isActive,
+  ...rest
+}: Props<T> & { isActive: boolean }) {
+  return (
+    <Link
+      href={href as Route}
+      aria-current={isActive ? 'page' : undefined}
+      className={resolve(className, { isActive, isPending: false })}
+      {...rest}
+    >
+      <PendingIndicator isActive={isActive}>{children}</PendingIndicator>
+    </Link>
+  );
+}
+
+function PendingIndicator({ isActive, children }: { isActive: boolean; children?: Renderable<React.ReactNode> }) {
   const { pending } = useLinkStatus();
   return <>{resolve(children, { isActive, isPending: pending })}</>;
 }

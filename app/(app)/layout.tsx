@@ -1,6 +1,5 @@
 import { MobileTabBar } from '@/components/mobile-nav';
 import { NowPlayingBar } from '@/components/now-playing-bar';
-import { SeedNavLinksFromPathname } from '@/components/scripts/seed-nav-links-from-pathname';
 import { Sidebar } from '@/components/sidebar';
 import { PlayerProvider } from '@/providers/player-provider';
 
@@ -13,7 +12,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       </div>
       <NowPlayingBar />
       <MobileTabBar />
-      <SeedNavLinksFromPathname />
     </PlayerProvider>
   );
 }
