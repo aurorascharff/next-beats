@@ -21,7 +21,7 @@ const colors = [
 ];
 
 export async function createPlaylist(formData: FormData) {
-  await verifyAuth();
+  const userId = await verifyAuth();
   await delay(300);
   const parsed = createPlaylistSchema.safeParse({ name: formData.get('name') });
   if (!parsed.success) {
@@ -32,14 +32,15 @@ export async function createPlaylist(formData: FormData) {
     data: {
       coverColor: colors[Math.floor(Math.random() * colors.length)],
       name: parsed.data.name,
+      userId,
     },
   });
-  updateTag('playlists');
+  updateTag(`playlists:${userId}`);
   return { ok: true as const, playlist };
 }
 
 export async function addToPlaylist(playlistId: string, trackId: string) {
-  await verifyAuth();
+  const userId = await verifyAuth();
   await delay(200);
   if (SEED_PLAYLIST_IDS.has(playlistId)) return { error: "Can't modify a demo playlist", ok: false as const };
   const existing = await prisma.playlistTrack.findUnique({
@@ -60,29 +61,29 @@ export async function addToPlaylist(playlistId: string, trackId: string) {
     },
   });
   updateTag(`playlist-${playlistId}`);
-  updateTag('playlists');
+  updateTag(`playlists:${userId}`);
   return { ok: true as const };
 }
 
 export async function removeFromPlaylist(playlistId: string, trackId: string) {
-  await verifyAuth();
+  const userId = await verifyAuth();
   await delay(200);
   if (SEED_PLAYLIST_IDS.has(playlistId)) return { error: "Can't modify a demo playlist", ok: false as const };
   await prisma.playlistTrack.delete({
     where: { playlistId_trackId: { playlistId, trackId } },
   });
   updateTag(`playlist-${playlistId}`);
-  updateTag('playlists');
+  updateTag(`playlists:${userId}`);
   return { ok: true as const };
 }
 
 export async function deletePlaylist(playlistId: string) {
-  await verifyAuth();
+  const userId = await verifyAuth();
   const id = z.string().min(1).parse(playlistId);
   if (SEED_PLAYLIST_IDS.has(id)) return { error: "Can't delete a demo playlist", ok: false as const };
   await delay(300);
   await prisma.playlist.delete({ where: { id } });
-  updateTag('playlists');
+  updateTag(`playlists:${userId}`);
   updateTag(`playlist-${id}`);
   return { ok: true as const };
 }

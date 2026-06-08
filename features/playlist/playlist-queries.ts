@@ -3,6 +3,7 @@ import 'server-only';
 import { cacheLife, cacheTag } from 'next/cache';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
+import { getCurrentUser } from '@/features/user/user-queries';
 import { prisma } from '@/lib/db';
 import { delay } from '@/lib/utils';
 import { toTrack, type Track } from '@/types/track';
@@ -25,14 +26,20 @@ export type PlaylistSummary = {
 };
 
 export const getPlaylists = cache(async (): Promise<PlaylistSummary[]> => {
+  const userId = await getCurrentUser();
+  return getPlaylistsForUser(userId);
+});
+
+async function getPlaylistsForUser(userId: string): Promise<PlaylistSummary[]> {
   'use cache';
-  cacheTag('playlists');
+  cacheTag(`playlists:${userId}`);
   cacheLife('hours');
 
   await delay(1200);
   const rows = await prisma.playlist.findMany({
     include: { _count: { select: { tracks: true } } },
     orderBy: { createdAt: 'desc' },
+    where: { OR: [{ userId }, { userId: null }] },
   });
   return rows.map(r => ({
     coverColor: r.coverColor,
@@ -41,22 +48,27 @@ export const getPlaylists = cache(async (): Promise<PlaylistSummary[]> => {
     name: r.name,
     trackCount: r._count.tracks,
   }));
-});
+}
 
 export const getPlaylist = cache(async (id: string): Promise<PlaylistWithTracks> => {
+  const userId = await getCurrentUser();
+  return getPlaylistForUser(id, userId);
+});
+
+async function getPlaylistForUser(id: string, userId: string): Promise<PlaylistWithTracks> {
   'use cache';
-  cacheTag('playlists', `playlist-${id}`);
+  cacheTag(`playlist-${id}`);
   cacheLife('hours');
 
   await delay(500);
-  const row = await prisma.playlist.findUnique({
+  const row = await prisma.playlist.findFirst({
     include: {
       tracks: {
         include: { track: true },
         orderBy: { position: 'asc' },
       },
     },
-    where: { id },
+    where: { id, OR: [{ userId }, { userId: null }] },
   });
   if (!row) notFound();
   return {
@@ -67,18 +79,24 @@ export const getPlaylist = cache(async (id: string): Promise<PlaylistWithTracks>
     trackCount: row.tracks.length,
     tracks: row.tracks.map(pt => toTrack(pt.track)),
   };
-});
+}
 
 export type PlaylistMenuItem = { label: string; value: string; active: boolean };
 
 export const getPlaylistMenuItems = cache(async (trackId: string): Promise<PlaylistMenuItem[]> => {
+  const userId = await getCurrentUser();
+  return getPlaylistMenuItemsForUser(trackId, userId);
+});
+
+async function getPlaylistMenuItemsForUser(trackId: string, userId: string): Promise<PlaylistMenuItem[]> {
   'use cache';
-  cacheTag('playlists');
+  cacheTag(`playlists:${userId}`);
   cacheLife('minutes');
 
   const playlists = await prisma.playlist.findMany({
     include: { _count: { select: { tracks: true } } },
     orderBy: { createdAt: 'desc' },
+    where: { OR: [{ userId }, { userId: null }] },
   });
   if (playlists.length === 0) return [];
 
@@ -88,4 +106,4 @@ export const getPlaylistMenuItems = cache(async (trackId: string): Promise<Playl
   });
   const addedSet = new Set(existing.map(e => e.playlistId));
   return playlists.map(p => ({ label: p.name, value: p.id, active: addedSet.has(p.id) }));
-});
+}
