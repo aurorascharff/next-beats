@@ -21,7 +21,7 @@ export function NavLink<T extends string>(props: Props<T>) {
 }
 
 export function NavLinkSkeleton<T extends string>({ href, ...rest }: Props<T>) {
-  return <Link {...rest} href={href as Route} data-nav-link />;
+  return <Link prefetch {...rest} href={href as Route} data-nav-link />;
 }
 
 function ActiveLink<T extends string>({ href, ...rest }: Props<T>) {
@@ -30,6 +30,7 @@ function ActiveLink<T extends string>({ href, ...rest }: Props<T>) {
   const isActive = want.length === segments.length && want.every((s, i) => s === segments[i]);
   return (
     <Link
+      prefetch
       {...rest}
       href={href as Route}
       data-nav-link
