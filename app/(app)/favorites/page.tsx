@@ -2,7 +2,7 @@ import { Suspense, ViewTransition } from 'react';
 import { Crossfade } from '@/components/ui/crossfade';
 import ErrorBoundary from '@/components/ui/error-boundary';
 import { PageHeader } from '@/components/ui/page-layout';
-import { TopGenresGrid, TopGenresGridSkeleton } from '@/features/genre/components/genre-browse';
+import { TopGenresGrid } from '@/features/genre/components/genre-browse';
 import { Discover, DiscoverSkeleton } from '@/features/track/components/discover';
 import { FavoritesFeed } from '@/features/track/components/favorites-feed';
 import { TrackListSkeleton } from '@/features/track/components/track-row';
@@ -18,37 +18,29 @@ export default function FavoritesPage() {
       <Suspense fallback={<TrackListSkeleton count={5} showIndex />}>
         <Crossfade>
           <FavoritesFeed />
-          <ViewTransition>
-            <ErrorBoundary title="Couldn't load recommendations">
-              <Suspense
-                fallback={
-                  <>
-                    <section className="mt-10">
-                      <h2 className="mb-4">You Might Also Like</h2>
-                      <DiscoverSkeleton />
-                    </section>
-                    <section className="mt-10">
-                      <h2 className="mb-4">Explore Genres</h2>
-                      <TopGenresGridSkeleton />
-                    </section>
-                  </>
-                }
-              >
-                <Crossfade>
-                  <section className="mt-10">
-                    <h2 className="mb-4">You Might Also Like</h2>
-                    <Discover />
-                  </section>
-                  <section className="mt-10">
-                    <h2 className="mb-4">Explore Genres</h2>
-                    <TopGenresGrid />
-                  </section>
-                </Crossfade>
-              </Suspense>
-            </ErrorBoundary>
-          </ViewTransition>
         </Crossfade>
       </Suspense>
+      <ViewTransition>
+        <ErrorBoundary title="Couldn't load recommendations">
+          <h2 className="mt-10 mb-4">You Might Also Like</h2>
+          <Suspense
+            fallback={
+              <>
+                <DiscoverSkeleton />
+                <h2 className="mt-10 mb-4">Explore Genres</h2>
+              </>
+            }
+          >
+            <Crossfade>
+              <Discover />
+              <section className="mt-10">
+                <h2 className="mb-4">Explore Genres</h2>
+                <TopGenresGrid />
+              </section>
+            </Crossfade>
+          </Suspense>
+        </ErrorBoundary>
+      </ViewTransition>
     </PageHeader>
   );
 }
