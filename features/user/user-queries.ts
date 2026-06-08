@@ -8,13 +8,17 @@ import { prisma } from '@/lib/db';
 const SESSION_COOKIE = 'beats-user';
 
 export const getCurrentUser = cache(async (): Promise<string> => {
-  'use cache: private';
-
-  const store = await cookies();
-  const userId = store.get(SESSION_COOKIE)?.value;
+  const userId = await getUserIdFromSession();
   if (!userId) redirect('/login');
   return userId;
 });
+
+async function getUserIdFromSession(): Promise<string | null> {
+  'use cache: private';
+
+  const store = await cookies();
+  return store.get(SESSION_COOKIE)?.value ?? null;
+}
 
 export const getCurrentUserName = cache(async (): Promise<string> => {
   const userId = await getCurrentUser();

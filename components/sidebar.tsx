@@ -57,6 +57,10 @@ export function Sidebar() {
             <Music className="h-5 w-5" />
             <span className="hidden truncate lg:inline">Library</span>
           </NavLink>
+          <NavLink href="/genre" aria-label="Genres" className={sidebarLink}>
+            <ListMusic className="h-5 w-5" />
+            <span className="hidden truncate lg:inline">Genres</span>
+          </NavLink>
         </nav>
       </div>
 
@@ -72,10 +76,6 @@ export function Sidebar() {
           <NavLink href="/favorites" aria-label="Liked Tracks" className={sidebarLink}>
             <Heart className="h-4 w-4" />
             <span className="hidden truncate lg:inline">Liked Tracks</span>
-          </NavLink>
-          <NavLink href="/genre" aria-label="Genres" className={sidebarLink}>
-            <ListMusic className="h-4 w-4" />
-            <span className="hidden truncate lg:inline">Genres</span>
           </NavLink>
           <div className="border-divider dark:border-divider-dark my-1 hidden border-t lg:block" />
           <ErrorBoundary title="Playlists unavailable" compact>
