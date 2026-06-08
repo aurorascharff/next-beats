@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function LibraryPage() {
   return (
-    <PageHeader title="Your Library">
+    <PageHeader title="Library">
       <h2 className="mb-4">All Tracks</h2>
       <Suspense fallback={<LibraryGridSkeleton />}>
         <Crossfade>
