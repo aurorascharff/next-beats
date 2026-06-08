@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Skeleton } from '@/components/ui/skeleton';
-import type { GenreSummary } from '@/features/genre/genre-queries';
+import type { GenreSummary } from '@/types/genre';
 
 const genreColors: Record<string, string> = {
   electronic: 'from-pink-400/80 to-rose-500/80',

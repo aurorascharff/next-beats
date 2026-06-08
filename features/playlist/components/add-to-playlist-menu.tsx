@@ -6,7 +6,7 @@ import { Suspense, use } from 'react';
 import { Boundary } from '@/components/demo/boundary';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AddToPlaylistButtons } from '@/features/playlist/components/playlist-interactions';
-import type { PlaylistMenuItem } from '@/features/playlist/playlist-queries';
+import type { PlaylistMenuItem } from '@/types/playlist';
 
 export function AddToPlaylistMenu({
   trackId,

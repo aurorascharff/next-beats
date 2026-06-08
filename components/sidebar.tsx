@@ -103,7 +103,7 @@ async function SidebarPlaylists() {
   const playlists = await getPlaylists();
   if (playlists.length === 0) return null;
   return (
-    <>
+    <div className="flex flex-col gap-0.5">
       {playlists.map(pl => (
         <NavLink
           prefetch={true}
@@ -116,7 +116,7 @@ async function SidebarPlaylists() {
           <span className="hidden truncate lg:inline">{pl.name}</span>
         </NavLink>
       ))}
-    </>
+    </div>
   );
 }
 

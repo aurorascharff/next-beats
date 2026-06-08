@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ViewTransition } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
-import type { PlaylistSummary } from '@/features/playlist/playlist-queries';
+import type { PlaylistSummary } from '@/types/playlist';
 
 export function PlaylistCard({ playlist }: { playlist: PlaylistSummary }) {
   return (

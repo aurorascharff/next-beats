@@ -4,11 +4,7 @@ import { cacheLife, cacheTag } from 'next/cache';
 import { cache } from 'react';
 import { prisma } from '@/lib/db';
 import { delay } from '@/lib/utils';
-
-export type GenreSummary = {
-  genre: string;
-  count: number;
-};
+import type { GenreSummary } from '@/types/genre';
 
 export const getGenres = cache(async (): Promise<GenreSummary[]> => {
   'use cache';

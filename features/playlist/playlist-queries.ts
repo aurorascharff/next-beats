@@ -6,24 +6,8 @@ import { cache } from 'react';
 import { getCurrentUser } from '@/features/user/user-queries';
 import { prisma } from '@/lib/db';
 import { delay } from '@/lib/utils';
-import { toTrack, type Track } from '@/types/track';
-
-type PlaylistWithTracks = {
-  id: string;
-  name: string;
-  description: string;
-  coverColor: string;
-  trackCount: number;
-  tracks: Track[];
-};
-
-export type PlaylistSummary = {
-  id: string;
-  name: string;
-  description: string;
-  coverColor: string;
-  trackCount: number;
-};
+import type { PlaylistMenuItem, PlaylistSummary, PlaylistWithTracks } from '@/types/playlist';
+import { toTrack } from '@/types/track';
 
 export const getPlaylists = cache(async (): Promise<PlaylistSummary[]> => {
   const userId = await getCurrentUser();
@@ -80,8 +64,6 @@ async function getPlaylistForUser(id: string, userId: string): Promise<PlaylistW
     tracks: row.tracks.map(pt => toTrack(pt.track)),
   };
 }
-
-export type PlaylistMenuItem = { label: string; value: string; active: boolean };
 
 export const getPlaylistMenuItems = cache(async (trackId: string): Promise<PlaylistMenuItem[]> => {
   const userId = await getCurrentUser();
