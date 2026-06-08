@@ -24,23 +24,16 @@ A Next.js 16.3 music player demonstrating [Instant Navigations](https://next-sit
 
 ## What to observe
 
-Open with DevTools, Network tab visible:
+Open DevTools and watch the Network tab while you navigate:
 
-- Cached navigations resolve instantly from the prefetch; uncached pages stream after the shell
-- Mutations refetch only the invalidated tag; unrelated UI stays cached
+- Cached parts of a page come from the prefetch. Uncached parts stream in after.
+- Favoriting a track only refetches what depends on it. Everything else stays put.
 
-## Cache profiles
+## Caching
 
-See the [caching docs](https://nextjs.org/docs/app/getting-started/caching) for how [`'use cache'`](https://nextjs.org/docs/app/api-reference/directives/use-cache), [`'use cache: private'`](https://nextjs.org/docs/app/api-reference/directives/use-cache-private), [`cacheTag`](https://nextjs.org/docs/app/api-reference/functions/cacheTag), [`cacheLife`](https://nextjs.org/docs/app/api-reference/functions/cacheLife), and [`updateTag`](https://nextjs.org/docs/app/api-reference/functions/updateTag) fit together.
+The app mixes shared caches ([`'use cache'`](https://nextjs.org/docs/app/api-reference/directives/use-cache)) and per-session caches ([`'use cache: private'`](https://nextjs.org/docs/app/api-reference/directives/use-cache-private)), with [`cacheTag`](https://nextjs.org/docs/app/api-reference/functions/cacheTag) and [`cacheLife`](https://nextjs.org/docs/app/api-reference/functions/cacheLife) tuning each entry. Mutations push-invalidate the affected tag via [`updateTag`](https://nextjs.org/docs/app/api-reference/functions/updateTag) so freshness comes from intent, not the clock.
 
-Scope (shared vs per-session) and lifetime are independent. The app uses all four corners:
-
-|             | `seconds`           | `minutes`                               | `hours` / `days`                                            |
-| ----------- | ------------------- | --------------------------------------- | ----------------------------------------------------------- |
-| **Shared**  |                     | `getMostPlayed`, `getPlaylistMenuItems` | catalog queries (hours); `getGenres`, `getTopGenres` (days) |
-| **Private** | `getRecentlyPlayed` |                                         | `getFavorites` (hours)                                      |
-
-Lifetimes are long on purpose. Mutations push-invalidate via `updateTag` from Server Functions or `revalidateTag(tag, 'soft')` from Route Handlers, so freshness comes from the tag rather than the clock. `cacheLife` is the safety net for entries that never get invalidated. Short profiles like `seconds` are reserved for things that should feel live regardless of mutations, like recently-played.
+See the [caching docs](https://nextjs.org/docs/app/getting-started/caching) for the full picture.
 
 ## Getting started
 

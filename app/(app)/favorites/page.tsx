@@ -30,6 +30,8 @@ export default function FavoritesPage() {
             >
               <Crossfade>
                 <Discover />
+              </Crossfade>
+              <Crossfade>
                 <section className="mt-10">
                   <h2 className="mb-4">Explore Genres</h2>
                   <TopGenresGrid />
