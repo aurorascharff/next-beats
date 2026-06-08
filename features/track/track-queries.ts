@@ -44,7 +44,7 @@ export const getFavorites = cache(async (): Promise<Track[]> => {
 });
 
 export const getRecentlyPlayed = cache(async (limit: number = 8): Promise<Track[]> => {
-  await delay(2000);
+  await delay(500);
   const rows = await prisma.track.findMany({
     orderBy: { lastPlayedAt: 'desc' },
     take: limit,
