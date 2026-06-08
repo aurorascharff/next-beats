@@ -4,19 +4,13 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { TrackPlayRow, NowPlayingTrackLink, TrackIndexCell } from '@/features/track/components/track-interactions';
 import { getRecentlyPlayed } from '@/features/track/track-queries';
 
+const SLOTS = 6;
+
 export async function QuickPlayGrid() {
-  const tracks = await getRecentlyPlayed(6);
-  if (tracks.length === 0) {
-    return (
-      <div className="flex h-50 flex-col items-center justify-center gap-3 text-center">
-        <Music size={32} className="text-divider dark:text-divider-dark" />
-        <p className="text-sm font-medium text-black dark:text-white">Nothing played yet</p>
-        <p className="text-gray max-w-xs text-sm">Play a track and it&apos;ll show up here.</p>
-      </div>
-    );
-  }
+  const tracks = await getRecentlyPlayed(SLOTS);
+  const fillers = SLOTS - tracks.length;
   return (
-    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="relative grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
       {tracks.map(track => (
         <TrackPlayRow key={track.id} track={track}>
           <div className="bg-card/60 hover:bg-card dark:bg-card-dark/60 dark:hover:bg-card-dark group/quick flex items-center gap-3 rounded-md px-3 py-2 transition-colors">
@@ -31,6 +25,23 @@ export async function QuickPlayGrid() {
           </div>
         </TrackPlayRow>
       ))}
+      {Array.from({ length: fillers }).map((_, i) => (
+        <div key={`filler-${i}`} aria-hidden className="flex items-center gap-3 rounded-md px-3 py-2 opacity-0">
+          <span className="w-5" />
+          <span className="h-10 w-10 shrink-0 rounded-md" />
+          <div className="flex min-w-0 flex-1 flex-col gap-1">
+            <span className="h-4 w-24" />
+            <span className="h-3 w-16" />
+          </div>
+        </div>
+      ))}
+      {tracks.length === 0 && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-center">
+          <Music size={32} className="text-divider dark:text-divider-dark" />
+          <p className="text-sm font-medium text-black dark:text-white">Nothing played yet</p>
+          <p className="text-gray max-w-xs text-sm">Play a track and it&apos;ll show up here.</p>
+        </div>
+      )}
     </div>
   );
 }
@@ -38,7 +49,7 @@ export async function QuickPlayGrid() {
 export function QuickPlayGridSkeleton() {
   return (
     <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
-      {Array.from({ length: 6 }).map((_, i) => (
+      {Array.from({ length: SLOTS }).map((_, i) => (
         <div key={i} className="flex items-center gap-3 rounded-md px-3 py-2">
           <span className="w-5" />
           <Skeleton className="h-10 w-10 shrink-0 rounded-md" />
