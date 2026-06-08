@@ -18,21 +18,21 @@ export default function FavoritesPage() {
       <Suspense fallback={<TrackListSkeleton count={5} showIndex />}>
         <Crossfade>
           <FavoritesFeed />
-          <ErrorBoundary title="Couldn't load recommendations">
-            <h2 className="mt-10 mb-4">You Might Also Like</h2>
-            <Suspense fallback={<DiscoverSkeleton />}>
-              <Crossfade>
-                <Discover />
-              </Crossfade>
-              <Crossfade>
-                <section className="mt-10">
-                  <h2 className="mb-4">Explore Genres</h2>
-                  <TopGenresGrid />
-                </section>
-              </Crossfade>
-            </Suspense>
-          </ErrorBoundary>
         </Crossfade>
+        <ErrorBoundary title="Couldn't load recommendations">
+          <h2 className="mt-10 mb-4">You Might Also Like</h2>
+          <Suspense fallback={<DiscoverSkeleton />}>
+            <Crossfade>
+              <Discover />
+            </Crossfade>
+            <Crossfade>
+              <section className="mt-10">
+                <h2 className="mb-4">Explore Genres</h2>
+                <TopGenresGrid />
+              </section>
+            </Crossfade>
+          </Suspense>
+        </ErrorBoundary>
       </Suspense>
     </PageHeader>
   );

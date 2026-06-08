@@ -61,7 +61,7 @@ export function TrackLink({
 }) {
   return (
     <Link
-      prefetch
+      prefetch={true}
       href={href as Route}
       onClick={e => e.stopPropagation()}
       className={cn(

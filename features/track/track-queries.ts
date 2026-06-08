@@ -31,8 +31,6 @@ export const getLibrary = cache(async (page: number = 1): Promise<LibraryPage> =
   };
 });
 
-// --- Per-user queries: extract userId, pass to cached inner function ---
-
 export const getFavorites = cache(async (): Promise<Track[]> => {
   const userId = await getCurrentUser();
   return getFavoritesForUser(userId);
@@ -54,10 +52,6 @@ async function getFavoritesForUser(userId: string): Promise<Track[]> {
 
 export const getRecentlyPlayed = cache(async (limit: number = 8): Promise<Track[]> => {
   const userId = await getCurrentUser();
-  return getRecentlyPlayedForUser(userId, limit);
-});
-
-async function getRecentlyPlayedForUser(userId: string, limit: number): Promise<Track[]> {
   await delay(200);
   const rows = await prisma.userTrackPlay.findMany({
     where: { userId },
@@ -66,7 +60,7 @@ async function getRecentlyPlayedForUser(userId: string, limit: number): Promise<
     include: { track: true },
   });
   return rows.map(row => toTrack(row.track, { trackPlays: [row] }));
-}
+});
 
 export const getTrack = cache(async (id: string) => {
   const userId = await getCurrentUser();
@@ -88,8 +82,6 @@ async function getTrackForUser(id: string, userId: string) {
   if (!row) notFound();
   return toTrack(row, { favorites: row.favorites });
 }
-
-// --- Shared queries: no user dependency ---
 
 export const getMostPlayed = cache(async (limit: number = 8): Promise<Track[]> => {
   'use cache';
@@ -116,7 +108,6 @@ async function getDiscoverForUser(userId: string, limit: number): Promise<Track[
   cacheLife('hours');
 
   await delay(1100);
-  // Tracks the user hasn't played or favorited yet.
   const rows = await prisma.track.findMany({
     orderBy: { playCount: 'desc' },
     take: limit,
