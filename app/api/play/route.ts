@@ -28,11 +28,11 @@ export async function POST(req: Request) {
     update: { lastPlayedAt: new Date() },
   });
 
-  revalidateTag('tracks', 'soft');
-  revalidateTag(`track-${trackId}`, 'soft');
-  revalidateTag(`genre-${track.genre}`, 'soft');
-  revalidateTag(`discover:${userId}`, 'soft');
-  revalidateTag(`recently-played:${userId}`, 'soft');
+  revalidateTag('tracks', 'max');
+  revalidateTag(`track-${trackId}`, 'max');
+  revalidateTag(`genre-${track.genre}`, 'max');
+  revalidateTag(`discover:${userId}`, 'max');
+  revalidateTag(`recently-played:${userId}`, 'max');
 
   return new Response(null, { status: 204 });
 }

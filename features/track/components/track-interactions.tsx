@@ -162,7 +162,7 @@ export function FavoriteButton({
   isFavorite: boolean;
   size?: 'sm' | 'lg';
 }) {
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
   const [optimisticFavorite, setOptimisticFavorite] = useOptimistic(isFavorite);
 
   function handleToggle(e: React.MouseEvent) {
@@ -178,7 +178,6 @@ export function FavoriteButton({
       <button
         type="button"
         onClick={handleToggle}
-        disabled={isPending}
         aria-label={optimisticFavorite ? 'Remove from favorites' : 'Add to favorites'}
         className={cn(
           'rounded-full transition-colors',
