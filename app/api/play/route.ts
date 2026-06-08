@@ -1,4 +1,3 @@
-import { revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
 import { prisma } from '@/lib/db';
 
@@ -15,10 +14,9 @@ export async function POST(req: Request) {
   }
 
   // Global play count
-  const track = await prisma.track.update({
+  await prisma.track.update({
     where: { id: trackId },
     data: { playCount: { increment: 1 } },
-    select: { genre: true },
   });
 
   // Per-user recently played
@@ -27,12 +25,6 @@ export async function POST(req: Request) {
     create: { userId, trackId },
     update: { lastPlayedAt: new Date() },
   });
-
-  revalidateTag('tracks', 'max');
-  revalidateTag(`track-${trackId}`, 'max');
-  revalidateTag(`genre-${track.genre}`, 'max');
-  revalidateTag(`discover:${userId}`, 'max');
-  revalidateTag(`recently-played:${userId}`, 'max');
 
   return new Response(null, { status: 204 });
 }

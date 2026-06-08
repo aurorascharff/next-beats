@@ -1,6 +1,6 @@
 'use server';
 
-import { updateTag } from 'next/cache';
+import { refresh } from 'next/cache';
 import { z } from 'zod';
 import { SEED_PLAYLIST_IDS } from '@/features/playlist/playlist-constants';
 import { verifyAuth } from '@/features/user/user-queries';
@@ -35,12 +35,12 @@ export async function createPlaylist(formData: FormData) {
       userId,
     },
   });
-  updateTag(`playlists:${userId}`);
+  refresh();
   return { ok: true as const, playlist };
 }
 
 export async function addToPlaylist(playlistId: string, trackId: string) {
-  const userId = await verifyAuth();
+  await verifyAuth();
   await delay(200);
   if (SEED_PLAYLIST_IDS.has(playlistId)) return { error: "Can't modify a demo playlist", ok: false as const };
   const existing = await prisma.playlistTrack.findUnique({
@@ -60,30 +60,27 @@ export async function addToPlaylist(playlistId: string, trackId: string) {
       trackId,
     },
   });
-  updateTag(`playlist-${playlistId}`);
-  updateTag(`playlists:${userId}`);
+  refresh();
   return { ok: true as const };
 }
 
 export async function removeFromPlaylist(playlistId: string, trackId: string) {
-  const userId = await verifyAuth();
+  await verifyAuth();
   await delay(200);
   if (SEED_PLAYLIST_IDS.has(playlistId)) return { error: "Can't modify a demo playlist", ok: false as const };
   await prisma.playlistTrack.delete({
     where: { playlistId_trackId: { playlistId, trackId } },
   });
-  updateTag(`playlist-${playlistId}`);
-  updateTag(`playlists:${userId}`);
+  refresh();
   return { ok: true as const };
 }
 
 export async function deletePlaylist(playlistId: string) {
-  const userId = await verifyAuth();
+  await verifyAuth();
   const id = z.string().min(1).parse(playlistId);
   if (SEED_PLAYLIST_IDS.has(id)) return { error: "Can't delete a demo playlist", ok: false as const };
   await delay(300);
   await prisma.playlist.delete({ where: { id } });
-  updateTag(`playlists:${userId}`);
-  updateTag(`playlist-${id}`);
+  refresh();
   return { ok: true as const };
 }

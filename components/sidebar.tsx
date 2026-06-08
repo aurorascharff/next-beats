@@ -27,7 +27,6 @@ export function Sidebar() {
       <div className="bg-card dark:bg-card-dark rounded-lg p-3 lg:p-4">
         <div className="mb-4 hidden items-center justify-between lg:flex">
           <Link
-            prefetch={true}
             href="/"
             className="text-accent inline-flex items-center gap-2 px-1 text-xl font-bold tracking-tight"
             aria-label="NextBeats home"
@@ -46,15 +45,15 @@ export function Sidebar() {
           </a>
         </div>
         <nav className="flex flex-col gap-1 text-sm font-medium">
-          <NavLink prefetch={true} href="/" aria-label="Home" className={sidebarLink}>
+          <NavLink href="/" aria-label="Home" className={sidebarLink}>
             <Home className="h-5 w-5" />
             <span className="hidden truncate lg:inline">Home</span>
           </NavLink>
-          <NavLink prefetch={true} href="/search" aria-label="Search" className={sidebarLink}>
+          <NavLink href="/search" aria-label="Search" className={sidebarLink}>
             <Search className="h-5 w-5" />
             <span className="hidden truncate lg:inline">Search</span>
           </NavLink>
-          <NavLink prefetch={true} href="/library" aria-label="Library" className={sidebarLink}>
+          <NavLink href="/library" aria-label="Library" className={sidebarLink}>
             <Music className="h-5 w-5" />
             <span className="hidden truncate lg:inline">Library</span>
           </NavLink>
@@ -70,7 +69,7 @@ export function Sidebar() {
           </IconButtonLink>
         </div>
         <nav className="flex min-h-0 flex-1 flex-col gap-0.5 overflow-y-auto px-2 pb-2">
-          <NavLink prefetch={true} href="/favorites" aria-label="Liked Tracks" className={sidebarLink}>
+          <NavLink href="/favorites" aria-label="Liked Tracks" className={sidebarLink}>
             <Heart className="h-4 w-4" />
             <span className="hidden truncate lg:inline">Liked Tracks</span>
           </NavLink>
@@ -105,13 +104,7 @@ async function SidebarPlaylists() {
   return (
     <div className="flex flex-col gap-0.5">
       {playlists.map(pl => (
-        <NavLink
-          prefetch={true}
-          key={pl.id}
-          href={`/playlist/${pl.id}` as Route}
-          aria-label={pl.name}
-          className={sidebarLink}
-        >
+        <NavLink key={pl.id} href={`/playlist/${pl.id}` as Route} aria-label={pl.name} className={sidebarLink}>
           <span className={`inline-block h-3 w-3 shrink-0 rounded-sm bg-gradient-to-br ${pl.coverColor}`} />
           <span className="hidden truncate lg:inline">{pl.name}</span>
         </NavLink>
