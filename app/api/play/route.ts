@@ -32,6 +32,7 @@ export async function POST(req: Request) {
   revalidateTag(`track-${trackId}`, 'max');
   revalidateTag(`genre-${track.genre}`, 'max');
   revalidateTag(`discover:${userId}`, 'max');
+  revalidateTag(`recently-played:${userId}`, 'max');
 
   return new Response(null, { status: 204 });
 }
