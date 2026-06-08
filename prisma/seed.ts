@@ -16,15 +16,11 @@ type SeedTrack = {
   genre: string;
   coverColor: string;
   playCount: number;
-  isFavorite: boolean;
-  lastPlayedAt?: Date;
   createdAt: Date;
 };
 
 const now = Date.now();
-const minute = 60_000;
-const hour = 60 * minute;
-const day = 24 * hour;
+const day = 86_400_000;
 
 const TRACKS: SeedTrack[] = [
   // Electronic
@@ -37,7 +33,6 @@ const TRACKS: SeedTrack[] = [
     genre: 'electronic',
     coverColor: 'from-blue-500 to-indigo-600',
     playCount: 1842,
-    isFavorite: true,
     createdAt: new Date(now - 2 * day),
   },
   {
@@ -49,7 +44,6 @@ const TRACKS: SeedTrack[] = [
     genre: 'electronic',
     coverColor: 'from-sky-400 to-blue-500',
     playCount: 923,
-    isFavorite: false,
     createdAt: new Date(now - 2 * day),
   },
   {
@@ -61,7 +55,6 @@ const TRACKS: SeedTrack[] = [
     genre: 'electronic',
     coverColor: 'from-blue-400 to-cyan-500',
     playCount: 2105,
-    isFavorite: false,
     createdAt: new Date(now - 5 * day),
   },
   {
@@ -73,7 +66,6 @@ const TRACKS: SeedTrack[] = [
     genre: 'electronic',
     coverColor: 'from-indigo-400 to-blue-500',
     playCount: 1567,
-    isFavorite: false,
     createdAt: new Date(now - 5 * day),
   },
   {
@@ -85,8 +77,6 @@ const TRACKS: SeedTrack[] = [
     genre: 'electronic',
     coverColor: 'from-sky-500 to-indigo-600',
     playCount: 3201,
-    isFavorite: true,
-    lastPlayedAt: new Date(now - 25 * minute),
     createdAt: new Date(now - 1 * day),
   },
   // Indie
@@ -99,7 +89,6 @@ const TRACKS: SeedTrack[] = [
     genre: 'indie',
     coverColor: 'from-blue-300 to-sky-500',
     playCount: 876,
-    isFavorite: true,
     createdAt: new Date(now - 3 * day),
   },
   {
@@ -111,7 +100,6 @@ const TRACKS: SeedTrack[] = [
     genre: 'indie',
     coverColor: 'from-cyan-400 to-sky-500',
     playCount: 654,
-    isFavorite: false,
     createdAt: new Date(now - 3 * day),
   },
   {
@@ -123,7 +111,6 @@ const TRACKS: SeedTrack[] = [
     genre: 'indie',
     coverColor: 'from-indigo-500 to-blue-600',
     playCount: 1432,
-    isFavorite: false,
     createdAt: new Date(now - 7 * day),
   },
   {
@@ -135,7 +122,6 @@ const TRACKS: SeedTrack[] = [
     genre: 'indie',
     coverColor: 'from-sky-300 to-blue-400',
     playCount: 987,
-    isFavorite: false,
     createdAt: new Date(now - 7 * day),
   },
   {
@@ -147,7 +133,6 @@ const TRACKS: SeedTrack[] = [
     genre: 'indie',
     coverColor: 'from-blue-600 to-indigo-700',
     playCount: 1123,
-    isFavorite: false,
     createdAt: new Date(now - 10 * day),
   },
   // Hip-Hop
@@ -160,8 +145,6 @@ const TRACKS: SeedTrack[] = [
     genre: 'hip-hop',
     coverColor: 'from-slate-500 to-blue-700',
     playCount: 4521,
-    isFavorite: true,
-    lastPlayedAt: new Date(now - 5 * minute),
     createdAt: new Date(now - 1 * day),
   },
   {
@@ -173,8 +156,6 @@ const TRACKS: SeedTrack[] = [
     genre: 'hip-hop',
     coverColor: 'from-indigo-600 to-blue-800',
     playCount: 3876,
-    isFavorite: false,
-    lastPlayedAt: new Date(now - 45 * minute),
     createdAt: new Date(now - 1 * day),
   },
   {
@@ -186,7 +167,6 @@ const TRACKS: SeedTrack[] = [
     genre: 'hip-hop',
     coverColor: 'from-blue-500 to-sky-600',
     playCount: 2987,
-    isFavorite: false,
     createdAt: new Date(now - 4 * day),
   },
   {
@@ -198,7 +178,6 @@ const TRACKS: SeedTrack[] = [
     genre: 'hip-hop',
     coverColor: 'from-cyan-500 to-blue-600',
     playCount: 2145,
-    isFavorite: false,
     createdAt: new Date(now - 4 * day),
   },
   {
@@ -210,7 +189,6 @@ const TRACKS: SeedTrack[] = [
     genre: 'hip-hop',
     coverColor: 'from-sky-500 to-blue-600',
     playCount: 1654,
-    isFavorite: false,
     createdAt: new Date(now - 6 * day),
   },
   // Pop
@@ -223,8 +201,6 @@ const TRACKS: SeedTrack[] = [
     genre: 'pop',
     coverColor: 'from-blue-400 to-indigo-500',
     playCount: 5432,
-    isFavorite: true,
-    lastPlayedAt: new Date(now - 2 * minute),
     createdAt: new Date(now - 0.5 * day),
   },
   {
@@ -236,8 +212,6 @@ const TRACKS: SeedTrack[] = [
     genre: 'pop',
     coverColor: 'from-indigo-400 to-sky-500',
     playCount: 4321,
-    isFavorite: true,
-    lastPlayedAt: new Date(now - 12 * minute),
     createdAt: new Date(now - 0.5 * day),
   },
   {
@@ -249,8 +223,6 @@ const TRACKS: SeedTrack[] = [
     genre: 'pop',
     coverColor: 'from-sky-400 to-cyan-500',
     playCount: 3654,
-    isFavorite: false,
-    lastPlayedAt: new Date(now - 1 * hour),
     createdAt: new Date(now - 2 * day),
   },
   {
@@ -262,7 +234,6 @@ const TRACKS: SeedTrack[] = [
     genre: 'pop',
     coverColor: 'from-blue-300 to-indigo-400',
     playCount: 2876,
-    isFavorite: false,
     createdAt: new Date(now - 2 * day),
   },
   {
@@ -274,7 +245,6 @@ const TRACKS: SeedTrack[] = [
     genre: 'pop',
     coverColor: 'from-indigo-500 to-blue-700',
     playCount: 1987,
-    isFavorite: false,
     createdAt: new Date(now - 8 * day),
   },
   // Lo-fi
@@ -287,7 +257,6 @@ const TRACKS: SeedTrack[] = [
     genre: 'lo-fi',
     coverColor: 'from-blue-500 to-slate-600',
     playCount: 2543,
-    isFavorite: false,
     createdAt: new Date(now - 3 * day),
   },
   {
@@ -299,7 +268,6 @@ const TRACKS: SeedTrack[] = [
     genre: 'lo-fi',
     coverColor: 'from-sky-600 to-blue-700',
     playCount: 1876,
-    isFavorite: true,
     createdAt: new Date(now - 3 * day),
   },
   {
@@ -311,7 +279,6 @@ const TRACKS: SeedTrack[] = [
     genre: 'lo-fi',
     coverColor: 'from-cyan-400 to-blue-500',
     playCount: 1234,
-    isFavorite: false,
     createdAt: new Date(now - 12 * day),
   },
   {
@@ -323,7 +290,6 @@ const TRACKS: SeedTrack[] = [
     genre: 'lo-fi',
     coverColor: 'from-blue-400 to-sky-500',
     playCount: 1567,
-    isFavorite: false,
     createdAt: new Date(now - 12 * day),
   },
   {
@@ -335,7 +301,6 @@ const TRACKS: SeedTrack[] = [
     genre: 'lo-fi',
     coverColor: 'from-indigo-300 to-blue-400',
     playCount: 987,
-    isFavorite: false,
     createdAt: new Date(now - 15 * day),
   },
   // Synthwave
@@ -348,7 +313,6 @@ const TRACKS: SeedTrack[] = [
     genre: 'synthwave',
     coverColor: 'from-blue-600 to-indigo-800',
     playCount: 876,
-    isFavorite: true,
     createdAt: new Date(now - 6 * day),
   },
   {
@@ -360,7 +324,6 @@ const TRACKS: SeedTrack[] = [
     genre: 'synthwave',
     coverColor: 'from-sky-500 to-indigo-600',
     playCount: 654,
-    isFavorite: false,
     createdAt: new Date(now - 6 * day),
   },
   {
@@ -372,7 +335,6 @@ const TRACKS: SeedTrack[] = [
     genre: 'synthwave',
     coverColor: 'from-blue-500 to-cyan-600',
     playCount: 543,
-    isFavorite: false,
     createdAt: new Date(now - 9 * day),
   },
   {
@@ -384,7 +346,6 @@ const TRACKS: SeedTrack[] = [
     genre: 'synthwave',
     coverColor: 'from-indigo-400 to-blue-600',
     playCount: 432,
-    isFavorite: true,
     createdAt: new Date(now - 9 * day),
   },
   {
@@ -396,7 +357,6 @@ const TRACKS: SeedTrack[] = [
     genre: 'synthwave',
     coverColor: 'from-cyan-500 to-indigo-600',
     playCount: 765,
-    isFavorite: false,
     createdAt: new Date(now - 14 * day),
   },
 ];
@@ -436,9 +396,12 @@ const PLAYLISTS: SeedPlaylist[] = [
 async function main() {
   console.log('Seeding music player database...');
 
+  await prisma.userTrackPlay.deleteMany();
+  await prisma.userFavorite.deleteMany();
   await prisma.playlistTrack.deleteMany();
   await prisma.playlist.deleteMany();
   await prisma.track.deleteMany();
+  await prisma.user.deleteMany();
 
   for (const t of TRACKS) {
     await prisma.track.create({ data: t });

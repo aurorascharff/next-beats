@@ -2,13 +2,17 @@
 
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { prisma } from '@/lib/db';
 
 const SESSION_COOKIE = 'beats-user';
 
 export async function signIn(formData: FormData) {
   const name = String(formData.get('name') ?? '').trim() || 'listener';
+  const user = await prisma.user.create({
+    data: { name },
+  });
   const store = await cookies();
-  store.set(SESSION_COOKIE, name, { path: '/', sameSite: 'lax' });
+  store.set(SESSION_COOKIE, user.id, { path: '/', sameSite: 'lax' });
   redirect('/');
 }
 

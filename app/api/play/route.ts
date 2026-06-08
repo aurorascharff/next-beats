@@ -6,31 +6,33 @@ const SESSION_COOKIE = 'beats-user';
 
 export async function POST(req: Request) {
   const store = await cookies();
-  if (!store.has(SESSION_COOKIE)) return new Response(null, { status: 401 });
+  const userId = store.get(SESSION_COOKIE)?.value;
+  if (!userId) return new Response(null, { status: 401 });
 
   const { trackId } = await req.json();
   if (typeof trackId !== 'string') {
     return new Response(null, { status: 400 });
   }
 
+  // Global play count
   const track = await prisma.track.update({
     where: { id: trackId },
-    data: {
-      playCount: { increment: 1 },
-      lastPlayedAt: new Date(),
-    },
-    select: {
-      genre: true,
-      isFavorite: true,
-    },
+    data: { playCount: { increment: 1 } },
+    select: { genre: true },
   });
 
-  revalidateTag('library', 'soft');
+  // Per-user recently played
+  await prisma.userTrackPlay.upsert({
+    where: { userId_trackId: { userId, trackId } },
+    create: { userId, trackId },
+    update: { lastPlayedAt: new Date() },
+  });
+
   revalidateTag('tracks', 'soft');
   revalidateTag(`track-${trackId}`, 'soft');
   revalidateTag(`genre-${track.genre}`, 'soft');
   revalidateTag('discover', 'soft');
-  if (track.isFavorite) revalidateTag('favorites', 'soft');
+  revalidateTag('recently-played', 'soft');
 
   return new Response(null, { status: 204 });
 }
