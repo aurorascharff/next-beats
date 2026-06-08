@@ -26,7 +26,7 @@ export async function TrackHeader({ id }: { id: string }) {
           {track.artist} · {track.album} · {formatDuration(track.duration)} · {formatCount(track.playCount)} plays
         </p>
         <div className="mt-1">
-          <GenrePill genre={track.genre} />
+          <GenrePill prefetch={true} genre={track.genre} />
         </div>
       </div>
     </div>

@@ -8,7 +8,7 @@ export async function MostPlayed() {
     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
       {tracks.map(track => (
         <ViewTransition key={track.id}>
-          <AlbumCard track={track} />
+          <AlbumCard prefetch={true} track={track} />
         </ViewTransition>
       ))}
     </div>

@@ -3,10 +3,11 @@ import { ViewTransition } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import type { PlaylistSummary } from '@/types/playlist';
 
-export function PlaylistCard({ playlist }: { playlist: PlaylistSummary }) {
+export function PlaylistCard({ playlist, prefetch }: { playlist: PlaylistSummary; prefetch?: boolean }) {
   return (
     <Link
       href={`/playlist/${playlist.id}`}
+      prefetch={prefetch}
       className="group bg-card/50 hover:bg-card dark:bg-card-dark/50 dark:hover:bg-card-dark flex flex-col gap-3 rounded-lg p-3 transition-colors"
     >
       <ViewTransition name={`playlist-art-${playlist.id}`} default="none">
@@ -38,11 +39,11 @@ export function PlaylistCard({ playlist }: { playlist: PlaylistSummary }) {
   );
 }
 
-export function PlaylistList({ playlists }: { playlists: PlaylistSummary[] }) {
+export function PlaylistList({ playlists, prefetch }: { playlists: PlaylistSummary[]; prefetch?: boolean }) {
   return (
     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
       {playlists.map(pl => (
-        <PlaylistCard key={pl.id} playlist={pl} />
+        <PlaylistCard key={pl.id} playlist={pl} prefetch={prefetch} />
       ))}
     </div>
   );

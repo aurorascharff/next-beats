@@ -5,10 +5,11 @@ import { PlayButton } from '@/features/track/components/play-button';
 import { NowPlayingTrackTitle } from '@/features/track/components/track-interactions';
 import type { Track } from '@/types/track';
 
-export function AlbumCard({ track }: { track: Track }) {
+export function AlbumCard({ track, prefetch }: { track: Track; prefetch?: boolean }) {
   return (
     <Link
       href={`/track/${track.id}`}
+      prefetch={prefetch}
       className="group bg-card/50 hover:bg-card dark:bg-card-dark/50 dark:hover:bg-card-dark flex flex-col gap-3 rounded-lg p-3 transition-colors"
     >
       <div className="relative">

@@ -17,7 +17,7 @@ export async function QuickPlayGrid() {
             <TrackIndexCell trackId={track.id} />
             <AlbumArt coverColor={track.coverColor} size="sm" className="!h-10 !w-10 !rounded-md" />
             <div className="flex min-w-0 flex-1 flex-col">
-              <NowPlayingTrackLink trackId={track.id} href={`/track/${track.id}`}>
+              <NowPlayingTrackLink prefetch={true} trackId={track.id} href={`/track/${track.id}`}>
                 {track.title}
               </NowPlayingTrackLink>
               <span className="text-muted truncate text-xs">{track.artist}</span>

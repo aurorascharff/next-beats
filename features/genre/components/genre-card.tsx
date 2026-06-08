@@ -11,10 +11,11 @@ const genreColors: Record<string, string> = {
   synthwave: 'from-rose-500/80 to-pink-700/80',
 };
 
-export function GenrePill({ genre }: { genre: string }) {
+export function GenrePill({ genre, prefetch }: { genre: string; prefetch?: boolean }) {
   return (
     <Link
       href={`/genre/${genre}`}
+      prefetch={prefetch}
       className="bg-accent/10 text-accent hover:bg-accent/20 rounded-full px-3 py-1 text-xs font-medium capitalize transition-colors"
     >
       {genre}
@@ -22,11 +23,12 @@ export function GenrePill({ genre }: { genre: string }) {
   );
 }
 
-export function GenreCard({ genre }: { genre: GenreSummary }) {
+export function GenreCard({ genre, prefetch }: { genre: GenreSummary; prefetch?: boolean }) {
   const gradient = genreColors[genre.genre] ?? 'from-gray-500 to-gray-700';
   return (
     <Link
       href={`/genre/${genre.genre}`}
+      prefetch={prefetch}
       className="group relative overflow-hidden rounded-lg transition-transform hover:scale-[1.02]"
     >
       <div className={`flex h-28 items-end bg-gradient-to-br p-4 ${gradient}`}>
@@ -39,11 +41,11 @@ export function GenreCard({ genre }: { genre: GenreSummary }) {
   );
 }
 
-export function GenreGrid({ genres }: { genres: GenreSummary[] }) {
+export function GenreGrid({ genres, prefetch }: { genres: GenreSummary[]; prefetch?: boolean }) {
   return (
     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
       {genres.map(g => (
-        <GenreCard key={g.genre} genre={g} />
+        <GenreCard key={g.genre} genre={g} prefetch={prefetch} />
       ))}
     </div>
   );

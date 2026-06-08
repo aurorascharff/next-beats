@@ -54,14 +54,17 @@ export function TrackLink({
   href,
   children,
   className,
+  prefetch,
 }: {
   href: string;
   children: React.ReactNode;
   className?: string;
+  prefetch?: boolean;
 }) {
   return (
     <Link
       href={href as Route}
+      prefetch={prefetch}
       onClick={e => e.stopPropagation()}
       className={cn(
         'cursor-default truncate text-sm font-medium hover:cursor-pointer hover:underline',
@@ -77,15 +80,17 @@ export function NowPlayingTrackLink({
   trackId,
   href,
   children,
+  prefetch,
 }: {
   trackId: string;
   href: string;
   children: React.ReactNode;
+  prefetch?: boolean;
 }) {
   const player = usePlayer();
   const isThisTrack = player.track?.id === trackId;
   return (
-    <TrackLink href={href} className={isThisTrack ? 'text-accent' : 'text-black dark:text-white'}>
+    <TrackLink href={href} prefetch={prefetch} className={isThisTrack ? 'text-accent' : 'text-black dark:text-white'}>
       {children}
     </TrackLink>
   );

@@ -26,7 +26,7 @@ export default function LibraryPage() {
           <section className="mb-10">
             <div className="mb-4 flex items-center gap-2">
               <h2>Your Playlists</h2>
-              <IconButtonLink href="/playlist" label="Create playlist">
+              <IconButtonLink prefetch={true} href="/playlist" label="Create playlist">
                 <Plus className="h-5 w-5" />
               </IconButtonLink>
             </div>

@@ -6,7 +6,7 @@ export async function LibraryGrid() {
   return (
     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
       {tracks.map(track => (
-        <AlbumCard key={track.id} track={track} />
+        <AlbumCard prefetch={true} key={track.id} track={track} />
       ))}
     </div>
   );
