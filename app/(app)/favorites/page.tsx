@@ -28,11 +28,13 @@ export default function FavoritesPage() {
                 </>
               }
             >
-              <Discover />
-              <section className="mt-10">
-                <h2 className="mb-4">Explore Genres</h2>
-                <TopGenresGrid />
-              </section>
+              <Crossfade>
+                <Discover />
+                <section className="mt-10">
+                  <h2 className="mb-4">Explore Genres</h2>
+                  <TopGenresGrid />
+                </section>
+              </Crossfade>
             </Suspense>
           </ErrorBoundary>
         </Crossfade>
