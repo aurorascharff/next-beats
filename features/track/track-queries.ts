@@ -3,7 +3,7 @@ import 'server-only';
 import { cacheLife, cacheTag } from 'next/cache';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
-import { verifyAuth } from '@/features/user/user-queries';
+import { getCurrentUser } from '@/features/user/user-queries';
 import { prisma } from '@/lib/db';
 import { delay } from '@/lib/utils';
 import { toTrack, type Track } from '@/types/track';
@@ -27,38 +27,73 @@ export const getLibrary = cache(async (page: number = 1): Promise<LibraryPage> =
   const items = hasMore ? rows.slice(0, LIBRARY_PAGE_SIZE) : rows;
   return {
     hasMore,
-    tracks: items.map(toTrack),
+    tracks: items.map(row => toTrack(row)),
   };
 });
 
+// --- Per-user queries: extract userId, pass to cached inner function ---
+
 export const getFavorites = cache(async (): Promise<Track[]> => {
-  'use cache: private';
+  const userId = await getCurrentUser();
+  return getFavoritesForUser(userId);
+});
+
+async function getFavoritesForUser(userId: string): Promise<Track[]> {
+  'use cache';
   cacheTag('favorites');
   cacheLife('hours');
 
-  await verifyAuth();
   await delay(500);
-  const rows = await prisma.track.findMany({
-    orderBy: { createdAt: 'desc' },
-    where: { isFavorite: true },
+  const rows = await prisma.userFavorite.findMany({
+    where: { userId },
+    orderBy: { addedAt: 'desc' },
+    include: { track: true },
   });
-  return rows.map(toTrack);
-});
+  return rows.map(row => toTrack(row.track, { favorites: [row] }));
+}
 
 export const getRecentlyPlayed = cache(async (limit: number = 8): Promise<Track[]> => {
-  'use cache: private';
+  const userId = await getCurrentUser();
+  return getRecentlyPlayedForUser(userId, limit);
+});
+
+async function getRecentlyPlayedForUser(userId: string, limit: number): Promise<Track[]> {
+  'use cache';
   cacheTag('recently-played');
   cacheLife('seconds');
 
-  await verifyAuth();
-  await delay(500);
-  const rows = await prisma.track.findMany({
+  await delay(300);
+  const rows = await prisma.userTrackPlay.findMany({
+    where: { userId },
     orderBy: { lastPlayedAt: 'desc' },
     take: limit,
-    where: { lastPlayedAt: { not: null } },
+    include: { track: true },
   });
-  return rows.map(toTrack);
+  return rows.map(row => toTrack(row.track, { trackPlays: [row] }));
+}
+
+export const getTrack = cache(async (id: string) => {
+  const userId = await getCurrentUser();
+  return getTrackForUser(id, userId);
 });
+
+async function getTrackForUser(id: string, userId: string) {
+  'use cache';
+  cacheTag('tracks', `track-${id}`);
+  cacheLife('hours');
+
+  await delay(400);
+  const row = await prisma.track.findUnique({
+    where: { id },
+    include: {
+      favorites: { where: { userId } },
+    },
+  });
+  if (!row) notFound();
+  return toTrack(row, { favorites: row.favorites });
+}
+
+// --- Shared queries: no user dependency ---
 
 export const getMostPlayed = cache(async (limit: number = 8): Promise<Track[]> => {
   'use cache';
@@ -71,7 +106,7 @@ export const getMostPlayed = cache(async (limit: number = 8): Promise<Track[]> =
     take: limit,
     where: { playCount: { gt: 0 } },
   });
-  return rows.map(toTrack);
+  return rows.map(row => toTrack(row));
 });
 
 export const getDiscover = cache(async (limit: number = 8): Promise<Track[]> => {
@@ -83,20 +118,9 @@ export const getDiscover = cache(async (limit: number = 8): Promise<Track[]> => 
   const rows = await prisma.track.findMany({
     orderBy: { createdAt: 'desc' },
     take: limit,
-    where: { isFavorite: false, lastPlayedAt: null },
+    where: { playCount: 0 },
   });
-  return rows.map(toTrack);
-});
-
-export const getTrack = cache(async (id: string) => {
-  'use cache';
-  cacheTag('tracks', `track-${id}`);
-  cacheLife('hours');
-
-  await delay(400);
-  const row = await prisma.track.findUnique({ where: { id } });
-  if (!row) notFound();
-  return toTrack(row);
+  return rows.map(row => toTrack(row));
 });
 
 export const getTracksByGenre = cache(async (genre: string): Promise<Track[]> => {
@@ -109,7 +133,7 @@ export const getTracksByGenre = cache(async (genre: string): Promise<Track[]> =>
     orderBy: { playCount: 'desc' },
     where: { genre },
   });
-  return rows.map(toTrack);
+  return rows.map(row => toTrack(row));
 });
 
 export const searchTracks = cache(async (query: string): Promise<Track[]> => {
@@ -129,5 +153,5 @@ export const searchTracks = cache(async (query: string): Promise<Track[]> => {
       ],
     },
   });
-  return rows.map(toTrack);
+  return rows.map(row => toTrack(row));
 });

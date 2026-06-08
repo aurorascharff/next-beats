@@ -9,16 +9,24 @@ import { delay } from '@/lib/utils';
 const trackIdSchema = z.string().min(1);
 
 export async function toggleFavorite(trackId: string) {
-  await verifyAuth();
+  const userId = await verifyAuth();
   await delay(200);
   const id = trackIdSchema.parse(trackId);
-  const track = await prisma.track.findUnique({ where: { id } });
-  if (!track) return { ok: false as const };
 
-  await prisma.track.update({
-    data: { isFavorite: !track.isFavorite },
-    where: { id },
+  const existing = await prisma.userFavorite.findUnique({
+    where: { userId_trackId: { userId, trackId: id } },
   });
+
+  if (existing) {
+    await prisma.userFavorite.delete({
+      where: { userId_trackId: { userId, trackId: id } },
+    });
+  } else {
+    await prisma.userFavorite.create({
+      data: { userId, trackId: id },
+    });
+  }
+
   updateTag(`track-${id}`);
   updateTag('favorites');
   updateTag('library');

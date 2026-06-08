@@ -7,24 +7,57 @@ datasource db {
   provider = "postgresql"
 }
 
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+
+  favorites  UserFavorite[]
+  trackPlays UserTrackPlay[]
+}
+
 model Track {
   id         String   @id @default(cuid())
   title      String
   artist     String
   album      String
-  duration   Int      // seconds
+  duration   Int // seconds
   genre      String
   coverColor String
-  playCount    Int       @default(0)
-  isFavorite   Boolean   @default(false)
-  lastPlayedAt DateTime?
-  createdAt    DateTime  @default(now())
+  playCount  Int      @default(0)
+  createdAt  DateTime @default(now())
 
   playlistTracks PlaylistTrack[]
+  favorites      UserFavorite[]
+  trackPlays     UserTrackPlay[]
 
   @@index([genre])
   @@index([artist])
   @@index([createdAt])
+}
+
+model UserFavorite {
+  userId  String
+  trackId String
+  addedAt DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  track Track @relation(fields: [trackId], references: [id], onDelete: Cascade)
+
+  @@id([userId, trackId])
+  @@index([userId])
+}
+
+model UserTrackPlay {
+  userId       String
+  trackId      String
+  lastPlayedAt DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  track Track @relation(fields: [trackId], references: [id], onDelete: Cascade)
+
+  @@id([userId, trackId])
+  @@index([userId, lastPlayedAt])
 }
 
 model Playlist {

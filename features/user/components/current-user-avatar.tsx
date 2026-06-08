@@ -1,5 +1,5 @@
 import { Skeleton } from '@/components/ui/skeleton';
-import { getCurrentUser } from '@/features/user/user-queries';
+import { getCurrentUserName } from '@/features/user/user-queries';
 import { cn } from '@/lib/utils';
 
 type Size = 'sm' | 'md';
@@ -10,7 +10,7 @@ const sizes: Record<Size, string> = {
 };
 
 export async function CurrentUserAvatar({ size = 'md', className }: { size?: Size; className?: string }) {
-  const user = await getCurrentUser();
+  const name = await getCurrentUserName();
   return (
     <div
       aria-hidden
@@ -20,7 +20,7 @@ export async function CurrentUserAvatar({ size = 'md', className }: { size?: Siz
         className,
       )}
     >
-      {user.charAt(0)}
+      {name.charAt(0)}
     </div>
   );
 }
