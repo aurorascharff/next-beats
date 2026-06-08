@@ -58,10 +58,6 @@ export const getRecentlyPlayed = cache(async (limit: number = 8): Promise<Track[
 });
 
 async function getRecentlyPlayedForUser(userId: string, limit: number): Promise<Track[]> {
-  'use cache';
-  cacheTag(`recently-played:${userId}`);
-  cacheLife('seconds');
-
   await delay(200);
   const rows = await prisma.userTrackPlay.findMany({
     where: { userId },
