@@ -29,7 +29,11 @@ export async function PlaylistDetail({ id }: { id: string }) {
       </div>
       <div className="mb-6 flex items-center gap-4">
         {playlist.tracks.length > 0 ? (
-          <PlayButton track={playlist.tracks[0]} className="!h-14 !w-14 [&_svg]:!h-6 [&_svg]:!w-6" />
+          <PlayButton
+            track={playlist.tracks[0]}
+            queue={playlist.tracks}
+            className="!h-14 !w-14 [&_svg]:!h-6 [&_svg]:!w-6"
+          />
         ) : null}
         <DeletePlaylistButton playlistId={id} size="lg" />
       </div>
