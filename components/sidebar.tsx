@@ -12,6 +12,7 @@ import { getPlaylists } from '@/features/playlist/playlist-queries';
 import { CurrentUserAvatar, CurrentUserAvatarSkeleton } from '@/features/user/components/current-user-avatar';
 import { LogOutButton } from '@/features/user/components/log-out-button';
 import { signOut } from '@/features/user/user-actions';
+import { Crossfade } from './ui/crossfade';
 import type { Route } from 'next';
 
 const sidebarLink =
@@ -45,15 +46,15 @@ export function Sidebar() {
           </a>
         </div>
         <nav className="flex flex-col gap-1 text-sm font-medium">
-          <NavLink href="/" aria-label="Home" className={sidebarLink}>
+          <NavLink prefetch={true} href="/" aria-label="Home" className={sidebarLink}>
             <Home className="h-5 w-5" />
             <span className="hidden truncate lg:inline">Home</span>
           </NavLink>
-          <NavLink href="/search" aria-label="Search" className={sidebarLink}>
+          <NavLink prefetch={true} href="/search" aria-label="Search" className={sidebarLink}>
             <Search className="h-5 w-5" />
             <span className="hidden truncate lg:inline">Search</span>
           </NavLink>
-          <NavLink href="/library" aria-label="Library" className={sidebarLink}>
+          <NavLink prefetch={true} href="/library" aria-label="Library" className={sidebarLink}>
             <Music className="h-5 w-5" />
             <span className="hidden truncate lg:inline">Library</span>
           </NavLink>
@@ -69,14 +70,16 @@ export function Sidebar() {
           </IconButtonLink>
         </div>
         <nav className="flex min-h-0 flex-1 flex-col gap-0.5 overflow-y-auto px-2 pb-2">
-          <NavLink href="/favorites" aria-label="Liked Tracks" className={sidebarLink}>
+          <NavLink prefetch={true} href="/favorites" aria-label="Liked Tracks" className={sidebarLink}>
             <Heart className="h-4 w-4" />
             <span className="hidden truncate lg:inline">Liked Tracks</span>
           </NavLink>
           <div className="border-divider dark:border-divider-dark my-1 hidden border-t lg:block" />
           <ErrorBoundary title="Playlists unavailable" compact>
             <Suspense fallback={<SidebarPlaylistsSkeleton />}>
-              <SidebarPlaylists />
+              <Crossfade>
+                <SidebarPlaylists />
+              </Crossfade>
             </Suspense>
           </ErrorBoundary>
         </nav>
@@ -102,7 +105,13 @@ async function SidebarPlaylists() {
   return (
     <>
       {playlists.map(pl => (
-        <NavLink key={pl.id} href={`/playlist/${pl.id}` as Route} aria-label={pl.name} className={sidebarLink}>
+        <NavLink
+          prefetch={true}
+          key={pl.id}
+          href={`/playlist/${pl.id}` as Route}
+          aria-label={pl.name}
+          className={sidebarLink}
+        >
           <span className={`inline-block h-3 w-3 shrink-0 rounded-sm bg-gradient-to-br ${pl.coverColor}`} />
           <span className="hidden truncate lg:inline">{pl.name}</span>
         </NavLink>

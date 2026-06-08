@@ -8,7 +8,7 @@ export default function TrackNotFound() {
       <Music className="text-gray h-6 w-6" />
       <p className="text-sm font-medium text-black dark:text-white">Track not found</p>
       <p className="text-gray max-w-xs text-sm">This track doesn&apos;t exist or was removed.</p>
-      <Link prefetch href="/library">
+      <Link prefetch={true} href="/library">
         <Button size="sm" variant="secondary">
           Browse library
         </Button>
