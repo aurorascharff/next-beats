@@ -19,28 +19,28 @@ export default function FavoritesPage() {
         <Crossfade>
           <FavoritesFeed />
         </Crossfade>
+        <ViewTransition>
+          <ErrorBoundary title="Couldn't load recommendations">
+            <h2 className="mt-10 mb-4">You Might Also Like</h2>
+            <Suspense
+              fallback={
+                <>
+                  <DiscoverSkeleton />
+                  <h2 className="mt-10 mb-4">Explore Genres</h2>
+                </>
+              }
+            >
+              <Crossfade>
+                <Discover />
+                <section className="mt-10">
+                  <h2 className="mb-4">Explore Genres</h2>
+                  <TopGenresGrid />
+                </section>
+              </Crossfade>
+            </Suspense>
+          </ErrorBoundary>
+        </ViewTransition>
       </Suspense>
-      <ViewTransition>
-        <ErrorBoundary title="Couldn't load recommendations">
-          <h2 className="mt-10 mb-4">You Might Also Like</h2>
-          <Suspense
-            fallback={
-              <>
-                <DiscoverSkeleton />
-                <h2 className="mt-10 mb-4">Explore Genres</h2>
-              </>
-            }
-          >
-            <Crossfade>
-              <Discover />
-              <section className="mt-10">
-                <h2 className="mb-4">Explore Genres</h2>
-                <TopGenresGrid />
-              </section>
-            </Crossfade>
-          </Suspense>
-        </ErrorBoundary>
-      </ViewTransition>
     </PageHeader>
   );
 }
