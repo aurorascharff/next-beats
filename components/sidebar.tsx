@@ -76,11 +76,11 @@ export function Sidebar() {
           </NavLink>
           <div className="border-divider dark:border-divider-dark my-1 hidden border-t lg:block" />
           <ErrorBoundary title="Playlists unavailable" compact>
-            <Crossfade>
-              <Suspense fallback={<SidebarPlaylistsSkeleton />}>
+            <Suspense fallback={<SidebarPlaylistsSkeleton />}>
+              <Crossfade>
                 <SidebarPlaylists />
-              </Suspense>
-            </Crossfade>
+              </Crossfade>
+            </Suspense>
           </ErrorBoundary>
         </nav>
         <div className="border-divider dark:border-divider-dark hidden items-center justify-between border-t px-3 py-2 lg:flex">
