@@ -1,16 +1,11 @@
 import 'server-only';
 
-import { cacheLife, cacheTag } from 'next/cache';
 import { cache } from 'react';
 import { prisma } from '@/lib/db';
 import { delay } from '@/lib/utils';
 import type { GenreSummary } from '@/types/genre';
 
 export const getGenres = cache(async (): Promise<GenreSummary[]> => {
-  'use cache';
-  cacheTag('genres');
-  cacheLife('days');
-
   await delay(600);
   const rows = await prisma.track.groupBy({
     by: ['genre'],
