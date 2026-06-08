@@ -26,10 +26,8 @@ A Next.js 16.3 music player demonstrating [Instant Navigations](https://next-sit
 
 Open with DevTools, Network tab visible:
 
-- Repeat navigations issue zero RSC requests (client navigation cache)
-- First clicks resolve instantly; hover prefetches dynamic content alongside the shell
+- Cached navigations resolve instantly from the prefetch; uncached pages stream after the shell
 - Mutations refetch only the invalidated tag; unrelated UI stays cached
-- Toolbar **prefetch toggle** runs the same routes with prefetching disabled for comparison
 
 ## Cache profiles
 
