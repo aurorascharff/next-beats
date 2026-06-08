@@ -8,6 +8,7 @@ import type { Track } from '@/types/track';
 
 type Props = {
   track: Track;
+  queue?: Track[];
   className?: string;
   size?: 'sm' | 'md';
 };
@@ -22,7 +23,7 @@ const iconSizes = {
   sm: 'h-4 w-4',
 };
 
-export function PlayButton({ track, className, size = 'md' }: Props) {
+export function PlayButton({ track, queue, className, size = 'md' }: Props) {
   const player = usePlayer();
   const isThisPlaying = player.isPlaying && player.track?.id === track.id;
 
@@ -34,7 +35,7 @@ export function PlayButton({ track, className, size = 'md' }: Props) {
     } else if (player.track?.id === track.id && !player.isPlaying) {
       player.resume();
     } else {
-      player.play(track);
+      player.play(track, queue);
     }
   }
 
