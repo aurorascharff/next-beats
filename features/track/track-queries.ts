@@ -40,7 +40,7 @@ export const getFavorites = cache(async (): Promise<Track[]> => {
 
 async function getFavoritesForUser(userId: string): Promise<Track[]> {
   'use cache';
-  cacheTag('favorites');
+  cacheTag(`favorites:${userId}`);
   cacheLife('hours');
 
   await delay(500);
@@ -59,7 +59,7 @@ export const getRecentlyPlayed = cache(async (limit: number = 8): Promise<Track[
 
 async function getRecentlyPlayedForUser(userId: string, limit: number): Promise<Track[]> {
   'use cache';
-  cacheTag('recently-played');
+  cacheTag(`recently-played:${userId}`);
   cacheLife('seconds');
 
   await delay(300);
@@ -79,7 +79,7 @@ export const getTrack = cache(async (id: string) => {
 
 async function getTrackForUser(id: string, userId: string) {
   'use cache';
-  cacheTag('tracks', `track-${id}`);
+  cacheTag('tracks', `track-${id}`, `track-${id}:${userId}`);
   cacheLife('hours');
 
   await delay(400);

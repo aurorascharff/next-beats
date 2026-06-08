@@ -32,7 +32,7 @@ export async function POST(req: Request) {
   revalidateTag(`track-${trackId}`, 'soft');
   revalidateTag(`genre-${track.genre}`, 'soft');
   revalidateTag('discover', 'soft');
-  revalidateTag('recently-played', 'soft');
+  revalidateTag(`recently-played:${userId}`, 'soft');
 
   return new Response(null, { status: 204 });
 }

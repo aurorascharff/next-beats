@@ -27,9 +27,7 @@ export async function toggleFavorite(trackId: string) {
     });
   }
 
-  updateTag(`track-${id}`);
-  updateTag('favorites');
-  updateTag('library');
-  updateTag('discover');
+  updateTag(`track-${id}:${userId}`);
+  updateTag(`favorites:${userId}`);
   return { ok: true as const };
 }

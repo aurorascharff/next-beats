@@ -1,4 +1,4 @@
-import { Heart, Home, Library, ListMusic, Plus, Search, Music } from 'lucide-react';
+import { Heart, Home, Library, Plus, Search, Music } from 'lucide-react';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { ThemeToggle } from '@/components/theme/theme-toggle';
@@ -56,10 +56,6 @@ export function Sidebar() {
           <NavLink href="/library" aria-label="Library" className={sidebarLink}>
             <Music className="h-5 w-5" />
             <span className="hidden truncate lg:inline">Library</span>
-          </NavLink>
-          <NavLink href="/genre" aria-label="Genres" className={sidebarLink}>
-            <ListMusic className="h-5 w-5" />
-            <span className="hidden truncate lg:inline">Genres</span>
           </NavLink>
         </nav>
       </div>
