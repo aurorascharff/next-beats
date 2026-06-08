@@ -3,6 +3,7 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   cacheComponents: true,
   reactCompiler: true,
+  partialPrefetching: true,
   experimental: {
     inlineCss: true,
     appShells: true,
