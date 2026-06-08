@@ -20,7 +20,7 @@ export function TrackRow({ track, index, showAlbum = true, queue }: Props & { qu
         <TrackIndexCell trackId={track.id} index={index} />
         <AlbumArt coverColor={track.coverColor} size="sm" />
         <div className="flex min-w-0 flex-1 flex-col">
-          <NowPlayingTrackLink prefetch={true} trackId={track.id} href={`/track/${track.id}`}>
+          <NowPlayingTrackLink trackId={track.id} href={`/track/${track.id}`}>
             {track.title}
           </NowPlayingTrackLink>
           <span className="text-muted truncate text-xs">

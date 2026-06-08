@@ -4,6 +4,7 @@ import { Heart, Play } from 'lucide-react';
 import Link from 'next/link';
 import { useOptimistic, useTransition } from 'react';
 import { Boundary } from '@/components/demo/boundary';
+import { usePrefetchDefault } from '@/components/demo/prefetch-provider';
 import { Equalizer } from '@/components/ui/equalizer';
 import { toggleFavorite } from '@/features/track/track-actions';
 import { cn } from '@/lib/utils';
@@ -54,13 +55,12 @@ export function TrackLink({
   href,
   children,
   className,
-  prefetch,
 }: {
   href: string;
   children: React.ReactNode;
   className?: string;
-  prefetch?: boolean;
 }) {
+  const prefetch = usePrefetchDefault();
   return (
     <Link
       href={href as Route}
@@ -80,17 +80,15 @@ export function NowPlayingTrackLink({
   trackId,
   href,
   children,
-  prefetch,
 }: {
   trackId: string;
   href: string;
   children: React.ReactNode;
-  prefetch?: boolean;
 }) {
   const player = usePlayer();
   const isThisTrack = player.track?.id === trackId;
   return (
-    <TrackLink href={href} prefetch={prefetch} className={isThisTrack ? 'text-accent' : 'text-black dark:text-white'}>
+    <TrackLink href={href} className={isThisTrack ? 'text-accent' : 'text-black dark:text-white'}>
       {children}
     </TrackLink>
   );

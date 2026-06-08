@@ -2,6 +2,7 @@ import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
+import { Suspense } from 'react';
 import { Toaster } from 'sonner';
 import { BoundaryProvider } from '@/components/demo/boundary-provider';
 import { DemoToolbar } from '@/components/demo/demo-toolbar';
@@ -32,7 +33,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <OfflineIndicator />
             {children}
             <div className="demo-toggles fixed top-3 right-3 z-50 hidden items-end gap-2 sm:flex">
-              <DemoToolbar />
+              <Suspense fallback={null}>
+                <DemoToolbar />
+              </Suspense>
             </div>
             <Toaster
               theme="system"

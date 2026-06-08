@@ -1,4 +1,7 @@
+'use client';
+
 import Link from 'next/link';
+import { usePrefetchDefault } from '@/components/demo/prefetch-provider';
 import { Skeleton } from '@/components/ui/skeleton';
 import type { GenreSummary } from '@/types/genre';
 
@@ -11,7 +14,8 @@ const genreColors: Record<string, string> = {
   synthwave: 'from-rose-500/80 to-pink-700/80',
 };
 
-export function GenrePill({ genre, prefetch }: { genre: string; prefetch?: boolean }) {
+export function GenrePill({ genre }: { genre: string }) {
+  const prefetch = usePrefetchDefault();
   return (
     <Link
       href={`/genre/${genre}`}
@@ -23,7 +27,8 @@ export function GenrePill({ genre, prefetch }: { genre: string; prefetch?: boole
   );
 }
 
-export function GenreCard({ genre, prefetch }: { genre: GenreSummary; prefetch?: boolean }) {
+export function GenreCard({ genre }: { genre: GenreSummary }) {
+  const prefetch = usePrefetchDefault();
   const gradient = genreColors[genre.genre] ?? 'from-gray-500 to-gray-700';
   return (
     <Link
@@ -41,11 +46,11 @@ export function GenreCard({ genre, prefetch }: { genre: GenreSummary; prefetch?:
   );
 }
 
-export function GenreGrid({ genres, prefetch }: { genres: GenreSummary[]; prefetch?: boolean }) {
+export function GenreGrid({ genres }: { genres: GenreSummary[] }) {
   return (
     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
       {genres.map(g => (
-        <GenreCard key={g.genre} genre={g} prefetch={prefetch} />
+        <GenreCard key={g.genre} genre={g} />
       ))}
     </div>
   );

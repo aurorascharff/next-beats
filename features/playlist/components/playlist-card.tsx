@@ -1,9 +1,13 @@
+'use client';
+
 import Link from 'next/link';
 import { ViewTransition } from 'react';
+import { usePrefetchDefault } from '@/components/demo/prefetch-provider';
 import { Skeleton } from '@/components/ui/skeleton';
 import type { PlaylistSummary } from '@/types/playlist';
 
-export function PlaylistCard({ playlist, prefetch }: { playlist: PlaylistSummary; prefetch?: boolean }) {
+export function PlaylistCard({ playlist }: { playlist: PlaylistSummary }) {
+  const prefetch = usePrefetchDefault();
   return (
     <Link
       href={`/playlist/${playlist.id}`}
@@ -39,11 +43,11 @@ export function PlaylistCard({ playlist, prefetch }: { playlist: PlaylistSummary
   );
 }
 
-export function PlaylistList({ playlists, prefetch }: { playlists: PlaylistSummary[]; prefetch?: boolean }) {
+export function PlaylistList({ playlists }: { playlists: PlaylistSummary[] }) {
   return (
     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
       {playlists.map(pl => (
-        <PlaylistCard key={pl.id} playlist={pl} prefetch={prefetch} />
+        <PlaylistCard key={pl.id} playlist={pl} />
       ))}
     </div>
   );

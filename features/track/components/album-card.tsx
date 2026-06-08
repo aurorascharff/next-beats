@@ -1,11 +1,15 @@
+'use client';
+
 import Link from 'next/link';
 import { ViewTransition } from 'react';
+import { usePrefetchDefault } from '@/components/demo/prefetch-provider';
 import { Skeleton } from '@/components/ui/skeleton';
 import { PlayButton } from '@/features/track/components/play-button';
 import { NowPlayingTrackTitle } from '@/features/track/components/track-interactions';
 import type { Track } from '@/types/track';
 
-export function AlbumCard({ track, prefetch }: { track: Track; prefetch?: boolean }) {
+export function AlbumCard({ track }: { track: Track }) {
+  const prefetch = usePrefetchDefault();
   return (
     <Link
       href={`/track/${track.id}`}
