@@ -1,4 +1,4 @@
-import { Suspense, ViewTransition } from 'react';
+import { Suspense } from 'react';
 import { Crossfade } from '@/components/ui/crossfade';
 import ErrorBoundary from '@/components/ui/error-boundary';
 import { PageHeader } from '@/components/ui/page-layout';
@@ -18,8 +18,6 @@ export default function FavoritesPage() {
       <Suspense fallback={<TrackListSkeleton count={5} showIndex />}>
         <Crossfade>
           <FavoritesFeed />
-        </Crossfade>
-        <ViewTransition>
           <ErrorBoundary title="Couldn't load recommendations">
             <h2 className="mt-10 mb-4">You Might Also Like</h2>
             <Suspense
@@ -30,16 +28,14 @@ export default function FavoritesPage() {
                 </>
               }
             >
-              <Crossfade>
-                <Discover />
-                <section className="mt-10">
-                  <h2 className="mb-4">Explore Genres</h2>
-                  <TopGenresGrid />
-                </section>
-              </Crossfade>
+              <Discover />
+              <section className="mt-10">
+                <h2 className="mb-4">Explore Genres</h2>
+                <TopGenresGrid />
+              </section>
             </Suspense>
           </ErrorBoundary>
-        </ViewTransition>
+        </Crossfade>
       </Suspense>
     </PageHeader>
   );
