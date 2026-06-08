@@ -76,9 +76,7 @@ export function Sidebar() {
           <div className="border-divider dark:border-divider-dark my-1 hidden border-t lg:block" />
           <ErrorBoundary title="Playlists unavailable" compact>
             <Suspense fallback={<SidebarPlaylistsSkeleton />}>
-              <Crossfade>
-                <SidebarPlaylists />
-              </Crossfade>
+              <SidebarPlaylists />
             </Suspense>
           </ErrorBoundary>
         </nav>
