@@ -17,7 +17,7 @@ export const getLibrary = cache(async (page: number = 1): Promise<LibraryPage> =
   cacheTag('library');
   cacheLife('hours');
 
-  await delay(500);
+  await delay(400);
   const rows = await prisma.track.findMany({
     orderBy: { createdAt: 'desc' },
     skip: (page - 1) * LIBRARY_PAGE_SIZE,
