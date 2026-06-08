@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   title: 'Search',
 };
 
+export const unstable_prefetch = 'force-runtime';
+
 export default function SearchPage({ searchParams }: PageProps<'/search'>) {
   return (
     <PageHeader title="Search">

@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   title: 'Library',
 };
 
+export const unstable_prefetch = 'force-runtime';
+
 export default function LibraryPage() {
   return (
     <PageHeader title="Library">
