@@ -1,5 +1,5 @@
+import { Music } from 'lucide-react';
 import { AlbumArt } from '@/components/ui/album-art';
-import { EmptyState } from '@/components/ui/empty-state';
 import { Skeleton } from '@/components/ui/skeleton';
 import { TrackPlayRow, NowPlayingTrackLink, TrackIndexCell } from '@/features/track/components/track-interactions';
 import { getRecentlyPlayed } from '@/features/track/track-queries';
@@ -8,10 +8,10 @@ export async function QuickPlayGrid() {
   const tracks = await getRecentlyPlayed(6);
   if (tracks.length === 0) {
     return (
-      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
-        <div className="col-span-full">
-          <EmptyState title="Nothing played yet" body="Play a track and it'll show up here." />
-        </div>
+      <div className="flex h-50 flex-col items-center justify-center gap-3 text-center">
+        <Music size={32} className="text-divider dark:text-divider-dark" />
+        <p className="text-sm font-medium text-black dark:text-white">Nothing played yet</p>
+        <p className="text-gray max-w-xs text-sm">Play a track and it&apos;ll show up here.</p>
       </div>
     );
   }
