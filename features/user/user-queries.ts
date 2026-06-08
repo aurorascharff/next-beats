@@ -17,8 +17,7 @@ export const getCurrentUser = cache(async (): Promise<string> => {
 export const getCurrentUserName = cache(async (): Promise<string> => {
   const userId = await getCurrentUser();
   const user = await prisma.user.findUnique({ where: { id: userId }, select: { name: true } });
-  if (!user) redirect('/login');
-  return user.name;
+  return user?.name ?? 'listener';
 });
 
 export async function verifyAuth(): Promise<string> {
