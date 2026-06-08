@@ -8,7 +8,7 @@ export default function NotFound() {
       <Music className="text-gray h-8 w-8" />
       <p className="text-sm font-medium text-black dark:text-white">Page not found</p>
       <p className="text-gray max-w-xs text-sm">The page you&apos;re looking for doesn&apos;t exist.</p>
-      <Link href="/">
+      <Link prefetch href="/">
         <Button variant="secondary">Go home</Button>
       </Link>
     </div>

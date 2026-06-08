@@ -10,8 +10,6 @@ export const metadata: Metadata = {
   title: 'Genres',
 };
 
-export const unstable_prefetch = 'force-runtime';
-
 export default function GenresPage() {
   return (
     <PageHeader title="Browse All">
