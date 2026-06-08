@@ -76,11 +76,11 @@ export function Sidebar() {
           </NavLink>
           <div className="border-divider dark:border-divider-dark my-1 hidden border-t lg:block" />
           <ErrorBoundary title="Playlists unavailable" compact>
-            <Suspense fallback={<SidebarPlaylistsSkeleton />}>
-              <Crossfade>
+            <Crossfade>
+              <Suspense fallback={<SidebarPlaylistsSkeleton />}>
                 <SidebarPlaylists />
-              </Crossfade>
-            </Suspense>
+              </Suspense>
+            </Crossfade>
           </ErrorBoundary>
         </nav>
         <div className="border-divider dark:border-divider-dark hidden items-center justify-between border-t px-3 py-2 lg:flex">
@@ -122,7 +122,7 @@ async function SidebarPlaylists() {
 
 function SidebarPlaylistsSkeleton() {
   return (
-    <div className="hidden flex-col gap-0.5 lg:flex">
+    <div className="flex flex-col gap-0.5">
       {Array.from({ length: 3 }).map((_, i) => (
         <div key={i} className="flex min-h-9 items-center gap-3 rounded-md p-2 lg:px-3">
           <Skeleton className="h-3 w-3 shrink-0 rounded-sm" />
