@@ -3,6 +3,7 @@ import 'server-only';
 import { cacheLife, cacheTag } from 'next/cache';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
+import { verifyAuth } from '@/features/user/user-queries';
 import { prisma } from '@/lib/db';
 import { delay } from '@/lib/utils';
 import { toTrack, type Track } from '@/types/track';
@@ -31,10 +32,11 @@ export const getLibrary = cache(async (page: number = 1): Promise<LibraryPage> =
 });
 
 export const getFavorites = cache(async (): Promise<Track[]> => {
-  'use cache';
+  'use cache: private';
   cacheTag('favorites');
   cacheLife('hours');
 
+  await verifyAuth();
   await delay(500);
   const rows = await prisma.track.findMany({
     orderBy: { createdAt: 'desc' },
@@ -44,6 +46,11 @@ export const getFavorites = cache(async (): Promise<Track[]> => {
 });
 
 export const getRecentlyPlayed = cache(async (limit: number = 8): Promise<Track[]> => {
+  'use cache: private';
+  cacheTag('recently-played');
+  cacheLife('seconds');
+
+  await verifyAuth();
   await delay(500);
   const rows = await prisma.track.findMany({
     orderBy: { lastPlayedAt: 'desc' },
