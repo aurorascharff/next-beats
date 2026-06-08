@@ -8,7 +8,7 @@ export default function PlaylistNotFound() {
       <ListMusic className="text-gray h-6 w-6" />
       <p className="text-sm font-medium text-black dark:text-white">Playlist not found</p>
       <p className="text-gray max-w-xs text-sm">This playlist doesn&apos;t exist or was deleted.</p>
-      <Link prefetch={true} href="/playlist">
+      <Link href="/playlist">
         <Button size="sm" variant="secondary">
           All playlists
         </Button>

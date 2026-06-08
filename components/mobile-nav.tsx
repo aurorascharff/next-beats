@@ -11,19 +11,19 @@ export function MobileTabBar() {
       style={{ viewTransitionName: 'mobile-nav' }}
       className="border-divider/70 dark:border-divider-dark/70 flex w-full shrink-0 border-t bg-white pb-[env(safe-area-inset-bottom)] sm:hidden dark:bg-[#181818]"
     >
-      <NavLink prefetch={true} href="/" aria-label="Home" className={mobileTab}>
+      <NavLink href="/" aria-label="Home" className={mobileTab}>
         <Home className="h-5 w-5" />
         <span>Home</span>
       </NavLink>
-      <NavLink prefetch={true} href="/search" aria-label="Search" className={mobileTab}>
+      <NavLink href="/search" aria-label="Search" className={mobileTab}>
         <Search className="h-5 w-5" />
         <span>Search</span>
       </NavLink>
-      <NavLink prefetch={true} href="/library" aria-label="Library" className={mobileTab}>
+      <NavLink href="/library" aria-label="Library" className={mobileTab}>
         <Library className="h-5 w-5" />
         <span>Library</span>
       </NavLink>
-      <NavLink prefetch={true} href="/favorites" aria-label="Liked" className={mobileTab}>
+      <NavLink href="/favorites" aria-label="Liked" className={mobileTab}>
         <Heart className="h-5 w-5" />
         <span>Liked</span>
       </NavLink>
