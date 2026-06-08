@@ -15,7 +15,7 @@ A Next.js 16.3 music player demonstrating [Instant Navigations](https://next-sit
 ## Features
 
 - **[Cache Components](https://nextjs.org/docs/app/api-reference/config/next-config-js/cacheComponents)** (`cacheComponents: true`) — opt-in caching at the component and query level
-- **[Partial Prefetching](https://nextjs.org/docs/app/guides/prefetching)**, the 16.3 default that prefetches the static shell when links enter the viewport so navigations feel instant
+- **[Partial Prefetching](https://nextjs.org/docs/app/guides/prefetching)**, the 16.3 default that prefetches the static shell and cached content when links enter the viewport so navigations feel instant
 - **App Shells** for instant first paint on dynamic routes, even before cached data arrives
 - **Per-user caching** with [`'use cache: private'`](https://nextjs.org/docs/app/api-reference/directives/use-cache-private) for things like favorites and recently-played, scoped to the session instead of shared globally
 - **Push-driven invalidation** via [`updateTag`](https://nextjs.org/docs/app/api-reference/functions/updateTag) from [Server Functions](https://nextjs.org/docs/app/getting-started/mutating-data) so mutations refresh only the affected surface

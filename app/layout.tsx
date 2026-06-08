@@ -16,7 +16,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   description:
-    'A Next.js 16.3 music player demonstrating Instant Navigations — Partial Prefetching, Navigation Inspector, Instant Insights, and Optimistic Routing.',
+    'A Next.js 16.3 music player demonstrating Instant Navigations with Cache Components and Partial Prefetching.',
   title: {
     default: 'NextBeats',
     template: '%s · NextBeats',
