@@ -3,7 +3,6 @@
 import { Search } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useId, useRef, useTransition } from 'react';
-import { Boundary } from '@/components/demo/boundary';
 import { SeedFromSearchParam } from '@/components/scripts/seed-from-search-param';
 import { Spinner } from '@/components/ui/spinner';
 import { useSyncInputToSearchParam } from '@/hooks/use-sync-input-to-search-param';
@@ -18,8 +17,7 @@ export function SearchInput() {
   useSyncInputToSearchParam(inputRef, 'q');
 
   return (
-    <Boundary label="SearchInput">
-      <div className="relative">
+    <div className="relative">
         {isPending ? (
           <Spinner className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 opacity-40" />
         ) : (
@@ -44,6 +42,5 @@ export function SearchInput() {
         />
         <SeedFromSearchParam targetId={inputId} param="q" />
       </div>
-    </Boundary>
   );
 }

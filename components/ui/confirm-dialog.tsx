@@ -2,7 +2,6 @@
 
 import * as Ariakit from '@ariakit/react';
 import { startTransition, useState } from 'react';
-import { Boundary } from '@/components/demo/boundary';
 import { Spinner } from '@/components/ui/spinner';
 
 type Variant = 'danger' | 'primary';
@@ -44,8 +43,7 @@ export function ConfirmDialog({
   }
 
   return (
-    <Boundary label="ConfirmDialog">
-      <Ariakit.Dialog
+    <Ariakit.Dialog
         store={store}
         backdrop={
           <div className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm" style={{ viewTransitionName: 'none' }} />
@@ -75,6 +73,5 @@ export function ConfirmDialog({
           </button>
         </div>
       </Ariakit.Dialog>
-    </Boundary>
   );
 }

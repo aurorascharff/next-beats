@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { useSelectedLayoutSegments } from 'next/navigation';
 import { Suspense } from 'react';
-import { Boundary } from '@/components/demo/boundary';
 import type { Route } from 'next';
 
 type Props<T extends string = string> = Omit<React.ComponentProps<typeof Link>, 'href'> & {
@@ -12,11 +11,9 @@ type Props<T extends string = string> = Omit<React.ComponentProps<typeof Link>, 
 
 export function NavLink<T extends string>(props: Props<T>) {
   return (
-    <Boundary label="NavLink">
-      <Suspense fallback={<NavLinkSkeleton {...props} />}>
-        <ActiveLink {...props} />
-      </Suspense>
-    </Boundary>
+    <Suspense fallback={<NavLinkSkeleton {...props} />}>
+      <ActiveLink {...props} />
+    </Suspense>
   );
 }
 

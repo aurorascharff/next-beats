@@ -1,7 +1,6 @@
 'use client';
 
 import { Pause, Play, SkipBack, SkipForward, Volume1, Volume2, VolumeX } from 'lucide-react';
-import { Boundary } from '@/components/demo/boundary';
 import { AlbumArt } from '@/components/ui/album-art';
 import { formatDuration } from '@/lib/utils';
 import { usePlayer } from '@/providers/player-provider';
@@ -14,7 +13,7 @@ export function NowPlayingBar() {
   const total = track?.duration ?? 0;
 
   return (
-    <Boundary label="NowPlayingBar">
+    <>
       {track ? (
         <div
           style={{ viewTransitionName: 'player-bar' }}
@@ -97,7 +96,7 @@ export function NowPlayingBar() {
           </div>
         </div>
       </div>
-    </Boundary>
+    </>
   );
 }
 
