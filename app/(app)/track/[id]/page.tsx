@@ -19,17 +19,20 @@ export const unstable_prefetch = 'force-runtime';
 export default function TrackPage({ params }: PageProps<'/track/[id]'>) {
   return (
     <PageWrapper>
-      <Suspense fallback={<TrackHeaderSkeleton />}>
+      <Suspense
+        fallback={
+          <>
+            <TrackHeaderSkeleton />
+            <TrackControlsSkeleton />
+          </>
+        }
+      >
         <Crossfade>
           {params.then(({ id }) => (
-            <TrackHeader id={id} />
-          ))}
-        </Crossfade>
-      </Suspense>
-      <Suspense fallback={<TrackControlsSkeleton />}>
-        <Crossfade>
-          {params.then(({ id }) => (
-            <TrackControls id={id} />
+            <>
+              <TrackHeader id={id} />
+              <TrackControls id={id} />
+            </>
           ))}
         </Crossfade>
       </Suspense>

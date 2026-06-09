@@ -1,4 +1,5 @@
 import { AlbumArt } from '@/components/ui/album-art';
+import { Collapsible } from '@/components/ui/collapsible';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AddToPlaylistMenu } from '@/features/playlist/components/add-to-playlist-menu';
 import { getPlaylistMenuItems } from '@/features/playlist/playlist-queries';
@@ -37,13 +38,34 @@ export function TrackRow({ track, index, showAlbum = true, queue }: Props & { qu
   );
 }
 
-export function TrackList({ tracks, showIndex = false }: { tracks: TrackT[]; showIndex?: boolean }) {
+export function TrackList({
+  tracks,
+  showIndex = false,
+  collapseAfter,
+}: {
+  tracks: TrackT[];
+  showIndex?: boolean;
+  collapseAfter?: number;
+}) {
+  const shouldCollapse = collapseAfter !== undefined && tracks.length > collapseAfter;
+  const visible = shouldCollapse ? tracks.slice(0, collapseAfter) : tracks;
+  const overflow = shouldCollapse ? tracks.slice(collapseAfter) : [];
+
   return (
-    <div className="flex flex-col gap-0.5">
-      {tracks.map((track, i) => (
-        <TrackRow key={track.id} track={track} index={showIndex ? i : undefined} queue={tracks} />
-      ))}
-    </div>
+    <>
+      <div className="flex flex-col gap-0.5">
+        {visible.map((track, i) => (
+          <TrackRow key={track.id} track={track} index={showIndex ? i : undefined} queue={tracks} />
+        ))}
+      </div>
+      {overflow.length > 0 && (
+        <Collapsible showMoreLabel={`Show ${overflow.length} more`}>
+          {overflow.map((track, i) => (
+            <TrackRow key={track.id} track={track} index={showIndex ? visible.length + i : undefined} queue={tracks} />
+          ))}
+        </Collapsible>
+      )}
+    </>
   );
 }
 
@@ -72,12 +94,23 @@ export function TrackRowSkeleton({ showIndex = false, index }: { showIndex?: boo
   );
 }
 
-export function TrackListSkeleton({ count = 5, showIndex = false }: { count?: number; showIndex?: boolean }) {
+export function TrackListSkeleton({
+  count = 5,
+  showIndex = false,
+  showMore = false,
+}: {
+  count?: number;
+  showIndex?: boolean;
+  showMore?: boolean;
+}) {
   return (
-    <div className="flex flex-col gap-0.5">
-      {Array.from({ length: count }).map((_, i) => (
-        <TrackRowSkeleton key={i} showIndex={showIndex} index={i} />
-      ))}
-    </div>
+    <>
+      <div className="flex flex-col gap-0.5">
+        {Array.from({ length: count }).map((_, i) => (
+          <TrackRowSkeleton key={i} showIndex={showIndex} index={i} />
+        ))}
+      </div>
+      {showMore && <Skeleton className="mt-3 h-5 w-24" />}
+    </>
   );
 }

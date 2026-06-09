@@ -20,25 +20,14 @@ export default function SearchPage({ searchParams }: PageProps<'/search'>) {
       <div className="mb-8">
         <SearchInput />
       </div>
+      <h2 className="mb-4">Browse All</h2>
       <ErrorBoundary title="Search is taking a breather">
-        <Suspense
-          fallback={
-            <>
-              <h2 className="mb-4">Browse All</h2>
-              <GenreBrowseSkeleton />
-            </>
-          }
-        >
+        <Suspense fallback={<GenreBrowseSkeleton />}>
           <Crossfade>
             {searchParams.then(sp => {
               const q = typeof sp.q === 'string' ? sp.q : '';
               if (!q) {
-                return (
-                  <>
-                    <h2 className="mb-4">Browse All</h2>
-                    <GenreBrowse />
-                  </>
-                );
+                return <GenreBrowse />;
               }
               return (
                 <Suspense fallback={<TrackListSkeleton count={5} />}>

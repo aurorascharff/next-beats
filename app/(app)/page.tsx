@@ -17,16 +17,15 @@ export default function HomePage() {
           <QuickPlayGrid />
         </Crossfade>
       </Suspense>
+      <h2 className="mt-10 mb-4">Most Played</h2>
       <Suspense
         fallback={
           <>
-            <h2 className="mt-10 mb-4">Most Played</h2>
             <MostPlayedSkeleton />
           </>
         }
       >
         <Crossfade>
-          <h2 className="mt-10 mb-4">Most Played</h2>
           <MostPlayed />
           <section className="mt-10">
             <h2 className="mb-4">Your Playlists</h2>
