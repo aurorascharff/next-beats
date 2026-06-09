@@ -1,11 +1,30 @@
 'use client';
 
-import { Eye, EyeOff, Server, ServerOff, Zap, ZapOff } from 'lucide-react';
-import { useOptimistic } from 'react';
+import { Eye, EyeOff, Server, ServerOff, Wifi, WifiOff, Zap, ZapOff } from 'lucide-react';
+import { useEffect, useOptimistic, useState } from 'react';
 import { useBoundaryMode } from '@/components/demo/boundary-provider';
 import { togglePrefetch, toggleRuntime } from '@/components/demo/demo-actions';
 import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/lib/utils';
+
+let originalFetch: typeof fetch | null = null;
+
+function setSimulatedOffline(offline: boolean) {
+  if (typeof window === 'undefined') return;
+  if (offline) {
+    if (!originalFetch) originalFetch = window.fetch.bind(window);
+    window.fetch = () => Promise.reject(new TypeError('Failed to fetch (demo offline)'));
+    Object.defineProperty(navigator, 'onLine', { configurable: true, get: () => false });
+    window.dispatchEvent(new Event('offline'));
+  } else {
+    if (originalFetch) {
+      window.fetch = originalFetch;
+      originalFetch = null;
+    }
+    Object.defineProperty(navigator, 'onLine', { configurable: true, get: () => true });
+    window.dispatchEvent(new Event('online'));
+  }
+}
 
 export function DemoToolbarClient({
   prefetchEnabled,
@@ -19,6 +38,15 @@ export function DemoToolbarClient({
   const prefetchPending = optimisticPrefetch !== prefetchEnabled;
   const [optimisticRuntime, setOptimisticRuntime] = useOptimistic(runtimeEnabled);
   const runtimePending = optimisticRuntime !== runtimeEnabled;
+  const [offline, setOffline] = useState(false);
+
+  useEffect(() => () => setSimulatedOffline(false), []);
+
+  function toggleOffline() {
+    const next = !offline;
+    setSimulatedOffline(next);
+    setOffline(next);
+  }
 
   return (
     <div
@@ -39,7 +67,7 @@ export function DemoToolbarClient({
         )}
       >
         {mode === 'on' ? <Eye className="size-3.5" /> : <EyeOff className="size-3.5" />}
-        <span className="hidden sm:inline">Boundaries</span>
+        <span className="hidden lg:inline">Boundaries</span>
       </button>
 
       <div className="bg-divider dark:bg-divider-dark h-5 w-px" />
@@ -68,7 +96,7 @@ export function DemoToolbarClient({
           ) : (
             <ZapOff className="size-3.5" />
           )}
-          <span className="hidden sm:inline">Prefetch</span>
+          <span className="hidden lg:inline">Prefetch</span>
         </button>
       </form>
 
@@ -98,9 +126,20 @@ export function DemoToolbarClient({
           ) : (
             <ServerOff className="size-3.5" />
           )}
-          <span className="hidden sm:inline">Runtime</span>
+          <span className="hidden lg:inline">Runtime</span>
         </button>
       </form>
+      <div className="bg-divider dark:bg-divider-dark h-5 w-px" />
+      <button
+        type="button"
+        onClick={toggleOffline}
+        aria-label={offline ? 'Simulating offline' : 'Online'}
+        aria-pressed={offline}
+        className={cn('flex items-center gap-1.5 px-3 py-1.5 transition-colors', offline ? 'text-gray' : 'text-accent')}
+      >
+        {offline ? <WifiOff className="size-3.5" /> : <Wifi className="size-3.5" />}
+        <span className="hidden lg:inline">Online</span>
+      </button>
     </div>
   );
 }
