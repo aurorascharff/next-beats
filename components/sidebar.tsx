@@ -28,7 +28,6 @@ export function Sidebar() {
         <div className="mb-4 hidden items-center justify-between lg:flex">
           <Link
             href="/"
-            prefetch={true}
             className="text-accent inline-flex items-center gap-2 px-1 text-xl font-bold tracking-tight"
             aria-label="NextBeats home"
           >
