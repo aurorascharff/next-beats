@@ -6,7 +6,6 @@ const nextConfig: NextConfig = {
   partialPrefetching: true,
   experimental: {
     inlineCss: true,
-    cachedNavigations: true,
     appShells: true,
     useOffline: true,
     viewTransition: true,
