@@ -18,13 +18,7 @@ export default function HomePage() {
         </Crossfade>
       </Suspense>
       <h2 className="mt-10 mb-4">Most Played</h2>
-      <Suspense
-        fallback={
-          <>
-            <MostPlayedSkeleton />
-          </>
-        }
-      >
+      <Suspense fallback={<MostPlayedSkeleton />}>
         <Crossfade>
           <MostPlayed />
           <section className="mt-10">
