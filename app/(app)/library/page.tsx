@@ -16,7 +16,7 @@ export default function LibraryPage() {
   return (
     <PageHeader title="Library">
       <h2 className="mb-4">All Tracks</h2>
-      <Suspense fallback={<LibraryGridSkeleton />}>
+      <Suspense fallback={<LibraryGridSkeleton showMore />}>
         <Crossfade>
           <div className="mb-10">
             <LibraryGrid />

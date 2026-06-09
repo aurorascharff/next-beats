@@ -7,7 +7,7 @@ import { prisma } from '@/lib/db';
 import { delay } from '@/lib/utils';
 import { toTrack, type Track } from '@/types/track';
 
-const LIBRARY_PAGE_SIZE = 20;
+const LIBRARY_PAGE_SIZE = 100;
 
 type LibraryPage = { tracks: Track[]; hasMore: boolean };
 
