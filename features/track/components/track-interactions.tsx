@@ -177,9 +177,7 @@ export function FavoriteButton({
       className={cn(
         'rounded-full transition-colors',
         size === 'lg' ? 'p-1.5' : 'p-1.5',
-        optimisticFavorite
-          ? 'text-accent hover:text-accent-hover'
-          : 'text-gray hover:text-black dark:hover:text-white',
+        optimisticFavorite ? 'text-accent hover:text-accent-hover' : 'text-gray hover:text-black dark:hover:text-white',
       )}
     >
       <Heart className={cn(size === 'lg' ? 'h-5 w-5' : 'h-4 w-4', optimisticFavorite && 'fill-current')} />

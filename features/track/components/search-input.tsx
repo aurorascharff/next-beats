@@ -18,29 +18,29 @@ export function SearchInput() {
 
   return (
     <div className="relative">
-        {isPending ? (
-          <Spinner className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 opacity-40" />
-        ) : (
-          <Search className="text-gray pointer-events-none absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2" />
-        )}
-        <input
-          ref={inputRef}
-          id={inputId}
-          type="search"
-          name="q"
-          autoFocus
-          aria-label="Search tracks"
-          placeholder="What do you want to listen to?"
-          suppressHydrationWarning
-          onChange={e => {
-            const value = e.target.value;
-            startTransition(() => {
-              router.replace(value ? (`/search?q=${encodeURIComponent(value)}` as Route) : '/search');
-            });
-          }}
-          className="!rounded-full !py-3 !pr-4 !pl-12 !text-base"
-        />
-        <SeedFromSearchParam targetId={inputId} param="q" />
-      </div>
+      {isPending ? (
+        <Spinner className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 opacity-40" />
+      ) : (
+        <Search className="text-gray pointer-events-none absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2" />
+      )}
+      <input
+        ref={inputRef}
+        id={inputId}
+        type="search"
+        name="q"
+        autoFocus
+        aria-label="Search tracks"
+        placeholder="What do you want to listen to?"
+        suppressHydrationWarning
+        onChange={e => {
+          const value = e.target.value;
+          startTransition(() => {
+            router.replace(value ? (`/search?q=${encodeURIComponent(value)}` as Route) : '/search');
+          });
+        }}
+        className="!rounded-full !py-3 !pr-4 !pl-12 !text-base"
+      />
+      <SeedFromSearchParam targetId={inputId} param="q" />
+    </div>
   );
 }
