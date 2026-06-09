@@ -19,8 +19,8 @@ export default function FavoritesPage() {
         <Crossfade>
           <FavoritesFeed />
         </Crossfade>
+        <h2 className="mt-10 mb-4">You Might Also Like</h2>
         <ErrorBoundary title="Couldn't load recommendations">
-          <h2 className="mt-10 mb-4">You Might Also Like</h2>
           <Suspense fallback={<DiscoverSkeleton />}>
             <Crossfade>
               <Discover />

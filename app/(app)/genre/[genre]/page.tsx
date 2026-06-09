@@ -21,7 +21,7 @@ export default function GenreDetailPage({ params }: PageProps<'/genre/[genre]'>)
         fallback={
           <>
             <Skeleton className="mb-6 h-9 w-40" />
-            <TrackListSkeleton count={5} showIndex />
+            <TrackListSkeleton count={5} showIndex showMore />
           </>
         }
       >
