@@ -1,10 +1,10 @@
 'use client';
 
 import { AlertTriangle } from 'lucide-react';
-import { unstable_catchError as catchError, type ErrorInfo } from 'next/error';
+import { catchError, type ErrorInfo } from 'next/error';
 import { Button } from '@/components/ui/button';
 
-function ErrorFallback(props: { title?: string; compact?: boolean }, { unstable_retry: retry }: ErrorInfo) {
+function ErrorFallback(props: { title?: string; compact?: boolean }, { retry }: ErrorInfo) {
   if (props.compact) {
     return (
       <div className="flex flex-col items-center gap-2 px-4 py-4 text-center">
