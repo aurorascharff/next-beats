@@ -4,7 +4,7 @@
 
 # NextBeats
 
-A Next.js 16.3 music player demonstrating [Instant Navigations](https://next-site-git-worktree-instant-navs-blog-post.vercel.sh/blog/next-16-3). <!-- TODO: swap to https://nextjs.org/blog/next-16-3 once the post ships -->
+A Next.js 16.3 music player demonstrating [Instant Navigations](https://nextjs.org/docs/canary/app/guides/instant-navigation).
 
 [**Live demo →**](https://next-beats.dev)
 
