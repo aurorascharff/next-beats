@@ -2,9 +2,9 @@ import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
-import { Toaster } from 'sonner';
 import { OfflineIndicator } from '@/components/offline-indicator';
 import { ThemeProvider } from '@/components/theme/theme-provider';
+import { Toaster } from '@/components/theme/toaster';
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 
@@ -28,12 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider>
           <OfflineIndicator />
           {children}
-          <Toaster
-            theme="system"
-            position="bottom-right"
-            toastOptions={{ style: { viewTransitionName: 'none' } }}
-            style={{ zIndex: 9999 }}
-          />
+          <Toaster />
         </ThemeProvider>
         <Analytics />
         <SpeedInsights />
