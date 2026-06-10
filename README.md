@@ -14,13 +14,13 @@ A Next.js 16.3 music player demonstrating [Instant Navigations](https://nextjs.o
 
 ## Features
 
-- [Cache Components](https://nextjs.org/docs/app/api-reference/config/next-config-js/cacheComponents) opt queries and components into the server cache with `'use cache'`, `cacheTag`, and `cacheLife`.
-- [Partial Prefetching](https://nextjs.org/docs/app/guides/prefetching) (the 16.3 default) prefetches each in-viewport link's App Shell so the click commits before per-request data lands.
+- [Cache Components](https://nextjs.org/docs/canary/app/api-reference/config/next-config-js/cacheComponents) opt queries and components into the server cache with `'use cache'`, `cacheTag`, and `cacheLife`.
+- [Partial Prefetching](https://nextjs.org/docs/canary/app/guides/adopting-partial-prefetching) (`partialPrefetching: true` in 16.3) prefetches each in-viewport link's App Shell so the click commits before per-request data lands.
 - `<Link prefetch={true}>` adds the destination's cached page body on top of the shell.
 - `export const prefetch = 'allow-runtime'` on the destination prerenders link-specific data (params, searchParams, cookies, headers, `'use cache: private'`) at prefetch time.
-- [`updateTag`](https://nextjs.org/docs/app/api-reference/functions/updateTag) from [Server Functions](https://nextjs.org/docs/app/getting-started/mutating-data) invalidates only the surfaces a mutation actually touches.
-- [View Transitions](https://nextjs.org/docs/app/guides/view-transitions) on Suspense reveals and `useOptimistic` for client interactions keep UI changes continuous.
-- [`instant()`](https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config/instant) e2e tests with [`@next/playwright`](https://nextjs.org/docs/app/guides/testing/playwright) lock in the instant-navigation contract in CI.
+- [`updateTag`](https://nextjs.org/docs/canary/app/api-reference/functions/updateTag) from [Server Functions](https://nextjs.org/docs/canary/app/getting-started/mutating-data) invalidates only the surfaces a mutation actually touches.
+- [View Transitions](https://nextjs.org/docs/canary/app/guides/view-transitions) on Suspense reveals and `useOptimistic` for client interactions keep UI changes continuous.
+- [`instant()`](https://nextjs.org/docs/canary/app/api-reference/file-conventions/route-segment-config/instant) e2e tests with [`@next/playwright`](https://nextjs.org/docs/canary/app/guides/testing/playwright) lock in the instant-navigation contract in CI.
 
 ## What to look at
 
