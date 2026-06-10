@@ -1,7 +1,7 @@
 import { Plus } from 'lucide-react';
 import { Suspense } from 'react';
 import { Crossfade } from '@/components/ui/crossfade';
-import { IconButtonLink } from '@/components/ui/icon-button-link';
+import { IconButtonLink, IconButtonLinkSkeleton } from '@/components/ui/icon-button-link';
 import { PageHeader } from '@/components/ui/page-layout';
 import { TopGenresGrid } from '@/features/genre/components/genre-browse';
 import { PlaylistBrowse } from '@/features/playlist/components/playlist-browse';
@@ -26,7 +26,7 @@ export default function LibraryPage() {
           <section className="mb-10">
             <div className="mb-4 flex items-center gap-2">
               <h2>Your Playlists</h2>
-              <Suspense>
+              <Suspense fallback={<IconButtonLinkSkeleton />}>
                 <IconButtonLink href="/playlist" label="Create playlist">
                   <Plus className="h-5 w-5" />
                 </IconButtonLink>

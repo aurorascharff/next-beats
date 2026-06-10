@@ -4,7 +4,7 @@ import { Suspense } from 'react';
 import { ThemeToggle } from '@/components/theme/theme-toggle';
 import ErrorBoundary from '@/components/ui/error-boundary';
 import { GitHubIcon } from '@/components/ui/github-icon';
-import { IconButtonLink } from '@/components/ui/icon-button-link';
+import { IconButtonLink, IconButtonLinkSkeleton } from '@/components/ui/icon-button-link';
 import { MusicNote } from '@/components/ui/music-note';
 import { NavLink } from '@/components/ui/nav-link';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -64,11 +64,13 @@ export function Sidebar() {
         <div className="flex items-center gap-2 px-3 py-3 lg:px-4">
           <Library className="text-gray h-5 w-5 shrink-0" />
           <span className="text-gray hidden text-sm font-bold lg:inline">Your Library</span>
-          <Suspense>
-            <IconButtonLink href="/playlist" label="Create playlist" className="ml-auto hidden lg:block">
-              <Plus className="h-5 w-5" />
-            </IconButtonLink>
-          </Suspense>
+          <div className="ml-auto hidden lg:block">
+            <Suspense fallback={<IconButtonLinkSkeleton />}>
+              <IconButtonLink href="/playlist" label="Create playlist">
+                <Plus className="h-5 w-5" />
+              </IconButtonLink>
+            </Suspense>
+          </div>
         </div>
         <nav className="flex min-h-0 flex-1 flex-col gap-0.5 overflow-y-auto px-2 pb-2">
           <NavLink href="/favorites" aria-label="Liked Tracks" className={sidebarLink}>

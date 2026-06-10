@@ -33,3 +33,7 @@ export function IconButtonLink({
     </Link>
   );
 }
+
+export function IconButtonLinkSkeleton() {
+  return <span aria-hidden className="inline-block size-7 rounded-full" />;
+}
