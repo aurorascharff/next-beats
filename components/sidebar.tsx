@@ -64,9 +64,11 @@ export function Sidebar() {
         <div className="flex items-center gap-2 px-3 py-3 lg:px-4">
           <Library className="text-gray h-5 w-5 shrink-0" />
           <span className="text-gray hidden text-sm font-bold lg:inline">Your Library</span>
-          <IconButtonLink href="/playlist" label="Create playlist" className="ml-auto hidden lg:block">
-            <Plus className="h-5 w-5" />
-          </IconButtonLink>
+          <Suspense>
+            <IconButtonLink href="/playlist" label="Create playlist" className="ml-auto hidden lg:block">
+              <Plus className="h-5 w-5" />
+            </IconButtonLink>
+          </Suspense>
         </div>
         <nav className="flex min-h-0 flex-1 flex-col gap-0.5 overflow-y-auto px-2 pb-2">
           <NavLink href="/favorites" aria-label="Liked Tracks" className={sidebarLink}>

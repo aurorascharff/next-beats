@@ -5,11 +5,7 @@ import { createContext, Suspense, use, useContext } from 'react';
 const PrefetchContext = createContext<Promise<boolean> | null>(null);
 
 export function PrefetchProvider({ value, children }: { value: Promise<boolean>; children: React.ReactNode }) {
-  return (
-    <PrefetchContext.Provider value={value}>
-      <Suspense>{children}</Suspense>
-    </PrefetchContext.Provider>
-  );
+  return <PrefetchContext.Provider value={value}>{children}</PrefetchContext.Provider>;
 }
 
 export function usePrefetchDefault() {
