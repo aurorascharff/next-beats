@@ -3,11 +3,11 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
 import { Suspense } from 'react';
-import { Toaster } from 'sonner';
 import { BoundaryProvider } from '@/components/demo/boundary-provider';
 import { DemoToolbar } from '@/components/demo/demo-toolbar';
 import { OfflineIndicator } from '@/components/offline-indicator';
 import { ThemeProvider } from '@/components/theme/theme-provider';
+import { Toaster } from '@/components/theme/toaster';
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 
@@ -37,12 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <DemoToolbar />
               </Suspense>
             </div>
-            <Toaster
-              theme="system"
-              position="bottom-right"
-              toastOptions={{ style: { viewTransitionName: 'none' } }}
-              style={{ zIndex: 9999 }}
-            />
+            <Toaster />
           </BoundaryProvider>
         </ThemeProvider>
         <Analytics />
