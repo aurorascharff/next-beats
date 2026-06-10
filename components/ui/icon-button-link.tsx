@@ -34,6 +34,6 @@ export function IconButtonLink({
   );
 }
 
-export function IconButtonLinkSkeleton() {
-  return <span aria-hidden className="inline-block size-7 rounded-full" />;
+export function IconButtonLinkSkeleton({ className }: { className?: string }) {
+  return <span aria-hidden className={cn('inline-block size-7 rounded-full', className)} />;
 }
