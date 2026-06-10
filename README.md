@@ -16,7 +16,7 @@ A Next.js 16.3 music player demonstrating [Instant Navigations](https://next-sit
 
 - **[Cache Components](https://nextjs.org/docs/app/api-reference/config/next-config-js/cacheComponents)** (`cacheComponents: true`) — opt-in caching at the component and query level
 - **[Partial Prefetching](https://nextjs.org/docs/app/guides/prefetching)**, the 16.3 default that prepares the reusable App Shell of each link in viewport so navigations commit instantly
-- **`unstable_prefetch = 'force-runtime'`** on personalized routes to pull runtime and `'use cache: private'` content into the prefetch
+- **`prefetch={true}` + `prefetch = 'allow-runtime'`** to also prefetch link-specific data behind params, searchParams, or `'use cache: private'`
 - **Push-driven invalidation** via [`updateTag`](https://nextjs.org/docs/app/api-reference/functions/updateTag) from [Server Functions](https://nextjs.org/docs/app/getting-started/mutating-data) so mutations refresh only the affected surface
 - **[View Transitions](https://nextjs.org/docs/app/guides/view-transitions)** on Suspense reveals, `useOptimistic` for client interactions — UI changes feel continuous instead of flashing
 - **`instant()` e2e tests** with [`@next/playwright`](https://nextjs.org/docs/app/guides/testing/playwright) to lock in the instant-navigation contract and catch regressions in CI
