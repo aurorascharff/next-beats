@@ -22,7 +22,15 @@ export default function LoginPage() {
           <label htmlFor="name" className="text-muted text-sm">
             Sign in with a display name
           </label>
-          <input id="name" name="name" required autoFocus placeholder="Aurora" />
+          <input
+            id="name"
+            name="name"
+            type="text"
+            autoComplete="username"
+            required
+            autoFocus
+            placeholder="Aurora"
+          />
           <Button type="submit" className="w-full">
             Sign in
           </Button>
