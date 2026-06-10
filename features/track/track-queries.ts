@@ -1,7 +1,6 @@
 import 'server-only';
 
 import { notFound } from 'next/navigation';
-import { connection } from 'next/server';
 import { cache } from 'react';
 import { getCurrentUser } from '@/features/user/user-queries';
 import { prisma } from '@/lib/db';
@@ -43,8 +42,6 @@ async function getFavoritesForUser(userId: string): Promise<Track[]> {
 }
 
 export const getRecentlyPlayed = cache(async (limit: number = 8): Promise<Track[]> => {
-  await connection();
-
   const userId = await getCurrentUser();
   await delay(500);
   const rows = await prisma.userTrackPlay.findMany({
