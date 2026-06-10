@@ -52,6 +52,8 @@ async function getFavoritesForUser(userId: string): Promise<Track[]> {
 }
 
 export const getRecentlyPlayed = cache(async (limit: number = 8): Promise<Track[]> => {
+  await connection();
+
   const userId = await getCurrentUser();
   await delay(500);
   const rows = await prisma.userTrackPlay.findMany({

@@ -14,27 +14,23 @@ A Next.js 16.3 music player demonstrating [Instant Navigations](https://next-sit
 
 ## Features
 
-- **[Cache Components](https://nextjs.org/docs/app/api-reference/config/next-config-js/cacheComponents)** (`cacheComponents: true`) — opt-in caching at the component and query level
-- **[Partial Prefetching](https://nextjs.org/docs/app/guides/prefetching)**, the 16.3 default that prepares the reusable App Shell of each link in viewport so navigations commit instantly
-- **`prefetch={true}` + `prefetch = 'allow-runtime'`** to also prefetch link-specific data behind params, searchParams, or `'use cache: private'`
-- **Push-driven invalidation** via [`updateTag`](https://nextjs.org/docs/app/api-reference/functions/updateTag) from [Server Functions](https://nextjs.org/docs/app/getting-started/mutating-data) so mutations refresh only the affected surface
-- **[View Transitions](https://nextjs.org/docs/app/guides/view-transitions)** on Suspense reveals, `useOptimistic` for client interactions — UI changes feel continuous instead of flashing
-- **`instant()` e2e tests** with [`@next/playwright`](https://nextjs.org/docs/app/guides/testing/playwright) to lock in the instant-navigation contract and catch regressions in CI
+- [Cache Components](https://nextjs.org/docs/app/api-reference/config/next-config-js/cacheComponents) opt queries and components into the server cache with `'use cache'`, `cacheTag`, and `cacheLife`.
+- [Partial Prefetching](https://nextjs.org/docs/app/guides/prefetching) (the 16.3 default) prefetches each in-viewport link's App Shell so the click commits before per-request data lands.
+- `<Link prefetch={true}>` adds the destination's cached page body on top of the shell.
+- `export const prefetch = 'allow-runtime'` on the destination prerenders link-specific data (params, searchParams, cookies, headers, `'use cache: private'`) at prefetch time.
+- [`updateTag`](https://nextjs.org/docs/app/api-reference/functions/updateTag) from [Server Functions](https://nextjs.org/docs/app/getting-started/mutating-data) invalidates only the surfaces a mutation actually touches.
+- [View Transitions](https://nextjs.org/docs/app/guides/view-transitions) on Suspense reveals and `useOptimistic` for client interactions keep UI changes continuous.
+- [`instant()`](https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config/instant) e2e tests with [`@next/playwright`](https://nextjs.org/docs/app/guides/testing/playwright) lock in the instant-navigation contract in CI.
 
-## What to observe
+## What to look at
 
-Open DevTools and watch the Network tab while you navigate:
+Open DevTools and watch the Network tab while you navigate. Each link in the viewport prepares its App Shell; the destination commits before per-request data lands. Favorite a track and only the surfaces tagged for that user refetch.
 
-- Each link in the viewport prepares its App Shell. The destination commits before the per-request data lands.
-- Favoriting a track only refetches what depends on it. Everything else stays put.
+The demo toolbar has three independent levers:
 
-The demo toolbar exposes three independent levers so you can see each layer of instant: link prefetch (cached content on top of the shell), runtime prefetch (private / per-request cached content), and a boundaries visualizer that outlines client components.
-
-## Caching
-
-Queries use [`'use cache'`](https://nextjs.org/docs/app/api-reference/directives/use-cache) with [`cacheTag`](https://nextjs.org/docs/app/api-reference/functions/cacheTag) and [`cacheLife`](https://nextjs.org/docs/app/api-reference/functions/cacheLife). Mutations invalidate tags with [`updateTag`](https://nextjs.org/docs/app/api-reference/functions/updateTag).
-
-See the [caching docs](https://nextjs.org/docs/app/getting-started/caching) for the full picture.
+1. **Link prefetch** toggles `<Link prefetch={true}>` so you can see the cached page body land before the click.
+2. **Runtime prefetch** toggles `prefetch = 'allow-runtime'` so you can see per-request data prefetch as well.
+3. **Boundaries** outlines every `'use client'` component so you can see how little ships.
 
 ## Getting started
 
@@ -48,8 +44,8 @@ pnpm run dev
 
 ## Stack
 
-- [Next.js 16.3](https://nextjs.org/) — App Router, Cache Components, Server Functions
-- [React 19](https://react.dev/) — Suspense, View Transitions, `useOptimistic`
+- [Next.js 16.3](https://nextjs.org/): App Router, Cache Components, Server Functions
+- [React 19](https://react.dev/): Suspense, View Transitions, `useOptimistic`
 - [TypeScript](https://www.typescriptlang.org/), [Tailwind CSS v4](https://tailwindcss.com/)
 - [Prisma 7](https://www.prisma.io/) on PostgreSQL
 - [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API) for procedural per-genre synthesis
