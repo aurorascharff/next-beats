@@ -22,6 +22,7 @@ export function CreatePlaylistForm() {
           name="name"
           placeholder="New playlist name…"
           required
+          autoComplete="off"
           className="flex-1"
           onKeyDown={e => {
             if (e.key === 'Enter' && e.metaKey) {

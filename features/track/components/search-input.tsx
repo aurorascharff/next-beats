@@ -31,6 +31,7 @@ export function SearchInput() {
           type="search"
           name="q"
           autoFocus
+          autoComplete="off"
           aria-label="Search tracks"
           placeholder="What do you want to listen to?"
           suppressHydrationWarning
