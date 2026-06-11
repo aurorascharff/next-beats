@@ -42,7 +42,9 @@ export function PlaylistList({ playlists }: { playlists: PlaylistSummary[] }) {
   return (
     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
       {playlists.map(pl => (
-        <PlaylistCard key={pl.id} playlist={pl} />
+        <ViewTransition key={pl.id} name={`playlist-card-${pl.id}`}>
+          <PlaylistCard playlist={pl} />
+        </ViewTransition>
       ))}
     </div>
   );
