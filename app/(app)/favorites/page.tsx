@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { Crossfade } from '@/components/ui/crossfade';
 import ErrorBoundary from '@/components/ui/error-boundary';
-import { PageHeader } from '@/components/ui/page-layout';
+import { PageWrapper } from '@/components/ui/page-layout';
 import { TopGenresGrid } from '@/features/genre/components/genre-browse';
 import { Discover, DiscoverSkeleton } from '@/features/track/components/discover';
 import { FavoritesFeed } from '@/features/track/components/favorites-feed';
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function FavoritesPage() {
   return (
-    <PageHeader title="Liked Tracks">
+    <PageWrapper title="Liked Tracks">
       <Suspense fallback={<TrackListSkeleton count={5} showIndex />}>
         <Crossfade>
           <FavoritesFeed />
@@ -41,6 +41,6 @@ export default function FavoritesPage() {
           </Suspense>
         </ErrorBoundary>
       </Suspense>
-    </PageHeader>
+    </PageWrapper>
   );
 }

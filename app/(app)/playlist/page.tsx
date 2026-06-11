@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import { Crossfade } from '@/components/ui/crossfade';
-import { PageHeader } from '@/components/ui/page-layout';
+import { PageWrapper } from '@/components/ui/page-layout';
 import { CreatePlaylistForm } from '@/features/playlist/components/create-playlist-form';
 import { PlaylistBrowse, PlaylistBrowseSkeleton } from '@/features/playlist/components/playlist-browse';
 import type { Metadata } from 'next';
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function PlaylistsPage() {
   return (
-    <PageHeader title="Playlists">
+    <PageWrapper title="Playlists">
       <div className="mb-6 max-w-md">
         <CreatePlaylistForm />
       </div>
@@ -20,6 +20,6 @@ export default function PlaylistsPage() {
           <PlaylistBrowse />
         </Crossfade>
       </Suspense>
-    </PageHeader>
+    </PageWrapper>
   );
 }

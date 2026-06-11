@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { Crossfade } from '@/components/ui/crossfade';
 import ErrorBoundary from '@/components/ui/error-boundary';
-import { PageHeader } from '@/components/ui/page-layout';
+import { PageWrapper } from '@/components/ui/page-layout';
 import { GenreBrowse, GenreBrowseSkeleton } from '@/features/genre/components/genre-browse';
 import { SearchInput } from '@/features/track/components/search-input';
 import { SearchResults } from '@/features/track/components/search-results';
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function SearchPage({ searchParams }: PageProps<'/search'>) {
   return (
-    <PageHeader title="Search">
+    <PageWrapper title="Search">
       <div className="mb-8">
         <SearchInput />
       </div>
@@ -36,6 +36,6 @@ export default function SearchPage({ searchParams }: PageProps<'/search'>) {
           </Crossfade>
         </Suspense>
       </ErrorBoundary>
-    </PageHeader>
+    </PageWrapper>
   );
 }

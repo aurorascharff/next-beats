@@ -1,5 +1,5 @@
-import { PageHeader } from '@/components/ui/page-layout';
+import { PageWrapper } from '@/components/ui/page-layout';
 
 export default function HomePage() {
-  return <PageHeader title="Welcome back" />;
+  return <PageWrapper title="Welcome back" />;
 }
