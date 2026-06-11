@@ -5,6 +5,7 @@ import { AddToPlaylistMenu } from '@/features/playlist/components/add-to-playlis
 import { getPlaylistMenuItems } from '@/features/playlist/playlist-queries';
 import { FavoriteButton, NowPlayingTrackLink, TrackIndexCell } from '@/features/track/components/track-interactions';
 import { TrackPlayRow } from '@/features/track/components/track-interactions';
+import { getUserFavoriteIds } from '@/features/track/track-queries';
 import { formatDuration, formatCount } from '@/lib/utils';
 import type { Track as TrackT } from '@/types/track';
 
@@ -14,7 +15,9 @@ type Props = {
   showAlbum?: boolean;
 };
 
-export function TrackRow({ track, index, showAlbum = true, queue }: Props & { queue?: TrackT[] }) {
+export async function TrackRow({ track, index, showAlbum = true, queue }: Props & { queue?: TrackT[] }) {
+  const favoriteIds = await getUserFavoriteIds();
+  const isFavorite = track.isFavorite || favoriteIds.has(track.id);
   return (
     <TrackPlayRow track={track} queue={queue}>
       <div className="flex items-center gap-3 px-3 py-2">
@@ -31,7 +34,7 @@ export function TrackRow({ track, index, showAlbum = true, queue }: Props & { qu
         </div>
         <span className="text-muted hidden text-xs sm:block">{formatCount(track.playCount)} plays</span>
         <span className="text-muted font-mono text-xs">{formatDuration(track.duration)}</span>
-        <FavoriteButton trackId={track.id} isFavorite={track.isFavorite} />
+        <FavoriteButton trackId={track.id} isFavorite={isFavorite} />
         <AddToPlaylistMenu trackId={track.id} itemsPromise={getPlaylistMenuItems(track.id)} />
       </div>
     </TrackPlayRow>

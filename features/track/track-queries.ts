@@ -50,6 +50,16 @@ async function getFavoritesForUser(userId: string): Promise<Track[]> {
   return rows.map(row => toTrack(row.track, { favorites: [row] }));
 }
 
+export const getUserFavoriteIds = cache(async (): Promise<Set<string>> => {
+  const userId = await getCurrentUser();
+  if (!userId) return new Set();
+  const rows = await prisma.userFavorite.findMany({
+    where: { userId },
+    select: { trackId: true },
+  });
+  return new Set(rows.map(r => r.trackId));
+});
+
 export const getRecentlyPlayed = cache(async (limit: number = 8): Promise<Track[]> => {
   const userId = await getCurrentUser();
   await delay(500);
