@@ -48,8 +48,12 @@ export function AlbumCard({ track }: { track: Track }) {
 
 export function AlbumCardSkeleton() {
   return (
-    <div className="rounded-lg p-3">
+    <div className="flex flex-col gap-3 rounded-lg p-3">
       <Skeleton className="skeleton-subtle aspect-square w-full rounded-md" />
+      <div className="flex flex-col gap-1.5">
+        <Skeleton className="skeleton-subtle h-4 w-3/4" />
+        <Skeleton className="skeleton-subtle h-3 w-1/2" />
+      </div>
     </div>
   );
 }
