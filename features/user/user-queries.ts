@@ -18,6 +18,8 @@ export const getCurrentUser = cache(async (): Promise<string> => {
 });
 
 export const getCurrentUserName = cache(async (): Promise<string> => {
+  'use cache: private';
+
   const userId = await getCurrentUser();
   const user = await prisma.user.findUnique({ where: { id: userId }, select: { name: true } });
   return user?.name ?? 'listener';
