@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: PageProps<'/track/[id]'>): Pr
   return { title: track.title };
 }
 
-export const prefetch = 'allow-runtime';
+export const unstable_prefetch = 'force-runtime';
 
 export default function TrackPage({ params }: PageProps<'/track/[id]'>) {
   return (

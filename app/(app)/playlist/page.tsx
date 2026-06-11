@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: 'Playlists',
 };
 
-export const prefetch = 'allow-runtime';
+export const unstable_prefetch = 'force-runtime';
 
 export default function PlaylistsPage() {
   return (

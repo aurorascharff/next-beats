@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: 'Liked Tracks',
 };
 
-export const prefetch = 'allow-runtime';
+export const unstable_prefetch = 'force-runtime';
 
 export default function FavoritesPage() {
   return (
