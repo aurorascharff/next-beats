@@ -14,7 +14,7 @@ export const getPlaylists = cache(async (): Promise<PlaylistSummary[]> => {
 });
 
 async function getPlaylistsForUser(userId: string): Promise<PlaylistSummary[]> {
-  await delay(1200);
+  await delay(1800);
   const rows = await prisma.playlist.findMany({
     include: { _count: { select: { tracks: true } } },
     orderBy: { createdAt: 'desc' },

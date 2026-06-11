@@ -1,0 +1,76 @@
+{
+  "Header Recently Played": {
+    "scope": "typescriptreact",
+    "prefix": "header-recently-played",
+    "description": "Recently Played heading with streamed QuickPlayGrid",
+    "body": [
+      "<h2 className=\"mb-4\">Recently Played</h2>",
+      "<Suspense fallback={<QuickPlayGridSkeleton />}>",
+      "  <QuickPlayGrid />",
+      "</Suspense>"
+    ]
+  },
+  "Header Most Played": {
+    "scope": "typescriptreact",
+    "prefix": "header-most-played",
+    "description": "Most Played heading with streamed MostPlayed",
+    "body": [
+      "<h2 className=\"mt-10 mb-4\">Most Played</h2>",
+      "<Suspense fallback={<MostPlayedSkeleton />}>",
+      "  <MostPlayed />",
+      "</Suspense>"
+    ]
+  },
+  "Section Playlists": {
+    "scope": "typescriptreact",
+    "prefix": "section-playlists",
+    "description": "Your Playlists section wrapper with an empty body",
+    "body": [
+      "<section className=\"mt-10\">",
+      "  <h2 className=\"mb-4\">Your Playlists</h2>",
+      "  $0",
+      "</section>"
+    ]
+  },
+  "Playlist Browse": {
+    "scope": "typescriptreact",
+    "prefix": "playlist-browse",
+    "description": "Streamed PlaylistBrowse to drop into the playlists section",
+    "body": [
+      "<Suspense fallback={<PlaylistListSkeleton />}>",
+      "  <PlaylistBrowse />",
+      "</Suspense>"
+    ]
+  },
+  "Section Browse Genres": {
+    "scope": "typescriptreact",
+    "prefix": "section-genres",
+    "description": "Browse Genres section wrapper with an empty body",
+    "body": [
+      "<section className=\"mt-10\">",
+      "  <h2 className=\"mb-4\">Browse Genres</h2>",
+      "  $0",
+      "</section>"
+    ]
+  },
+  "Section Other Playlists": {
+    "scope": "typescriptreact",
+    "prefix": "section-other-playlists",
+    "description": "Other Playlists section with PlaylistBrowse excluding the current id",
+    "body": [
+      "<section className=\"mt-10\">",
+      "  <h2 className=\"mb-4\">Other Playlists</h2>",
+      "  <PlaylistBrowse excludeId={${1:id}} />",
+      "</section>"
+    ]
+  },
+  "Update Track Favorite Tags": {
+    "scope": "typescript",
+    "prefix": "update-track-favorite-tags",
+    "description": "Invalidate cache tags for a track and the user's favorites list",
+    "body": [
+      "updateTag(`track-${${1:id}}:${${2:userId}}`);",
+      "updateTag(`favorites:${${2:userId}}`);"
+    ]
+  }
+}

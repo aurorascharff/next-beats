@@ -51,9 +51,11 @@ export function PlaylistDetailSkeleton() {
     <>
       <div className="mb-8 flex flex-col items-center gap-4 sm:flex-row sm:items-end sm:gap-6">
         <Skeleton className="skeleton-subtle h-40 w-40 shrink-0 rounded-md shadow-2xl sm:h-48 sm:w-48" />
-        <div className="mb-[30px] flex flex-col gap-2.5">
-          <Skeleton className="h-8 w-44 sm:h-9 sm:w-52" />
-          <Skeleton className="h-3 w-28" />
+        <div className="flex flex-col items-center gap-1 sm:items-start">
+          <Skeleton className="h-3 w-16" />
+          <Skeleton className="h-9 w-44 sm:h-11 sm:w-52" />
+          <Skeleton className="h-4 w-40" />
+          <Skeleton className="h-3.5 w-28" />
         </div>
       </div>
       <div className="mb-6 flex items-center gap-4">
