@@ -39,7 +39,6 @@ export const getFavorites = cache(async (): Promise<Track[]> => {
 async function getFavoritesForUser(userId: string): Promise<Track[]> {
   'use cache';
   cacheTag(`favorites:${userId}`);
-  cacheLife('hours');
 
   await delay(500);
   const rows = await prisma.userFavorite.findMany({
@@ -53,12 +52,19 @@ async function getFavoritesForUser(userId: string): Promise<Track[]> {
 export const getUserFavoriteIds = cache(async (): Promise<Set<string>> => {
   const userId = await getCurrentUser();
   if (!userId) return new Set();
+  return getUserFavoriteIdsForUser(userId);
+});
+
+async function getUserFavoriteIdsForUser(userId: string): Promise<Set<string>> {
+  'use cache';
+  cacheTag(`favorites:${userId}`);
+
   const rows = await prisma.userFavorite.findMany({
     where: { userId },
     select: { trackId: true },
   });
   return new Set(rows.map(r => r.trackId));
-});
+}
 
 export const getRecentlyPlayed = cache(async (limit: number = 8): Promise<Track[]> => {
   const userId = await getCurrentUser();
@@ -66,6 +72,9 @@ export const getRecentlyPlayed = cache(async (limit: number = 8): Promise<Track[
 });
 
 async function getRecentlyPlayedForUser(userId: string, limit: number): Promise<Track[]> {
+  'use cache';
+  cacheTag(`recently-played:${userId}`);
+
   await delay(500);
   const rows = await prisma.userTrackPlay.findMany({
     where: { userId },
@@ -84,7 +93,6 @@ export const getTrack = cache(async (id: string) => {
 async function getTrackForUser(id: string, userId: string) {
   'use cache';
   cacheTag('tracks', `track-${id}`, `track-${id}:${userId}`);
-  cacheLife('hours');
 
   await delay(400);
   const row = await prisma.track.findUnique({
@@ -100,7 +108,6 @@ async function getTrackForUser(id: string, userId: string) {
 export const getMostPlayed = cache(async (limit: number = 8): Promise<Track[]> => {
   'use cache';
   cacheTag('tracks');
-  cacheLife('minutes');
 
   await delay(700);
   const rows = await prisma.track.findMany({
@@ -119,7 +126,6 @@ export const getDiscover = cache(async (limit: number = 8): Promise<Track[]> => 
 async function getDiscoverForUser(userId: string, limit: number): Promise<Track[]> {
   'use cache';
   cacheTag(`discover:${userId}`);
-  cacheLife('hours');
 
   await delay(1100);
   const rows = await prisma.track.findMany({
@@ -136,7 +142,6 @@ async function getDiscoverForUser(userId: string, limit: number): Promise<Track[
 export const getTracksByGenre = cache(async (genre: string): Promise<Track[]> => {
   'use cache';
   cacheTag('tracks', `genre-${genre}`);
-  cacheLife('hours');
 
   await delay(900);
   const rows = await prisma.track.findMany({
