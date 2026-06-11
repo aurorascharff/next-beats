@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import { Crossfade } from '@/components/ui/crossfade';
-import { PageHeader } from '@/components/ui/page-layout';
+import { PageWrapper } from '@/components/ui/page-layout';
 import { TopGenresGrid } from '@/features/genre/components/genre-browse';
 import { PlaylistBrowse } from '@/features/playlist/components/playlist-browse';
 import { MostPlayed, MostPlayedSkeleton } from '@/features/track/components/most-played';
@@ -10,7 +10,7 @@ export const prefetch = 'allow-runtime';
 
 export default function HomePage() {
   return (
-    <PageHeader title="Welcome back">
+    <PageWrapper title="Welcome back">
       <h2 className="mb-4">Recently Played</h2>
       <Suspense fallback={<QuickPlayGridSkeleton />}>
         <Crossfade>
@@ -31,6 +31,6 @@ export default function HomePage() {
           </section>
         </Crossfade>
       </Suspense>
-    </PageHeader>
+    </PageWrapper>
   );
 }
