@@ -72,8 +72,7 @@ export const getRecentlyPlayed = cache(async (limit: number = 8): Promise<Track[
 });
 
 async function getRecentlyPlayedForUser(userId: string, limit: number): Promise<Track[]> {
-  'use cache';
-  cacheTag(`recently-played:${userId}`);
+  'use cache: private';
   cacheLife('seconds');
 
   await delay(500);
