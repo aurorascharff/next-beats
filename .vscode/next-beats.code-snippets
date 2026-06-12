@@ -1,13 +1,7 @@
 {
-  "Cache Import": {
-    "scope": "typescript,typescriptreact",
-    "prefix": "cacheimp",
-    "description": "Import cacheLife and cacheTag from next/cache",
-    "body": ["import { cacheLife, cacheTag } from 'next/cache';"]
-  },
   "Use Cache": {
     "scope": "typescript,typescriptreact",
-    "prefix": "usecache",
+    "prefix": "useCache",
     "description": "'use cache' with cacheTag and cacheLife",
     "body": [
       "'use cache';",
@@ -17,7 +11,7 @@
   },
   "Use Cache Playlist": {
     "scope": "typescript,typescriptreact",
-    "prefix": "usecacheplaylist",
+    "prefix": "usecachePlaylist",
     "description": "'use cache' tagged for a single playlist scoped to a user",
     "body": [
       "'use cache';",
@@ -27,13 +21,13 @@
   },
   "Use Cache Private": {
     "scope": "typescript,typescriptreact",
-    "prefix": "usecacheprivate",
+    "prefix": "usecachePrivate",
     "description": "'use cache: private' directive",
     "body": ["'use cache: private';"]
   },
   "Revalidate Playlists": {
     "scope": "typescript",
-    "prefix": "updateplaylists",
+    "prefix": "updatePlaylists",
     "description": "Invalidate the user's playlists tag after a mutation",
     "body": ["updateTag(`playlists:${${1:userId}}`);"]
   }
