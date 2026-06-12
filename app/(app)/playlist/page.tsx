@@ -20,7 +20,7 @@ export default function PlaylistsPage() {
       </div>
       <Suspense fallback={<PlaylistListSkeleton count={3} />}>
         <Crossfade>
-          <PlaylistBrowse />
+          <PlaylistBrowse animateItems />
         </Crossfade>
       </Suspense>
     </PageWrapper>
