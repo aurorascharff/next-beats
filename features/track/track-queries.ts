@@ -1,7 +1,5 @@
 import 'server-only';
 
-import { cacheLife } from 'next/dist/server/use-cache/cache-life';
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { getCurrentUser } from '@/features/user/user-queries';
@@ -83,10 +81,6 @@ async function getTrackForUser(id: string, userId: string) {
 }
 
 export const getMostPlayed = cache(async (limit: number = 8): Promise<Track[]> => {
-  'use cache';
-  cacheLife('hours');
-  cacheTag('tracks');
-
   await delay(700);
   const rows = await prisma.track.findMany({
     orderBy: { playCount: 'desc' },
