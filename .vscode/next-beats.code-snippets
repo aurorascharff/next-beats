@@ -72,5 +72,17 @@
       "updateTag(`track-${${1:id}}:${${2:userId}}`);",
       "updateTag(`favorites:${${2:userId}}`);"
     ]
+  },
+  "Use Cache": {
+    "scope": "typescript,typescriptreact",
+    "prefix": "usecache",
+    "description": "'use cache' with cacheTag and cacheLife",
+    "body": ["'use cache';", "cacheTag('${1:tag}');", "cacheLife('${2:hours}');"]
+  },
+  "Cache Import": {
+    "scope": "typescript,typescriptreact",
+    "prefix": "cacheimp",
+    "description": "Import cacheLife and cacheTag from next/cache",
+    "body": ["import { cacheLife, cacheTag } from 'next/cache';"]
   }
 }
