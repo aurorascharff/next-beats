@@ -5,7 +5,6 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   partialPrefetching: true,
   experimental: {
-    appShells: true,
     inlineCss: true,
     useOffline: true,
     viewTransition: true,
