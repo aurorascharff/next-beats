@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: PageProps<'/genre/[genre]'>):
   return { title: label.charAt(0).toUpperCase() + label.slice(1) };
 }
 
-export const unstable_prefetch = 'force-runtime';
+export const prefetch = 'allow-runtime';
 
 export default function GenreDetailPage({ params }: PageProps<'/genre/[genre]'>) {
   return (

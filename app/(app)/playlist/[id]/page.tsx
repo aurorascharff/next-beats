@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: PageProps<'/playlist/[id]'>):
   return { title: playlist.name };
 }
 
-export const unstable_prefetch = 'force-runtime';
+export const prefetch = 'allow-runtime';
 
 export default function PlaylistDetailPage({ params }: PageProps<'/playlist/[id]'>) {
   return (
