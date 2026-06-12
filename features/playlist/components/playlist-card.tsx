@@ -38,14 +38,24 @@ export function PlaylistCard({ playlist }: { playlist: PlaylistSummary }) {
   );
 }
 
-export function PlaylistList({ playlists }: { playlists: PlaylistSummary[] }) {
+export function PlaylistList({
+  playlists,
+  animateItems = false,
+}: {
+  playlists: PlaylistSummary[];
+  animateItems?: boolean;
+}) {
   return (
     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-      {playlists.map(pl => (
-        <ViewTransition key={pl.id} name={`playlist-card-${pl.id}`}>
-          <PlaylistCard playlist={pl} />
-        </ViewTransition>
-      ))}
+      {playlists.map(pl =>
+        animateItems ? (
+          <ViewTransition key={pl.id} name={`playlist-card-${pl.id}`}>
+            <PlaylistCard playlist={pl} />
+          </ViewTransition>
+        ) : (
+          <PlaylistCard key={pl.id} playlist={pl} />
+        ),
+      )}
     </div>
   );
 }
