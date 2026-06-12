@@ -9,6 +9,7 @@ const SLOTS = 6;
 export async function QuickPlayGrid() {
   const tracks = await getRecentlyPlayed(SLOTS);
   const fillers = SLOTS - tracks.length;
+
   return (
     <div className="relative grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
       {tracks.map(track => (
