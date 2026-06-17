@@ -30,3 +30,22 @@ export async function toggleFavorite(trackId: string) {
   refresh();
   return { ok: true as const };
 }
+
+export async function recordPlay(trackId: string) {
+  const userId = await verifyAuth();
+  const id = trackIdSchema.parse(trackId);
+
+  await prisma.track.update({
+    where: { id },
+    data: { playCount: { increment: 1 } },
+  });
+
+  await prisma.userTrackPlay.upsert({
+    where: { userId_trackId: { userId, trackId: id } },
+    create: { userId, trackId: id },
+    update: { lastPlayedAt: new Date() },
+  });
+
+  refresh();
+  return { ok: true as const };
+}

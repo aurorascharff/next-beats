@@ -30,7 +30,11 @@ export async function signIn(formData: FormData) {
   }
 
   const store = await cookies();
-  store.set(SESSION_COOKIE, userId, { path: '/', sameSite: 'lax' });
+  store.set(SESSION_COOKIE, userId, {
+    path: '/',
+    sameSite: 'lax',
+    maxAge: 60 * 60 * 24 * 30, // 30 days
+  });
   redirect('/');
 }
 

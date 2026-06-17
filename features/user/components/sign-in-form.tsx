@@ -18,7 +18,7 @@ export function SignInForm() {
   return (
     <form action={formAction} className="flex flex-col gap-3">
       <label htmlFor="name" className="text-muted text-sm">
-        Sign in with a display name
+        Sign in with a username
       </label>
       <input
         id="name"
