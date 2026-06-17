@@ -32,3 +32,27 @@ export async function toggleFavorite(trackId: string) {
   revalidateTag(`discover:${userId}`, 'max');
   return { ok: true as const };
 }
+
+export async function recordPlay(trackId: string) {
+  const userId = await verifyAuth();
+  const id = trackIdSchema.parse(trackId);
+
+  const track = await prisma.track.update({
+    where: { id },
+    data: { playCount: { increment: 1 } },
+    select: { genre: true },
+  });
+
+  await prisma.userTrackPlay.upsert({
+    where: { userId_trackId: { userId, trackId: id } },
+    create: { userId, trackId: id },
+    update: { lastPlayedAt: new Date() },
+  });
+
+  updateTag(`recently-played:${userId}`);
+  revalidateTag('tracks', 'max');
+  revalidateTag(`track-${id}`, 'max');
+  revalidateTag(`genre-${track.genre}`, 'max');
+  revalidateTag(`discover:${userId}`, 'max');
+  return { ok: true as const };
+}
