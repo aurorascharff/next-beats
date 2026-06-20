@@ -6,13 +6,11 @@ import { cache } from 'react';
 import { getCurrentUser } from '@/features/user/user-queries';
 import { prisma } from '@/lib/db';
 import { delay } from '@/lib/utils';
-import { toTrack, type Track } from '@/types/track';
+import { toTrack } from '@/types/track';
 
 const LIBRARY_PAGE_SIZE = 100;
 
-type LibraryPage = { tracks: Track[]; hasMore: boolean };
-
-export const getLibrary = cache(async (page: number = 1): Promise<LibraryPage> => {
+export const getLibrary = cache(async (page: number = 1) => {
   'use cache';
   cacheTag('library');
   cacheLife('hours');
@@ -31,12 +29,12 @@ export const getLibrary = cache(async (page: number = 1): Promise<LibraryPage> =
   };
 });
 
-export const getFavorites = cache(async (): Promise<Track[]> => {
+export const getFavorites = cache(async () => {
   const userId = await getCurrentUser();
   return getFavoritesForUser(userId);
 });
 
-async function getFavoritesForUser(userId: string): Promise<Track[]> {
+async function getFavoritesForUser(userId: string) {
   'use cache';
   cacheTag(`favorites:${userId}`);
 
@@ -49,13 +47,13 @@ async function getFavoritesForUser(userId: string): Promise<Track[]> {
   return rows.map(row => toTrack(row.track, { favorites: [row] }));
 }
 
-export const getUserFavoriteIds = cache(async (): Promise<Set<string>> => {
+export const getUserFavoriteIds = cache(async () => {
   const userId = await getCurrentUser();
-  if (!userId) return new Set();
+  if (!userId) return new Set<string>();
   return getUserFavoriteIdsForUser(userId);
 });
 
-async function getUserFavoriteIdsForUser(userId: string): Promise<Set<string>> {
+async function getUserFavoriteIdsForUser(userId: string) {
   'use cache';
   cacheTag(`favorites:${userId}`);
 
@@ -66,12 +64,12 @@ async function getUserFavoriteIdsForUser(userId: string): Promise<Set<string>> {
   return new Set(rows.map(r => r.trackId));
 }
 
-export const getRecentlyPlayed = cache(async (limit: number = 8): Promise<Track[]> => {
+export const getRecentlyPlayed = cache(async (limit: number = 8) => {
   const userId = await getCurrentUser();
   return getRecentlyPlayedForUser(userId, limit);
 });
 
-async function getRecentlyPlayedForUser(userId: string, limit: number): Promise<Track[]> {
+async function getRecentlyPlayedForUser(userId: string, limit: number) {
   'use cache';
   cacheTag(`recently-played:${userId}`);
   cacheLife('minutes');
@@ -106,7 +104,7 @@ async function getTrackForUser(id: string, userId: string) {
   return toTrack(row, { favorites: row.favorites });
 }
 
-export const getMostPlayed = cache(async (limit: number = 8): Promise<Track[]> => {
+export const getMostPlayed = cache(async (limit: number = 8) => {
   'use cache';
   cacheTag('tracks');
 
@@ -119,12 +117,12 @@ export const getMostPlayed = cache(async (limit: number = 8): Promise<Track[]> =
   return rows.map(row => toTrack(row));
 });
 
-export const getDiscover = cache(async (limit: number = 8): Promise<Track[]> => {
+export const getDiscover = cache(async (limit: number = 8) => {
   const userId = await getCurrentUser();
   return getDiscoverForUser(userId, limit);
 });
 
-async function getDiscoverForUser(userId: string, limit: number): Promise<Track[]> {
+async function getDiscoverForUser(userId: string, limit: number) {
   'use cache';
   cacheTag(`discover:${userId}`);
 
@@ -140,7 +138,7 @@ async function getDiscoverForUser(userId: string, limit: number): Promise<Track[
   return rows.map(row => toTrack(row));
 }
 
-export const getTracksByGenre = cache(async (genre: string): Promise<Track[]> => {
+export const getTracksByGenre = cache(async (genre: string) => {
   'use cache';
   cacheTag('tracks', `genre-${genre}`);
 
@@ -152,7 +150,7 @@ export const getTracksByGenre = cache(async (genre: string): Promise<Track[]> =>
   return rows.map(row => toTrack(row));
 });
 
-export const searchTracks = cache(async (query: string): Promise<Track[]> => {
+export const searchTracks = cache(async (query: string) => {
   'use cache';
   cacheTag('search');
   cacheLife('hours');
