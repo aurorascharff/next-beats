@@ -5,15 +5,14 @@ import { cache } from 'react';
 import { getCurrentUser } from '@/features/user/user-queries';
 import { prisma } from '@/lib/db';
 import { delay } from '@/lib/utils';
-import type { PlaylistMenuItem, PlaylistSummary, PlaylistWithTracks } from '@/types/playlist';
 import { toTrack } from '@/types/track';
 
-export const getPlaylists = cache(async (): Promise<PlaylistSummary[]> => {
+export const getPlaylists = cache(async () => {
   const userId = await getCurrentUser();
   return getPlaylistsForUser(userId);
 });
 
-async function getPlaylistsForUser(userId: string): Promise<PlaylistSummary[]> {
+async function getPlaylistsForUser(userId: string) {
   await delay(1800);
   const rows = await prisma.playlist.findMany({
     include: { _count: { select: { tracks: true } } },
@@ -29,12 +28,12 @@ async function getPlaylistsForUser(userId: string): Promise<PlaylistSummary[]> {
   }));
 }
 
-export const getPlaylist = cache(async (id: string): Promise<PlaylistWithTracks> => {
+export const getPlaylist = cache(async (id: string) => {
   const userId = await getCurrentUser();
   return getPlaylistForUser(id, userId);
 });
 
-async function getPlaylistForUser(id: string, userId: string): Promise<PlaylistWithTracks> {
+async function getPlaylistForUser(id: string, userId: string) {
   await delay(500);
   const row = await prisma.playlist.findFirst({
     include: {
@@ -56,12 +55,12 @@ async function getPlaylistForUser(id: string, userId: string): Promise<PlaylistW
   };
 }
 
-export const getPlaylistMenuItems = cache(async (trackId: string): Promise<PlaylistMenuItem[]> => {
+export const getPlaylistMenuItems = cache(async (trackId: string) => {
   const userId = await getCurrentUser();
   return getPlaylistMenuItemsForUser(trackId, userId);
 });
 
-async function getPlaylistMenuItemsForUser(trackId: string, userId: string): Promise<PlaylistMenuItem[]> {
+async function getPlaylistMenuItemsForUser(trackId: string, userId: string) {
   const playlists = await prisma.playlist.findMany({
     include: { _count: { select: { tracks: true } } },
     orderBy: { createdAt: 'desc' },

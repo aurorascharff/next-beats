@@ -7,7 +7,7 @@ import { prisma } from '@/lib/db';
 
 const SESSION_COOKIE = 'beats-user';
 
-export const getCurrentUser = cache(async (): Promise<string> => {
+export const getCurrentUser = cache(async () => {
   const store = await cookies();
   const userId = store.get(SESSION_COOKIE)?.value;
   if (!userId) return '';
@@ -15,13 +15,13 @@ export const getCurrentUser = cache(async (): Promise<string> => {
   return exists?.id ?? '';
 });
 
-export const getCurrentUserName = cache(async (): Promise<string> => {
+export const getCurrentUserName = cache(async () => {
   const userId = await getCurrentUser();
   const user = await prisma.user.findUnique({ where: { id: userId }, select: { name: true } });
   return user?.name ?? 'listener';
 });
 
-export async function verifyAuth(): Promise<string> {
+export async function verifyAuth() {
   const userId = await getCurrentUser();
   if (!userId) {
     const store = await cookies();

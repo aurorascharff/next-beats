@@ -5,13 +5,11 @@ import { cache } from 'react';
 import { getCurrentUser } from '@/features/user/user-queries';
 import { prisma } from '@/lib/db';
 import { delay } from '@/lib/utils';
-import { toTrack, type Track } from '@/types/track';
+import { toTrack } from '@/types/track';
 
 const LIBRARY_PAGE_SIZE = 100;
 
-type LibraryPage = { tracks: Track[]; hasMore: boolean };
-
-export const getLibrary = cache(async (page: number = 1): Promise<LibraryPage> => {
+export const getLibrary = cache(async (page: number = 1) => {
   await delay(400);
   const rows = await prisma.track.findMany({
     orderBy: { createdAt: 'desc' },
@@ -26,12 +24,12 @@ export const getLibrary = cache(async (page: number = 1): Promise<LibraryPage> =
   };
 });
 
-export const getFavorites = cache(async (): Promise<Track[]> => {
+export const getFavorites = cache(async () => {
   const userId = await getCurrentUser();
   return getFavoritesForUser(userId);
 });
 
-async function getFavoritesForUser(userId: string): Promise<Track[]> {
+async function getFavoritesForUser(userId: string) {
   await delay(500);
   const rows = await prisma.userFavorite.findMany({
     where: { userId },
@@ -41,9 +39,9 @@ async function getFavoritesForUser(userId: string): Promise<Track[]> {
   return rows.map(row => toTrack(row.track, { favorites: [row] }));
 }
 
-export const getUserFavoriteIds = cache(async (): Promise<Set<string>> => {
+export const getUserFavoriteIds = cache(async () => {
   const userId = await getCurrentUser();
-  if (!userId) return new Set();
+  if (!userId) return new Set<string>();
   const rows = await prisma.userFavorite.findMany({
     where: { userId },
     select: { trackId: true },
@@ -51,12 +49,12 @@ export const getUserFavoriteIds = cache(async (): Promise<Set<string>> => {
   return new Set(rows.map(r => r.trackId));
 });
 
-export const getRecentlyPlayed = cache(async (limit: number = 8): Promise<Track[]> => {
+export const getRecentlyPlayed = cache(async (limit: number = 8) => {
   const userId = await getCurrentUser();
   return getRecentlyPlayedForUser(userId, limit);
 });
 
-async function getRecentlyPlayedForUser(userId: string, limit: number): Promise<Track[]> {
+async function getRecentlyPlayedForUser(userId: string, limit: number) {
   await delay(500);
   const rows = await prisma.userTrackPlay.findMany({
     where: { userId },
@@ -84,7 +82,7 @@ async function getTrackForUser(id: string, userId: string) {
   return toTrack(row, { favorites: row.favorites });
 }
 
-export const getMostPlayed = cache(async (limit: number = 8): Promise<Track[]> => {
+export const getMostPlayed = cache(async (limit: number = 8) => {
   await delay(700);
   const rows = await prisma.track.findMany({
     orderBy: { playCount: 'desc' },
@@ -94,12 +92,12 @@ export const getMostPlayed = cache(async (limit: number = 8): Promise<Track[]> =
   return rows.map(row => toTrack(row));
 });
 
-export const getDiscover = cache(async (limit: number = 8): Promise<Track[]> => {
+export const getDiscover = cache(async (limit: number = 8) => {
   const userId = await getCurrentUser();
   return getDiscoverForUser(userId, limit);
 });
 
-async function getDiscoverForUser(userId: string, limit: number): Promise<Track[]> {
+async function getDiscoverForUser(userId: string, limit: number) {
   await delay(1100);
   const rows = await prisma.track.findMany({
     orderBy: { playCount: 'desc' },
@@ -112,7 +110,7 @@ async function getDiscoverForUser(userId: string, limit: number): Promise<Track[
   return rows.map(row => toTrack(row));
 }
 
-export const getTracksByGenre = cache(async (genre: string): Promise<Track[]> => {
+export const getTracksByGenre = cache(async (genre: string) => {
   await delay(900);
   const rows = await prisma.track.findMany({
     orderBy: { playCount: 'desc' },
@@ -121,7 +119,7 @@ export const getTracksByGenre = cache(async (genre: string): Promise<Track[]> =>
   return rows.map(row => toTrack(row));
 });
 
-export const searchTracks = cache(async (query: string): Promise<Track[]> => {
+export const searchTracks = cache(async (query: string) => {
   await delay(800);
   const rows = await prisma.track.findMany({
     orderBy: { playCount: 'desc' },
