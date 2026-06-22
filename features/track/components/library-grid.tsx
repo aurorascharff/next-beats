@@ -39,7 +39,7 @@ export function LibraryGridSkeleton({ showMore = false }: { showMore?: boolean }
           <AlbumCardSkeleton key={i} />
         ))}
       </div>
-      {showMore && <Skeleton className="mt-3 h-5 w-24" />}
+      {showMore && <Skeleton className="skeleton-subtle mt-3 h-5 w-24" />}
     </>
   );
 }
