@@ -1,9 +1,9 @@
 'use client';
 
-import { Eye, EyeOff, Server, ServerOff, Wifi, WifiOff, Zap, ZapOff } from 'lucide-react';
+import { Eye, EyeOff, Wifi, WifiOff, Zap, ZapOff } from 'lucide-react';
 import { useEffect, useOptimistic, useState } from 'react';
 import { useBoundaryMode } from '@/components/demo/boundary-provider';
-import { togglePrefetch, toggleRuntime } from '@/components/demo/demo-actions';
+import { togglePrefetch } from '@/components/demo/demo-actions';
 import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/lib/utils';
 
@@ -26,18 +26,10 @@ function setSimulatedOffline(offline: boolean) {
   }
 }
 
-export function DemoToolbarClient({
-  prefetchEnabled,
-  runtimeEnabled,
-}: {
-  prefetchEnabled: boolean;
-  runtimeEnabled: boolean;
-}) {
+export function DemoToolbarClient({ prefetchEnabled }: { prefetchEnabled: boolean }) {
   const { mode, toggleMode } = useBoundaryMode();
   const [optimisticPrefetch, setOptimisticPrefetch] = useOptimistic(prefetchEnabled);
   const prefetchPending = optimisticPrefetch !== prefetchEnabled;
-  const [optimisticRuntime, setOptimisticRuntime] = useOptimistic(runtimeEnabled);
-  const runtimePending = optimisticRuntime !== runtimeEnabled;
   const [offline, setOffline] = useState(false);
 
   useEffect(() => () => setSimulatedOffline(false), []);
@@ -59,7 +51,7 @@ export function DemoToolbarClient({
       <button
         type="button"
         onClick={toggleMode}
-        aria-label={mode === 'on' ? 'Boundaries on' : 'Boundaries off'}
+        aria-label={mode === 'on' ? 'Client outlines on' : 'Client outlines off'}
         aria-pressed={mode === 'on'}
         className={cn(
           'flex items-center gap-1.5 px-3 py-1.5 transition-colors',
@@ -67,7 +59,7 @@ export function DemoToolbarClient({
         )}
       >
         {mode === 'on' ? <Eye className="size-3.5" /> : <EyeOff className="size-3.5" />}
-        <span className="hidden lg:inline">Boundaries</span>
+        <span className="hidden lg:inline">Client</span>
       </button>
 
       <div className="bg-divider dark:bg-divider-dark h-5 w-px" />
@@ -102,34 +94,6 @@ export function DemoToolbarClient({
 
       <div className="bg-divider dark:bg-divider-dark h-5 w-px" />
 
-      <form
-        action={async () => {
-          setOptimisticRuntime(!optimisticRuntime);
-          await toggleRuntime(!optimisticRuntime);
-          window.location.reload();
-        }}
-      >
-        <button
-          type="submit"
-          disabled={runtimePending}
-          aria-label={runtimePending ? 'Updating…' : optimisticRuntime ? 'Runtime on' : 'Runtime off'}
-          className={cn(
-            'flex items-center gap-1.5 px-3 py-1.5 transition-colors',
-            optimisticRuntime ? 'text-accent' : 'text-gray',
-            runtimePending && 'cursor-not-allowed opacity-70',
-          )}
-        >
-          {runtimePending ? (
-            <Spinner className="size-3.5" />
-          ) : optimisticRuntime ? (
-            <Server className="size-3.5" />
-          ) : (
-            <ServerOff className="size-3.5" />
-          )}
-          <span className="hidden lg:inline">Runtime</span>
-        </button>
-      </form>
-      <div className="bg-divider dark:bg-divider-dark h-5 w-px" />
       <button
         type="button"
         onClick={toggleOffline}

@@ -26,11 +26,10 @@ A Next.js 16.3 music player demonstrating [Instant Navigations](https://github.c
 
 Open DevTools and watch the Network tab while you navigate. Each link in the viewport prepares its App Shell; the destination commits before per-request data lands. Favorite a track and only the surfaces tagged for that user refetch.
 
-The demo toolbar has three independent levers:
+The demo toolbar has two levers:
 
 1. **Link prefetch** toggles `<Link prefetch={true}>` so you can see the cached page body land before the click.
-2. **Runtime prefetch** toggles `prefetch = 'allow-runtime'` so you can see per-request data prefetch as well.
-3. **Boundaries** outlines every `'use client'` component so you can see how little ships.
+2. **Client** outlines every `'use client'` component so you can see how little ships.
 
 ## Getting started
 

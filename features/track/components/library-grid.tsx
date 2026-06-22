@@ -1,5 +1,4 @@
 import { Collapsible } from '@/components/ui/collapsible';
-import { Skeleton } from '@/components/ui/skeleton';
 import { AlbumCard, AlbumCardSkeleton } from '@/features/track/components/album-card';
 import { getLibrary } from '@/features/track/track-queries';
 
@@ -31,15 +30,12 @@ export async function LibraryGrid() {
   );
 }
 
-export function LibraryGridSkeleton({ showMore = false }: { showMore?: boolean }) {
+export function LibraryGridSkeleton() {
   return (
-    <>
-      <div className={gridClass}>
-        {Array.from({ length: 5 }).map((_, i) => (
-          <AlbumCardSkeleton key={i} />
-        ))}
-      </div>
-      {showMore && <Skeleton className="mt-3 h-5 w-24" />}
-    </>
+    <div className={gridClass}>
+      {Array.from({ length: 5 }).map((_, i) => (
+        <AlbumCardSkeleton key={i} />
+      ))}
+    </div>
   );
 }
