@@ -1,7 +1,6 @@
 'use client';
 
 import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
-import { recordPlay } from '@/features/track/track-actions';
 import { useListeningMilestones } from '@/hooks/use-listening-milestones';
 import { createAudioRefs, resumeTrack, scheduleTrack, stopAll } from '@/lib/audio/audio-scheduler';
 import type { AudioRefs } from '@/lib/audio/audio-scheduler';
@@ -110,7 +109,12 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
   function playAtIndex(idx: number, q: Track[]) {
     const t = q[idx];
     dispatch({ type: 'PLAY', track: t, queue: q, index: idx });
-    void recordPlay(t.id);
+    void fetch('/api/play', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ trackId: t.id }),
+      keepalive: true,
+    }).catch(() => {});
     scheduleTrack({
       trackId: t.id,
       genre: t.genre,
