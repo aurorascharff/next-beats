@@ -11,6 +11,10 @@ type Props<T extends string = string> = Omit<React.ComponentProps<typeof Link>, 
   href: Route<T> | URL;
 };
 
+// `useSelectedLayoutSegments` is dynamic under `cacheComponents`, so the
+// active-state computation has to live behind a Suspense boundary. The
+// fallback renders the same DOM shape with `isActive=false` so React
+// reconciles the resolved tree in place — no element swap, no flash.
 export function NavLink<T extends string>(props: Props<T>) {
   return (
     <Boundary label="NavLink">
@@ -21,24 +25,20 @@ export function NavLink<T extends string>(props: Props<T>) {
   );
 }
 
-export function NavLinkSkeleton<T extends string>(props: Props<T>) {
-  return <NavLinkShell {...props} isActive={false} />;
-}
-
 function ActiveLink<T extends string>(props: Props<T>) {
   const segments = useSelectedLayoutSegments();
+  const prefetch = usePrefetchDefault();
   const want = props.href.toString().split('?')[0].split('#')[0].split('/').filter(Boolean);
   const isActive = want.length === segments.length && want.every((s, i) => s === segments[i]);
-  return <NavLinkShell {...props} isActive={isActive} />;
+  return <NavLinkShell {...props} isActive={isActive} prefetch={prefetch} />;
 }
 
-// Single source of truth for the rendered <a>. Fallback and resolved tree
-// both come through here, so React reconciles them in place instead of
-// swapping one DOM element for another during the Suspense boundary
-// transition — which was making clicks land on a node that got replaced
-// mid-handler.
-function NavLinkShell<T extends string>({ href, isActive, ...rest }: Props<T> & { isActive: boolean }) {
-  const prefetch = usePrefetchDefault();
+function NavLinkShell<T extends string>({
+  href,
+  isActive,
+  prefetch = true,
+  ...rest
+}: Props<T> & { isActive: boolean; prefetch?: boolean }) {
   return (
     <Link
       prefetch={prefetch}
