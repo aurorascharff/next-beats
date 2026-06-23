@@ -1,7 +1,10 @@
-// Pre-hydration script that sets `aria-current="page"` on matching NavLinks.
-// Runs during HTML parse so the active style appears in the first paint; React
-// then takes over after hydration. Mirrors the segment-equality check in
-// <NavLink>.
+// Pre-hydration script. Sets `aria-current="page"` on the matching NavLink
+// during HTML parse, so the active style is correct on first paint instead
+// of waiting for the Suspense boundary inside NavLink to resolve.
+//
+// Without this, the resolved tree streams in slightly after paint and the
+// active link visibly flips from inactive to active — which is especially
+// jarring if the user happens to be hovering the link at that moment.
 export function SeedNavLinks() {
   const html = `(function(){
   var path = location.pathname.split('?')[0].split('#')[0].split('/').filter(Boolean);
@@ -9,7 +12,6 @@ export function SeedNavLinks() {
     var want = (a.getAttribute('href') || '').split('?')[0].split('#')[0].split('/').filter(Boolean);
     var active = want.length === path.length && want.every(function(s, i){ return s === path[i]; });
     if (active) a.setAttribute('aria-current', 'page');
-    else a.removeAttribute('aria-current');
   });
 })()`;
   return (
