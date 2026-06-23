@@ -14,22 +14,31 @@ type Props<T extends string = string> = Omit<React.ComponentProps<typeof Link>, 
 export function NavLink<T extends string>(props: Props<T>) {
   return (
     <Boundary label="NavLink">
-      <Suspense fallback={<NavLinkSkeleton {...props} />}>
+      <Suspense fallback={<NavLinkShell {...props} isActive={false} />}>
         <ActiveLink {...props} />
       </Suspense>
     </Boundary>
   );
 }
 
-export function NavLinkSkeleton<T extends string>({ href, ...rest }: Props<T>) {
-  return <Link {...rest} href={href as Route} data-nav-link />;
+export function NavLinkSkeleton<T extends string>(props: Props<T>) {
+  return <NavLinkShell {...props} isActive={false} />;
 }
 
-function ActiveLink<T extends string>({ href, ...rest }: Props<T>) {
+function ActiveLink<T extends string>(props: Props<T>) {
   const segments = useSelectedLayoutSegments();
-  const prefetch = usePrefetchDefault();
-  const want = href.toString().split('?')[0].split('#')[0].split('/').filter(Boolean);
+  const want = props.href.toString().split('?')[0].split('#')[0].split('/').filter(Boolean);
   const isActive = want.length === segments.length && want.every((s, i) => s === segments[i]);
+  return <NavLinkShell {...props} isActive={isActive} />;
+}
+
+// Single source of truth for the rendered <a>. Fallback and resolved tree
+// both come through here, so React reconciles them in place instead of
+// swapping one DOM element for another during the Suspense boundary
+// transition — which was making clicks land on a node that got replaced
+// mid-handler.
+function NavLinkShell<T extends string>({ href, isActive, ...rest }: Props<T> & { isActive: boolean }) {
+  const prefetch = usePrefetchDefault();
   return (
     <Link
       prefetch={prefetch}
