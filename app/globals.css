@@ -117,18 +117,25 @@
   }
 }
 
-/* Play button reveal on card hover */
+/* Play button reveal on card hover. On touch devices the button shows
+   always — the hover-reveal pattern would otherwise eat the first tap. */
 .card-play-btn {
-  opacity: 0;
-  transform: translateY(8px);
+  opacity: 1;
+  transform: translateY(0);
   transition:
     opacity 0.2s,
     transform 0.2s;
 }
-.group:hover .card-play-btn,
-.card-play-btn[data-playing] {
-  opacity: 1;
-  transform: translateY(0);
+@media (hover: hover) {
+  .card-play-btn {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  .group:hover .card-play-btn,
+  .card-play-btn[data-playing] {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ---- View Transition Recipes ---- */
