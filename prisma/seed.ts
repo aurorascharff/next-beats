@@ -2,8 +2,9 @@
 import 'dotenv/config';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '../generated/prisma/client';
+import { normalizeDatabaseUrl } from '../lib/database-url';
 
-const connectionString = process.env.DATABASE_URL!.replace(/sslmode=require\b/, 'sslmode=verify-full');
+const connectionString = normalizeDatabaseUrl(process.env.DATABASE_URL!);
 const adapter = new PrismaPg({ connectionString });
 const prisma = new PrismaClient({ adapter });
 
