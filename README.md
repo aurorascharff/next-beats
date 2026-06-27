@@ -34,12 +34,17 @@ The demo toolbar has two levers:
 ## Getting started
 
 ```bash
-cp .env.sample .env.local   # set DATABASE_URL (PostgreSQL)
 pnpm install
 pnpm run prisma.push
 pnpm run prisma.seed
 pnpm run dev
 ```
+
+NextBeats runs on Postgres in production. To try it locally without provisioning a database, drop this prompt into your agent and it'll swap the datasource for SQLite:
+
+> Set up NextBeats to run locally on SQLite instead of Postgres. Swap `provider = "postgresql"` to `provider = "sqlite"` in `prisma/schema.prisma`. Replace `@prisma/adapter-pg` with `@prisma/adapter-better-sqlite3` in `lib/db.ts` and `prisma/seed.ts`, using `new PrismaBetterSqlite3({ url })` where `url` is `process.env.DATABASE_URL` with the `file:` prefix stripped. Remove any `mode: 'insensitive'` Prisma filter options since SQLite doesn't support them. Install `@prisma/adapter-better-sqlite3` and `better-sqlite3`, uninstall `@prisma/adapter-pg`, `pg`, and `@types/pg`. Write `DATABASE_URL=file:./prisma/dev.db` to `.env.local`.
+
+The schema is otherwise identical, so the rest of the app behaves the same as production.
 
 ## Stack
 
