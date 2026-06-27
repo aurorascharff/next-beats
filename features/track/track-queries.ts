@@ -125,11 +125,7 @@ export const searchTracks = cache(async (query: string) => {
     orderBy: { playCount: 'desc' },
     take: 30,
     where: {
-      OR: [
-        { title: { contains: query, mode: 'insensitive' } },
-        { artist: { contains: query, mode: 'insensitive' } },
-        { album: { contains: query, mode: 'insensitive' } },
-      ],
+      OR: [{ title: { contains: query } }, { artist: { contains: query } }, { album: { contains: query } }],
     },
   });
   return rows.map(row => toTrack(row));
