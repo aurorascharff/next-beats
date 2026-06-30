@@ -2,13 +2,17 @@
 
 import Link from 'next/link';
 import { useSelectedLayoutSegments } from 'next/navigation';
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import { Boundary } from '@/components/demo/boundary';
 import { usePrefetchDefault } from '@/components/demo/prefetch-provider';
 import type { Route } from 'next';
 
 type Props<T extends string = string> = Omit<React.ComponentProps<typeof Link>, 'href' | 'prefetch'> & {
   href: Route<T> | URL;
+  // Defer this link's runtime prefetch until the user hovers/focuses it, rather
+  // than firing it eagerly when the link enters the viewport. Use for unbounded
+  // lists (e.g. the playlist sidebar) so N links don't each wake a server on load.
+  hoverPrefetch?: boolean;
 };
 
 // `useSelectedLayoutSegments` is dynamic under `cacheComponents`, so the
@@ -37,13 +41,31 @@ function NavLinkShell<T extends string>({
   href,
   isActive,
   prefetch = true,
+  hoverPrefetch = false,
+  onMouseEnter,
+  onFocus,
   ...rest
 }: Props<T> & { isActive: boolean; prefetch?: boolean }) {
+  const [intent, setIntent] = useState(false);
+  // With prefetch off (demo toggle) nothing prefetches. Eager links get the full
+  // runtime prefetch up front; hover-gated links sit at the deduped App Shell
+  // (one shared prefetch for the whole list) and upgrade to the per-link runtime
+  // prefetch only once the user signals intent.
+  const resolvedPrefetch = !prefetch ? false : hoverPrefetch ? (intent ? true : null) : true;
+  const showIntent = () => setIntent(true);
   return (
     <Link
-      prefetch={prefetch}
+      prefetch={resolvedPrefetch}
       {...rest}
       href={href as Route}
+      onMouseEnter={e => {
+        if (hoverPrefetch) showIntent();
+        onMouseEnter?.(e);
+      }}
+      onFocus={e => {
+        if (hoverPrefetch) showIntent();
+        onFocus?.(e);
+      }}
       data-nav-link
       aria-current={isActive ? 'page' : undefined}
       suppressHydrationWarning
