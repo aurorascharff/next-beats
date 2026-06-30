@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   title: 'Playlists',
 };
 
+export const prefetch = 'allow-runtime';
+
 export default function PlaylistsPage() {
   return (
     <PageWrapper title="Playlists">
