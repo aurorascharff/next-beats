@@ -15,11 +15,11 @@ A [Next.js 16.3](https://nextjs.org/blog/next-16-3-instant-navigations) music pl
 ## Features
 
 - [Cache Components](https://preview.nextjs.org/docs/app/api-reference/config/next-config-js/cacheComponents) opt queries and components into the server cache with `'use cache'`, `cacheTag`, and `cacheLife`.
-- [Partial Prefetching](https://preview.nextjs.org/docs/app/guides/adopting-partial-prefetching) (`partialPrefetching: true` in 16.3) prefetches each in-viewport link's App Shell so the click commits before per-request data lands.
-- `<Link prefetch={true}>` adds the destination's cached page body on top of the shell.
-- [`export const prefetch = 'allow-runtime'`](https://preview.nextjs.org/docs/app/guides/runtime-prefetching) on the destination prerenders link-specific data (params, searchParams, cookies, headers, `'use cache: private'`) at prefetch time.
-- [Hover-triggered prefetch](https://preview.nextjs.org/docs/app/guides/prefetching) on the playlist list (`hoverPrefetch` on `NavLink`) holds each link at its deduped App Shell and only fires the per-link runtime prefetch on intent, so an unbounded library doesn't wake one server per link on load.
-- [`updateTag`](https://nextjs.org/docs/app/api-reference/functions/updateTag) from [Server Functions](https://nextjs.org/docs/app/getting-started/mutating-data) invalidates only the surfaces a mutation actually touches.
+- [Partial Prefetching](https://preview.nextjs.org/docs/app/guides/adopting-partial-prefetching) (`partialPrefetching: true` in 16.3) prefetches each in-viewport link's App Shell by default.
+- `<Link prefetch={true}>` adds the destination's cached page content on top of the App Shell.
+- [`export const prefetch = 'allow-runtime'`](https://preview.nextjs.org/docs/app/guides/runtime-prefetching) on the destination prerenders its request data (params, searchParams, cookies, headers, `'use cache: private'`) at prefetch time.
+- [Hover-triggered prefetch](https://preview.nextjs.org/docs/app/guides/prefetching) on the playlist list (`hoverPrefetch` on `NavLink`) holds each link at its shared App Shell and fires the per-link runtime prefetch only on hover or focus.
+- [`updateTag`](https://nextjs.org/docs/app/api-reference/functions/updateTag) from [Server Functions](https://nextjs.org/docs/app/getting-started/mutating-data) invalidates only the tags a mutation touches.
 - [View Transitions](https://nextjs.org/docs/app/guides/view-transitions) on Suspense reveals and `useOptimistic` for client interactions keep UI changes continuous.
 - [`instant()`](https://preview.nextjs.org/docs/app/api-reference/file-conventions/route-segment-config/instant) e2e tests with [`@next/playwright`](https://nextjs.org/docs/app/guides/testing/playwright) lock in the instant-navigation contract in CI.
 
@@ -29,7 +29,7 @@ Open DevTools and watch the Network tab while you navigate. Each link in the vie
 
 The demo toolbar has two levers:
 
-1. **Link prefetch** toggles `<Link prefetch={true}>` so you can see the cached page body land before the click.
+1. **Link prefetch** toggles `<Link prefetch={true}>` so you can see the cached page content land before the click.
 2. **Client** outlines every `'use client'` component so you can see how little ships.
 
 ## Getting started
