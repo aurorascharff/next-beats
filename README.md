@@ -17,7 +17,7 @@ A [Next.js 16.3](https://nextjs.org/blog/next-16-3-instant-navigations) music pl
 - [Cache Components](https://preview.nextjs.org/docs/app/api-reference/config/next-config-js/cacheComponents) opt queries and components into the server cache with `'use cache'`, `cacheTag`, and `cacheLife`.
 - [Partial Prefetching](https://preview.nextjs.org/docs/app/guides/adopting-partial-prefetching) (`partialPrefetching: true` in 16.3) prefetches each in-viewport link's App Shell by default.
 - `<Link prefetch={true}>` adds the destination's cached page content on top of the App Shell.
-- [`export const prefetch = 'allow-runtime'`](https://preview.nextjs.org/docs/app/guides/runtime-prefetching) on the destination prerenders its request data (params, searchParams, cookies, headers, `'use cache: private'`) at prefetch time.
+- [`export const prefetch = 'allow-runtime'`](https://preview.nextjs.org/docs/app/guides/runtime-prefetching) on the destination prerenders the per-link request data the shared App Shell can't hold, like `searchParams` and dynamic `params`, at prefetch time.
 - [Hover-triggered prefetch](https://preview.nextjs.org/docs/app/guides/prefetching) on the playlist list (`hoverPrefetch` on `NavLink`) holds each link at its shared App Shell and fires the per-link runtime prefetch only on hover or focus.
 - [`updateTag`](https://nextjs.org/docs/app/api-reference/functions/updateTag) from [Server Functions](https://nextjs.org/docs/app/getting-started/mutating-data) invalidates only the tags a mutation touches.
 - [View Transitions](https://nextjs.org/docs/app/guides/view-transitions) on Suspense reveals and `useOptimistic` for client interactions keep UI changes continuous.
