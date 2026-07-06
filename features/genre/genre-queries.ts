@@ -1,10 +1,9 @@
 import 'server-only';
 
-import { cache } from 'react';
 import { prisma } from '@/lib/db';
 import { delay } from '@/lib/utils';
 
-export const getGenres = cache(async () => {
+export async function getGenres() {
   await delay(600);
   const rows = await prisma.track.groupBy({
     by: ['genre'],
@@ -15,4 +14,4 @@ export const getGenres = cache(async () => {
     count: r._count.genre,
     genre: r.genre,
   }));
-});
+}
