@@ -2,16 +2,15 @@ import 'server-only';
 
 import { cacheTag } from 'next/cache';
 import { notFound } from 'next/navigation';
-import { cache } from 'react';
 import { getCurrentUser } from '@/features/user/user-queries';
 import { prisma } from '@/lib/db';
 import { delay } from '@/lib/utils';
 import { toTrack } from '@/types/track';
 
-export const getPlaylists = cache(async () => {
+export async function getPlaylists() {
   const userId = await getCurrentUser();
   return getPlaylistsForUser(userId);
-});
+}
 
 async function getPlaylistsForUser(userId: string) {
   'use cache';
@@ -32,10 +31,10 @@ async function getPlaylistsForUser(userId: string) {
   }));
 }
 
-export const getPlaylist = cache(async (id: string) => {
+export async function getPlaylist(id: string) {
   const userId = await getCurrentUser();
   return getPlaylistForUser(id, userId);
-});
+}
 
 async function getPlaylistForUser(id: string, userId: string) {
   'use cache';
@@ -62,10 +61,10 @@ async function getPlaylistForUser(id: string, userId: string) {
   };
 }
 
-export const getPlaylistMenuItems = cache(async (trackId: string) => {
+export async function getPlaylistMenuItems(trackId: string) {
   const userId = await getCurrentUser();
   return getPlaylistMenuItemsForUser(trackId, userId);
-});
+}
 
 async function getPlaylistMenuItemsForUser(trackId: string, userId: string) {
   'use cache';

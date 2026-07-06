@@ -2,7 +2,6 @@ import 'server-only';
 
 import { cacheLife, cacheTag } from 'next/cache';
 import { notFound } from 'next/navigation';
-import { cache } from 'react';
 import { getCurrentUser } from '@/features/user/user-queries';
 import { prisma } from '@/lib/db';
 import { delay } from '@/lib/utils';
@@ -10,7 +9,7 @@ import { toTrack } from '@/types/track';
 
 const LIBRARY_PAGE_SIZE = 100;
 
-export const getLibrary = cache(async (page: number = 1) => {
+export async function getLibrary(page: number = 1) {
   'use cache';
   cacheTag('library');
   cacheLife('hours');
@@ -27,12 +26,12 @@ export const getLibrary = cache(async (page: number = 1) => {
     hasMore,
     tracks: items.map(row => toTrack(row)),
   };
-});
+}
 
-export const getFavorites = cache(async () => {
+export async function getFavorites() {
   const userId = await getCurrentUser();
   return getFavoritesForUser(userId);
-});
+}
 
 async function getFavoritesForUser(userId: string) {
   'use cache';
@@ -47,11 +46,11 @@ async function getFavoritesForUser(userId: string) {
   return rows.map(row => toTrack(row.track, { favorites: [row] }));
 }
 
-export const getUserFavoriteIds = cache(async () => {
+export async function getUserFavoriteIds() {
   const userId = await getCurrentUser();
   if (!userId) return new Set<string>();
   return getUserFavoriteIdsForUser(userId);
-});
+}
 
 async function getUserFavoriteIdsForUser(userId: string) {
   'use cache';
@@ -64,10 +63,10 @@ async function getUserFavoriteIdsForUser(userId: string) {
   return new Set(rows.map(r => r.trackId));
 }
 
-export const getRecentlyPlayed = cache(async (limit: number = 8) => {
+export async function getRecentlyPlayed(limit: number = 8) {
   const userId = await getCurrentUser();
   return getRecentlyPlayedForUser(userId, limit);
-});
+}
 
 async function getRecentlyPlayedForUser(userId: string, limit: number) {
   'use cache';
@@ -84,10 +83,10 @@ async function getRecentlyPlayedForUser(userId: string, limit: number) {
   return rows.map(row => toTrack(row.track, { trackPlays: [row] }));
 }
 
-export const getTrack = cache(async (id: string) => {
+export async function getTrack(id: string) {
   const userId = await getCurrentUser();
   return getTrackForUser(id, userId);
-});
+}
 
 async function getTrackForUser(id: string, userId: string) {
   'use cache';
@@ -104,7 +103,7 @@ async function getTrackForUser(id: string, userId: string) {
   return toTrack(row, { favorites: row.favorites });
 }
 
-export const getMostPlayed = cache(async (limit: number = 8) => {
+export async function getMostPlayed(limit: number = 8) {
   'use cache';
   cacheTag('tracks');
 
@@ -115,12 +114,12 @@ export const getMostPlayed = cache(async (limit: number = 8) => {
     where: { playCount: { gt: 0 } },
   });
   return rows.map(row => toTrack(row));
-});
+}
 
-export const getDiscover = cache(async (limit: number = 8) => {
+export async function getDiscover(limit: number = 8) {
   const userId = await getCurrentUser();
   return getDiscoverForUser(userId, limit);
-});
+}
 
 async function getDiscoverForUser(userId: string, limit: number) {
   'use cache';
@@ -138,7 +137,7 @@ async function getDiscoverForUser(userId: string, limit: number) {
   return rows.map(row => toTrack(row));
 }
 
-export const getTracksByGenre = cache(async (genre: string) => {
+export async function getTracksByGenre(genre: string) {
   'use cache';
   cacheTag('tracks', `genre-${genre}`);
 
@@ -148,9 +147,9 @@ export const getTracksByGenre = cache(async (genre: string) => {
     where: { genre },
   });
   return rows.map(row => toTrack(row));
-});
+}
 
-export const searchTracks = cache(async (query: string) => {
+export async function searchTracks(query: string) {
   'use cache';
   cacheTag('search');
   cacheLife('hours');
@@ -168,4 +167,4 @@ export const searchTracks = cache(async (query: string) => {
     },
   });
   return rows.map(row => toTrack(row));
-});
+}

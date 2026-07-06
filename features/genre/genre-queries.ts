@@ -1,11 +1,10 @@
 import 'server-only';
 
 import { cacheLife, cacheTag } from 'next/cache';
-import { cache } from 'react';
 import { prisma } from '@/lib/db';
 import { delay } from '@/lib/utils';
 
-export const getGenres = cache(async () => {
+export async function getGenres() {
   'use cache';
   cacheTag('genres');
   cacheLife('days');
@@ -20,4 +19,4 @@ export const getGenres = cache(async () => {
     count: r._count.genre,
     genre: r.genre,
   }));
-});
+}
