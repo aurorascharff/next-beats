@@ -1,11 +1,14 @@
+import { instant } from '@next/playwright';
 import { test, expect } from '@playwright/test';
 
-test('search input is static, results stream in after typing', async ({ page }) => {
-  await page.goto('/search');
+test('search page: input shell paints instantly, browse grid streams in', async ({ page }) => {
+  await page.goto('/');
 
-  const input = page.locator('input[aria-label="Search tracks"]');
-  await expect(input).toBeVisible();
+  await instant(page, async () => {
+    await page.goto('/search');
+    await expect(page.locator('input[aria-label="Search tracks"]')).toBeVisible();
+    await expect(page.locator('main a[href^="/genre/"]')).toHaveCount(0);
+  });
 
-  await input.fill('midnight');
-  await expect(page.locator('a[href^="/track/"]').first()).toBeVisible({ timeout: 15000 });
+  await expect(page.locator('main a[href^="/genre/"]').first()).toBeVisible({ timeout: 15000 });
 });

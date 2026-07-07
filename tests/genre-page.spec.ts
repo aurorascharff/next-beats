@@ -1,9 +1,9 @@
 import { instant } from '@next/playwright';
 import { test, expect } from '@playwright/test';
 
-test('track page: app shell paints instantly, title streams in', async ({ page }) => {
-  await page.goto('/');
-  const link = page.locator('main a[href^="/track/"]').first();
+test('genre page: app shell paints instantly, heading streams in', async ({ page }) => {
+  await page.goto('/search');
+  const link = page.locator('main a[href^="/genre/"]').first();
   await link.waitFor({ state: 'visible', timeout: 15000 });
   const href = await link.getAttribute('href');
 

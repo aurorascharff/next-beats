@@ -1,12 +1,12 @@
 import { instant } from '@next/playwright';
 import { test, expect } from '@playwright/test';
 
-test('favorites page: heading shell paints instantly, favorites stream in', async ({ page }) => {
+test('library page: heading shell paints instantly, library grid streams in', async ({ page }) => {
   await page.goto('/');
 
   await instant(page, async () => {
-    await page.goto('/favorites');
-    await expect(page.getByRole('heading', { level: 1, name: 'Liked Tracks' })).toBeVisible();
+    await page.goto('/library');
+    await expect(page.getByRole('heading', { level: 1, name: 'Library' })).toBeVisible();
     await expect(page.locator('main a[href^="/track/"]')).toHaveCount(0);
   });
 
