@@ -591,6 +591,9 @@ async function main() {
   }
   console.log(`  ${PLAYLISTS.length} playlists created`);
 
+  await prisma.user.create({ data: { id: 'e2e', name: 'E2E Tester' } });
+  console.log('  e2e test user created');
+
   console.log('Seed complete.');
 }
 
