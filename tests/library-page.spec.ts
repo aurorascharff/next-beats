@@ -2,8 +2,9 @@ import { instant } from '@next/playwright';
 import { test, expect } from '@playwright/test';
 
 test.describe('Library page (/library)', () => {
-  // SSR: document navigation → App Shell only, library grid absent under instant().
-  test('SSR — shell only, library grid is absent', async ({ page }) => {
+  // SSR (direct visit): the static shell for this URL. The library grid streams
+  // in behind Suspense, so under instant() (streaming held) it's absent.
+  test('SSR — static shell only, library grid absent', async ({ page }) => {
     await page.goto('/');
 
     await instant(page, async () => {
@@ -12,8 +13,9 @@ test.describe('Library page (/library)', () => {
     });
   });
 
-  // Navigation: client nav carries the runtime prefetch → library grid revealed.
-  test('navigation — runtime-prefetched library grid is revealed', async ({ page }) => {
+  // Navigation (client nav): the App Shell plus the per-link runtime prefetch
+  // (allow-runtime), so the library grid is already present under instant().
+  test('navigation — App Shell + runtime prefetch reveals library grid', async ({ page }) => {
     await page.goto('/');
     const link = page.locator('aside a[aria-label="Library"]').first();
     await link.waitFor({ state: 'visible', timeout: 15000 });

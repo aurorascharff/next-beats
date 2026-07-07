@@ -2,8 +2,10 @@ import { instant } from '@next/playwright';
 import { test, expect } from '@playwright/test';
 
 test.describe('Playlists page (/playlist)', () => {
-  // SSR: document navigation → App Shell only, playlist list absent under instant().
-  test('SSR — shell only, playlist list is absent', async ({ page }) => {
+  // SSR (direct visit): the static shell for this URL — create form only. The
+  // playlist list streams in behind Suspense, so under instant() (streaming
+  // held) it's absent.
+  test('SSR — static shell only, playlist list absent', async ({ page }) => {
     await page.goto('/');
 
     await instant(page, async () => {
@@ -12,8 +14,10 @@ test.describe('Playlists page (/playlist)', () => {
     });
   });
 
-  // Navigation: client nav carries the runtime prefetch → playlist list revealed.
-  test('navigation — runtime-prefetched playlist list is revealed', async ({ page }) => {
+  // Navigation (client nav): the App Shell plus the per-link runtime prefetch
+  // (allow-runtime resolves cookies), so the playlist list is already present
+  // under instant().
+  test('navigation — App Shell + runtime prefetch reveals playlist list', async ({ page }) => {
     await page.goto('/');
     const link = page.locator('aside a[href="/playlist"]').first();
     await link.waitFor({ state: 'visible', timeout: 15000 });
