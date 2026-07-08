@@ -14,25 +14,29 @@ A [Next.js 16.3](https://nextjs.org/blog/next-16-3-instant-navigations) music pl
 
 ## Features
 
-- [Cache Components](https://preview.nextjs.org/docs/app/api-reference/config/next-config-js/cacheComponents) opt queries and components into the server cache with `'use cache'`, `cacheTag`, and `cacheLife`.
-- [Partial Prefetching](https://preview.nextjs.org/docs/app/guides/adopting-partial-prefetching) (`partialPrefetching: true` in 16.3) prefetches each in-viewport link's App Shell by default.
-- `<Link prefetch={true}>` adds the destination's cached page content on top of the App Shell.
-- [`export const prefetch = 'allow-runtime'`](https://preview.nextjs.org/docs/app/guides/runtime-prefetching) on the destination prerenders the per-link request data the shared App Shell can't hold, like `searchParams` and dynamic `params`, at prefetch time.
-- [Hover-triggered prefetch](https://preview.nextjs.org/docs/app/guides/prefetching) on the playlist list (`hoverPrefetch` on `NavLink`) holds each link at its shared App Shell and fires the per-link runtime prefetch only on hover or focus.
-- [`updateTag`](https://nextjs.org/docs/app/api-reference/functions/updateTag) from [Server Functions](https://nextjs.org/docs/app/getting-started/mutating-data) invalidates only the tags a mutation touches.
-- [View Transitions](https://nextjs.org/docs/app/guides/view-transitions) on Suspense reveals and `useOptimistic` for client interactions keep UI changes continuous.
-- [`instant()`](https://preview.nextjs.org/docs/app/api-reference/file-conventions/route-segment-config/instant) e2e tests with [`@next/playwright`](https://nextjs.org/docs/app/guides/testing/playwright) lock in the instant-navigation contract in CI.
+- **[Cache Components](https://preview.nextjs.org/docs/app/api-reference/config/next-config-js/cacheComponents)**: server caching with `'use cache'`, `cacheTag`, and `cacheLife`.
+- **[Partial Prefetching](https://preview.nextjs.org/docs/app/guides/adopting-partial-prefetching)**: in-viewport links prefetch the shared App Shell by default.
+- **[Runtime prefetching](https://preview.nextjs.org/docs/app/guides/runtime-prefetching)**: `prefetch = 'allow-runtime'` lets the prefetch include request data like `searchParams` and dynamic `params`.
+- **[Hover-triggered prefetch](https://preview.nextjs.org/docs/app/guides/prefetching#hover-triggered-prefetch)**: `hoverPrefetch` defers a link's prefetch to hover or focus.
+- **[Server Functions](https://nextjs.org/docs/app/getting-started/mutating-data)**: mutations invalidate only the tags they change with [`updateTag`](https://nextjs.org/docs/app/api-reference/functions/updateTag).
+- **[React Compiler](https://react.dev/learn/react-compiler)**: automatic memoization.
+- **[View Transitions](https://nextjs.org/docs/app/guides/view-transitions)**: animate content and route changes.
+- **Async React**: keep the UI interactive during server work with [`Suspense`](https://react.dev/reference/react/Suspense) streaming, [`useOptimistic`](https://react.dev/reference/react/useOptimistic), [`useTransition`](https://react.dev/reference/react/useTransition), [`useActionState`](https://react.dev/reference/react/useActionState), [`useFormStatus`](https://react.dev/reference/react-dom/hooks/useFormStatus), and [`use`](https://react.dev/reference/react/use).
+- **[`instant()`](https://preview.nextjs.org/docs/app/api-reference/file-conventions/route-segment-config/instant)** end-to-end tests with [`@next/playwright`](https://nextjs.org/docs/app/guides/testing/playwright), run in CI.
 
-## What to look at
+## Things to try
 
-Open DevTools and watch the Network tab while you navigate. Each link in the viewport prepares its App Shell; the destination commits before per-request data lands. Favorite a track and only the surfaces tagged for that user refetch.
+Prefetching only runs in production, so try these on the [live demo](https://next-beats.dev) or a local `pnpm build && pnpm start`. Open the Network tab to watch requests fire.
 
-The demo toolbar has two levers:
-
-1. **Link prefetch** toggles `<Link prefetch={true}>` so you can see the cached page content land before the click.
-2. **Client** outlines every `'use client'` component so you can see how little ships.
+1. **Scroll the home page.** Each link prefetches into the client cache as it enters the viewport. Click one and it navigates with no new request.
+2. **Favorite a track or create a playlist.** A Server Function calls `updateTag`, and the affected content updates in place and re-prefetches, without a full-page reload.
+3. **Toggle Prefetch in the demo toolbar.** Links always prefetch the App Shell. With it on, they also prefetch the destination's content so it is ready on click; with it off, that content loads on click instead.
+4. **Toggle Client.** Client components get outlined. Everything outside the outlines is server-rendered and ships no JavaScript.
+5. **Toggle Offline.** Routes you already prefetched still open from the client cache, and the shared App Shell is always available. Restore the network and the dynamic data recovers.
 
 ## Getting started
+
+NextBeats runs on Postgres. Set `DATABASE_URL` in `.env.local`, then:
 
 ```bash
 pnpm install
@@ -41,19 +45,24 @@ pnpm run prisma.seed
 pnpm run dev
 ```
 
-NextBeats runs on Postgres in production. To try it locally without provisioning a database, drop this prompt into your agent and it'll swap the datasource for SQLite:
+<details>
+<summary>Run locally without Postgres</summary>
+
+Drop this prompt into your agent to swap the datasource for SQLite:
 
 > Set up NextBeats to run locally on SQLite instead of Postgres. Swap `provider = "postgresql"` to `provider = "sqlite"` in `prisma/schema.prisma`. Replace `@prisma/adapter-pg` with `@prisma/adapter-better-sqlite3` in `lib/db.ts` and `prisma/seed.ts`, using `new PrismaBetterSqlite3({ url })` where `url` is `process.env.DATABASE_URL` with the `file:` prefix stripped. Remove any `mode: 'insensitive'` Prisma filter options since SQLite doesn't support them. Install `@prisma/adapter-better-sqlite3` and `better-sqlite3`, uninstall `@prisma/adapter-pg`, `pg`, and `@types/pg`. Write `DATABASE_URL=file:./prisma/dev.db` to `.env.local`.
 
 The schema is otherwise identical, so the rest of the app behaves the same as production.
 
+</details>
+
 ## Stack
 
-- [Next.js 16.3](https://nextjs.org/): App Router, Cache Components, Server Functions
-- [React 19](https://react.dev/): Suspense, View Transitions, `useOptimistic`
-- [TypeScript](https://www.typescriptlang.org/), [Tailwind CSS v4](https://tailwindcss.com/)
-- [Prisma 7](https://www.prisma.io/) on PostgreSQL
-- [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API) for procedural per-genre synthesis
+- **[Next.js 16.3](https://nextjs.org/)**: App Router, Cache Components, Server Functions
+- **[React 19](https://react.dev/)** with React Compiler: Suspense, View Transitions, `useOptimistic`
+- **[TypeScript](https://www.typescriptlang.org/)** and **[Tailwind CSS v4](https://tailwindcss.com/)**
+- **[Prisma 7](https://www.prisma.io/)** on PostgreSQL
+- **[Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)** for procedural per-genre synthesis
 
 ## License
 
