@@ -2,9 +2,8 @@ import { instant } from '@next/playwright';
 import { test, expect } from '@playwright/test';
 
 test.describe('Home page (/)', () => {
-  // SSR (direct visit): the static shell for this URL. The track feeds stream in
-  // behind Suspense, so under instant() (streaming held) they're absent.
-  test('SSR — static shell only, track data absent', async ({ page }) => {
+  // Static shell (goto): the track feeds stream in behind Suspense, so they're absent under instant().
+  test('static shell — track data absent', async ({ page }) => {
     await page.goto('/library');
 
     await instant(page, async () => {
@@ -13,10 +12,8 @@ test.describe('Home page (/)', () => {
     });
   });
 
-  // Navigation (client nav): the App Shell plus the per-link runtime prefetch
-  // (allow-runtime resolves cookies), so the track feeds are already present
-  // under instant().
-  test('navigation — App Shell + runtime prefetch reveals track data', async ({ page }) => {
+  // Runtime prefetch (client nav): allow-runtime resolves cookies, so the track feeds are present under instant().
+  test('runtime prefetch — track data revealed', async ({ page }) => {
     await page.goto('/library');
     const link = page.locator('aside a[aria-label="Home"]').first();
     await link.waitFor({ state: 'visible', timeout: 15000 });

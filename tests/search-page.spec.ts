@@ -2,10 +2,8 @@ import { instant } from '@next/playwright';
 import { test, expect } from '@playwright/test';
 
 test.describe('Search page (/search)', () => {
-  // SSR (direct visit): the static shell for this URL — search input only. The
-  // searchParams-gated browse grid streams in behind Suspense, so under
-  // instant() (streaming held) it's absent.
-  test('SSR — static shell only, browse grid absent', async ({ page }) => {
+  // Static shell (goto): input only; the searchParams-gated browse grid streams in, so it's absent under instant().
+  test('static shell — browse grid absent', async ({ page }) => {
     await page.goto('/');
 
     await instant(page, async () => {
@@ -15,10 +13,8 @@ test.describe('Search page (/search)', () => {
     });
   });
 
-  // Navigation (client nav): the App Shell plus the per-link runtime prefetch
-  // (allow-runtime resolves searchParams), so the browse grid is already present
-  // under instant().
-  test('navigation — App Shell + runtime prefetch reveals browse grid', async ({ page }) => {
+  // Runtime prefetch (client nav): allow-runtime resolves searchParams, so the browse grid is present under instant().
+  test('runtime prefetch — browse grid revealed', async ({ page }) => {
     await page.goto('/');
     const link = page.locator('aside a[aria-label="Search"]').first();
     await link.waitFor({ state: 'visible', timeout: 15000 });

@@ -2,9 +2,8 @@ import { instant } from '@next/playwright';
 import { test, expect } from '@playwright/test';
 
 test.describe('Track page (/track/[id])', () => {
-  // SSR (direct visit): the static shell for this URL. The title reads params
-  // and streams in behind Suspense, so under instant() (streaming held) it's absent.
-  test('SSR — static shell only, title absent', async ({ page }) => {
+  // Static shell (goto): the title reads params and streams in, so it's absent under instant().
+  test('static shell — title absent', async ({ page }) => {
     await page.goto('/');
     const link = page.locator('main a[href^="/track/"]').first();
     await link.waitFor({ state: 'visible', timeout: 15000 });
@@ -16,10 +15,8 @@ test.describe('Track page (/track/[id])', () => {
     });
   });
 
-  // Navigation (client nav): the App Shell plus the per-link runtime prefetch
-  // (allow-runtime resolves params/cookies), so the title is already present
-  // under instant().
-  test('navigation — App Shell + runtime prefetch reveals title', async ({ page }) => {
+  // Runtime prefetch (client nav): allow-runtime resolves params, so the title is present under instant().
+  test('runtime prefetch — title revealed', async ({ page }) => {
     await page.goto('/');
     const link = page.locator('main a[href^="/track/"]').first();
     await link.waitFor({ state: 'visible', timeout: 15000 });

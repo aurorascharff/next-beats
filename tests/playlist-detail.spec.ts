@@ -2,9 +2,8 @@ import { instant } from '@next/playwright';
 import { test, expect } from '@playwright/test';
 
 test.describe('Playlist detail page (/playlist/[id])', () => {
-  // SSR (direct visit): the static shell for this URL. The detail reads params
-  // and streams in behind Suspense, so under instant() (streaming held) it's absent.
-  test('SSR — static shell only, detail absent', async ({ page }) => {
+  // Static shell (goto): the detail reads params and streams in, so it's absent under instant().
+  test('static shell — detail absent', async ({ page }) => {
     await page.goto('/playlist');
     const link = page.locator('main a[href^="/playlist/"]').first();
     await link.waitFor({ state: 'visible', timeout: 15000 });
@@ -16,10 +15,8 @@ test.describe('Playlist detail page (/playlist/[id])', () => {
     });
   });
 
-  // Navigation (client nav): the App Shell plus the per-link runtime prefetch
-  // (allow-runtime resolves params/cookies), so the detail is already present
-  // under instant().
-  test('navigation — App Shell + runtime prefetch reveals detail', async ({ page }) => {
+  // Runtime prefetch (client nav): allow-runtime resolves params, so the detail is present under instant().
+  test('runtime prefetch — detail revealed', async ({ page }) => {
     await page.goto('/playlist');
     const link = page.locator('main a[href^="/playlist/"]').first();
     await link.waitFor({ state: 'visible', timeout: 15000 });
