@@ -118,6 +118,21 @@ export async function getTracksByGenre(genre: string) {
   return rows.map(row => toTrack(row));
 }
 
+export async function getRecommendedTracks(excludeTrackId: string, limit: number = 5) {
+  const userId = await getCurrentUser();
+  await delay(900);
+  const rows = await prisma.track.findMany({
+    orderBy: { playCount: 'desc' },
+    take: limit,
+    where: {
+      id: { not: excludeTrackId },
+      favorites: { none: { userId } },
+      trackPlays: { none: { userId } },
+    },
+  });
+  return rows.map(row => toTrack(row));
+}
+
 export async function searchTracks(query: string) {
   await delay(800);
   const rows = await prisma.track.findMany({
