@@ -2,7 +2,7 @@
 
 import * as Ariakit from '@ariakit/react';
 import { CircleHelp, Eye, EyeOff, Timer, TimerOff, Wifi, WifiOff, Zap, ZapOff } from 'lucide-react';
-import { useEffect, useOptimistic, useState } from 'react';
+import { type ButtonHTMLAttributes, type ReactNode, useEffect, useOptimistic, useState } from 'react';
 import { useBoundaryMode } from '@/components/demo/boundary-provider';
 import { togglePrefetch, toggleSlow } from '@/components/demo/demo-actions';
 import { DemoGuideDialog } from '@/components/demo/demo-guide-dialog';
@@ -28,18 +28,72 @@ function setSimulatedOffline(offline: boolean) {
   }
 }
 
-export function DemoToolbarClient({
-  prefetchEnabled,
-  slowEnabled,
+function Divider() {
+  return <div className="bg-divider dark:bg-divider-dark h-5 w-px" />;
+}
+
+type ToggleButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+  active: boolean;
+  label: string;
+  icon: ReactNode;
+  pending?: boolean;
+};
+
+function ToggleButton({ active, label, icon, pending, className, ...props }: ToggleButtonProps) {
+  return (
+    <button
+      {...props}
+      className={cn(
+        'flex items-center gap-1.5 px-3 py-1.5 transition-colors',
+        active ? 'text-accent' : 'text-gray',
+        pending && 'cursor-not-allowed opacity-70',
+        className,
+      )}
+    >
+      {icon}
+      <span className="hidden lg:inline">{label}</span>
+    </button>
+  );
+}
+
+function CookieToggle({
+  enabled,
+  onToggle,
+  label,
+  onIcon,
+  offIcon,
 }: {
-  prefetchEnabled: boolean;
-  slowEnabled: boolean;
+  enabled: boolean;
+  onToggle: (enable: boolean) => Promise<void>;
+  label: string;
+  onIcon: ReactNode;
+  offIcon: ReactNode;
 }) {
+  const [optimistic, setOptimistic] = useOptimistic(enabled);
+  const pending = optimistic !== enabled;
+  return (
+    <form
+      action={async () => {
+        setOptimistic(!optimistic);
+        await onToggle(!optimistic);
+        window.location.reload();
+      }}
+    >
+      <ToggleButton
+        type="submit"
+        active={optimistic}
+        pending={pending}
+        disabled={pending}
+        label={label}
+        aria-label={pending ? 'Updating…' : `${label} ${optimistic ? 'on' : 'off'}`}
+        icon={pending ? <Spinner className="size-3.5" /> : optimistic ? onIcon : offIcon}
+      />
+    </form>
+  );
+}
+
+export function DemoToolbarClient({ prefetchEnabled, slowEnabled }: { prefetchEnabled: boolean; slowEnabled: boolean }) {
   const { mode, toggleMode } = useBoundaryMode();
-  const [optimisticPrefetch, setOptimisticPrefetch] = useOptimistic(prefetchEnabled);
-  const prefetchPending = optimisticPrefetch !== prefetchEnabled;
-  const [optimisticSlow, setOptimisticSlow] = useOptimistic(slowEnabled);
-  const slowPending = optimisticSlow !== slowEnabled;
   const [offline, setOffline] = useState(false);
   const guide = Ariakit.useDialogStore();
 
@@ -59,94 +113,49 @@ export function DemoToolbarClient({
         'border-divider dark:border-divider-dark bg-white/80 dark:bg-black/80',
       )}
     >
-      <button
+      <ToggleButton
         type="button"
         onClick={toggleMode}
-        aria-label={mode === 'on' ? 'Client outlines on' : 'Client outlines off'}
+        active={mode === 'on'}
         aria-pressed={mode === 'on'}
-        className={cn(
-          'flex items-center gap-1.5 px-3 py-1.5 transition-colors',
-          mode === 'on' ? 'text-accent' : 'text-gray',
-        )}
-      >
-        {mode === 'on' ? <Eye className="size-3.5" /> : <EyeOff className="size-3.5" />}
-        <span className="hidden lg:inline">Client</span>
-      </button>
+        aria-label={mode === 'on' ? 'Client outlines on' : 'Client outlines off'}
+        label="Client"
+        icon={mode === 'on' ? <Eye className="size-3.5" /> : <EyeOff className="size-3.5" />}
+      />
 
-      <div className="bg-divider dark:bg-divider-dark h-5 w-px" />
+      <Divider />
 
-      <form
-        action={async () => {
-          setOptimisticPrefetch(!optimisticPrefetch);
-          await togglePrefetch(!optimisticPrefetch);
-          window.location.reload();
-        }}
-      >
-        <button
-          type="submit"
-          disabled={prefetchPending}
-          aria-label={prefetchPending ? 'Updating…' : optimisticPrefetch ? 'Prefetch on' : 'Prefetch off'}
-          className={cn(
-            'flex items-center gap-1.5 px-3 py-1.5 transition-colors',
-            optimisticPrefetch ? 'text-accent' : 'text-gray',
-            prefetchPending && 'cursor-not-allowed opacity-70',
-          )}
-        >
-          {prefetchPending ? (
-            <Spinner className="size-3.5" />
-          ) : optimisticPrefetch ? (
-            <Zap className="size-3.5" />
-          ) : (
-            <ZapOff className="size-3.5" />
-          )}
-          <span className="hidden lg:inline">Prefetch</span>
-        </button>
-      </form>
+      <CookieToggle
+        enabled={prefetchEnabled}
+        onToggle={togglePrefetch}
+        label="Prefetch"
+        onIcon={<Zap className="size-3.5" />}
+        offIcon={<ZapOff className="size-3.5" />}
+      />
 
-      <div className="bg-divider dark:bg-divider-dark h-5 w-px" />
+      <Divider />
 
-      <form
-        action={async () => {
-          setOptimisticSlow(!optimisticSlow);
-          await toggleSlow(!optimisticSlow);
-          window.location.reload();
-        }}
-      >
-        <button
-          type="submit"
-          disabled={slowPending}
-          aria-label={slowPending ? 'Updating…' : optimisticSlow ? 'Artificial delays on' : 'Artificial delays off'}
-          className={cn(
-            'flex items-center gap-1.5 px-3 py-1.5 transition-colors',
-            optimisticSlow ? 'text-accent' : 'text-gray',
-            slowPending && 'cursor-not-allowed opacity-70',
-          )}
-        >
-          {slowPending ? (
-            <Spinner className="size-3.5" />
-          ) : optimisticSlow ? (
-            <Timer className="size-3.5" />
-          ) : (
-            <TimerOff className="size-3.5" />
-          )}
-          <span className="hidden lg:inline">Delays</span>
-        </button>
-      </form>
+      <CookieToggle
+        enabled={slowEnabled}
+        onToggle={toggleSlow}
+        label="Delays"
+        onIcon={<Timer className="size-3.5" />}
+        offIcon={<TimerOff className="size-3.5" />}
+      />
 
-      <div className="bg-divider dark:bg-divider-dark h-5 w-px" />
+      <Divider />
 
-      <button
+      <ToggleButton
         type="button"
         onClick={toggleOffline}
-        aria-label={offline ? 'Simulating offline' : 'Online'}
+        active={!offline}
         aria-pressed={offline}
-        className={cn('flex items-center gap-1.5 px-3 py-1.5 transition-colors', offline ? 'text-gray' : 'text-accent')}
-      >
-        {offline ? <WifiOff className="size-3.5" /> : <Wifi className="size-3.5" />}
-        <span className="hidden lg:inline">Online</span>
-      </button>
+        aria-label={offline ? 'Simulating offline' : 'Online'}
+        label="Online"
+        icon={offline ? <WifiOff className="size-3.5" /> : <Wifi className="size-3.5" />}
+      />
 
-      <div className="bg-divider dark:bg-divider-dark h-5 w-px" />
+      <Divider />
 
       <Ariakit.DialogDisclosure
         store={guide}
@@ -157,8 +166,8 @@ export function DemoToolbarClient({
       </Ariakit.DialogDisclosure>
       <DemoGuideDialog
         store={guide}
-        prefetch={optimisticPrefetch}
-        delays={optimisticSlow}
+        prefetch={prefetchEnabled}
+        delays={slowEnabled}
         offline={offline}
         client={mode === 'on'}
       />
