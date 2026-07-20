@@ -5,7 +5,6 @@ import { PageWrapper } from '@/components/ui/page-layout';
 import { GenreBrowse, GenreBrowseSkeleton } from '@/features/genre/components/genre-browse';
 import { SearchResults } from '@/features/track/components/search-results';
 import { SearchShell } from '@/features/track/components/search-shell';
-import { TrackListSkeleton } from '@/features/track/components/track-row';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -27,11 +26,7 @@ export default function SearchPage({ searchParams }: PageProps<'/search'>) {
                 if (!q) {
                   return <GenreBrowse />;
                 }
-                return (
-                  <Suspense fallback={<TrackListSkeleton count={5} />}>
-                    <SearchResults query={q} />
-                  </Suspense>
-                );
+                return <SearchResults query={q} />;
               })}
             </Crossfade>
           </Suspense>
