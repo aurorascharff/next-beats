@@ -16,7 +16,7 @@ async function getPlaylistsForUser(userId: string) {
   'use cache';
   cacheTag(`playlists:${userId}`);
 
-  await delay(1500);
+  await delay(500);
   const rows = await prisma.playlist.findMany({
     include: { _count: { select: { tracks: true } } },
     orderBy: { createdAt: 'desc' },
