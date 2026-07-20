@@ -1,9 +1,11 @@
 'use client';
 
-import { Eye, EyeOff, Timer, TimerOff, Wifi, WifiOff, Zap, ZapOff } from 'lucide-react';
+import * as Ariakit from '@ariakit/react';
+import { CircleHelp, Eye, EyeOff, Timer, TimerOff, Wifi, WifiOff, Zap, ZapOff } from 'lucide-react';
 import { useEffect, useOptimistic, useState } from 'react';
 import { useBoundaryMode } from '@/components/demo/boundary-provider';
 import { togglePrefetch, toggleSlow } from '@/components/demo/demo-actions';
+import { DemoGuideDialog } from '@/components/demo/demo-guide-dialog';
 import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/lib/utils';
 
@@ -39,6 +41,7 @@ export function DemoToolbarClient({
   const [optimisticSlow, setOptimisticSlow] = useOptimistic(slowEnabled);
   const slowPending = optimisticSlow !== slowEnabled;
   const [offline, setOffline] = useState(false);
+  const guide = Ariakit.useDialogStore();
 
   useEffect(() => () => setSimulatedOffline(false), []);
 
@@ -142,6 +145,23 @@ export function DemoToolbarClient({
         {offline ? <WifiOff className="size-3.5" /> : <Wifi className="size-3.5" />}
         <span className="hidden lg:inline">Online</span>
       </button>
+
+      <div className="bg-divider dark:bg-divider-dark h-5 w-px" />
+
+      <Ariakit.DialogDisclosure
+        store={guide}
+        aria-label="How this demo works"
+        className="text-gray flex items-center px-3 py-1.5 transition-colors hover:text-black dark:hover:text-white"
+      >
+        <CircleHelp className="size-3.5" />
+      </Ariakit.DialogDisclosure>
+      <DemoGuideDialog
+        store={guide}
+        prefetch={optimisticPrefetch}
+        delays={optimisticSlow}
+        offline={offline}
+        client={mode === 'on'}
+      />
     </div>
   );
 }
