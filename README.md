@@ -33,6 +33,7 @@ Prefetching only runs in production, so try these on the [live demo](https://nex
 3. **Toggle Prefetch.** The App Shell is prefetched either way, so the click stays instant. With it on, the destination's content is prefetched too and ready on arrival. With it off, only the App Shell is prefetched and the content streams in after you navigate.
 4. **Toggle Client.** Client components get outlined, and everything else is server-rendered and ships no JavaScript.
 5. **Toggle Offline.** Routes you already prefetched still open instantly from the client cache. Turn the network back on and the dynamic data recovers.
+6. **Toggle Delays.** Off by default. Every navigation still hits the real database — this only layers simulated latency on top, so you can confirm navigation stays instant even when the server is slow.
 
 ## Getting started
 
