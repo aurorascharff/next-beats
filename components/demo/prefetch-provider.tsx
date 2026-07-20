@@ -8,8 +8,11 @@ export function PrefetchProvider({ value, children }: { value: Promise<boolean>;
   return <PrefetchContext.Provider value={value}>{children}</PrefetchContext.Provider>;
 }
 
+// Returns the value to pass to a `<Link prefetch>`. The demo toggle chooses
+// between the full prefetch (`true`) and App Shell only (`null`) — never `false`,
+// which would also drop the App Shell, the instant-navigation floor.
 export function usePrefetchDefault() {
   const promise = useContext(PrefetchContext);
-  if (!promise) return true;
-  return use(promise);
+  const enabled = promise ? use(promise) : true;
+  return enabled ? true : null;
 }

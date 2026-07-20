@@ -45,13 +45,11 @@ function NavLinkShell<T extends string>({
   onMouseEnter,
   onFocus,
   ...rest
-}: Props<T> & { isActive: boolean; prefetch?: boolean }) {
+}: Props<T> & { isActive: boolean; prefetch?: boolean | null }) {
   const [intent, setIntent] = useState(false);
-  // With prefetch off (demo toggle) nothing prefetches. Eager links get the full
-  // runtime prefetch up front; hover-gated links sit at the deduped App Shell
-  // (one shared prefetch for the whole list) and upgrade to the per-link runtime
-  // prefetch only once the user signals intent.
-  const resolvedPrefetch = !prefetch ? false : hoverPrefetch ? (intent ? true : null) : true;
+  // `prefetch` is already `true` or `null` (App Shell only) from the demo toggle.
+  // Hover-gated links stay at `null` until intent, then upgrade to the full prefetch.
+  const resolvedPrefetch = !prefetch ? null : hoverPrefetch ? (intent ? true : null) : true;
   const showIntent = () => setIntent(true);
   return (
     <Link
