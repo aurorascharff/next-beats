@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { Crossfade } from '@/components/ui/crossfade';
 import ErrorBoundary from '@/components/ui/error-boundary';
 import { PageWrapper } from '@/components/ui/page-layout';
-import { MoreFromGenre, MoreFromGenreSkeleton } from '@/features/track/components/more-from-genre';
+import { MoreLikeThis, MoreLikeThisSkeleton } from '@/features/track/components/more-like-this';
 import { TrackControls, TrackControlsSkeleton } from '@/features/track/components/track-controls';
 import { TrackHeader, TrackHeaderSkeleton } from '@/features/track/components/track-header';
 import { getTrack } from '@/features/track/track-queries';
@@ -36,11 +36,11 @@ export default function TrackPage({ params }: PageProps<'/track/[id]'>) {
           ))}
         </Crossfade>
       </Suspense>
-      <ErrorBoundary title="Couldn't load similar tracks">
-        <Suspense fallback={<MoreFromGenreSkeleton />}>
+      <ErrorBoundary title="Couldn't load recommendations">
+        <Suspense fallback={<MoreLikeThisSkeleton />}>
           <Crossfade>
             {params.then(({ id }) => (
-              <MoreFromGenre trackId={id} />
+              <MoreLikeThis trackId={id} />
             ))}
           </Crossfade>
         </Suspense>

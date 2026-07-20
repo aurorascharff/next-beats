@@ -162,6 +162,21 @@ async function getTracksByGenreCached(genre: string, slow: boolean) {
   return rows.map(row => toTrack(row));
 }
 
+export async function getRecommendedTracks(excludeTrackId: string, limit: number = 5) {
+  const userId = await getCurrentUser();
+  await delay(900, await isSlowEnabled());
+  const rows = await prisma.track.findMany({
+    orderBy: { playCount: 'desc' },
+    take: limit,
+    where: {
+      id: { not: excludeTrackId },
+      favorites: { none: { userId } },
+      trackPlays: { none: { userId } },
+    },
+  });
+  return rows.map(row => toTrack(row));
+}
+
 export async function searchTracks(query: string) {
   return searchTracksCached(query, await isSlowEnabled());
 }
