@@ -1,5 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:3002';
+
 export default defineConfig({
   forbidOnly: !!process.env.CI,
   fullyParallel: true,
@@ -13,7 +15,7 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   testDir: './tests',
   use: {
-    baseURL: 'http://localhost:3002',
+    baseURL,
     storageState: {
       cookies: [
         {
@@ -35,7 +37,7 @@ export default defineConfig({
     command: 'pnpm dev --port 3002',
     reuseExistingServer: true,
     stdout: 'pipe',
-    url: 'http://localhost:3002/login',
+    url: `${baseURL}/login`,
   },
   workers: process.env.CI ? 1 : undefined,
 });

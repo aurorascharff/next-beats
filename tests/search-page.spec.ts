@@ -24,4 +24,15 @@ test.describe('Search page (/search)', () => {
       await expect(page.locator('main a[href^="/genre/"]').first()).toBeVisible();
     });
   });
+
+  // Typing drives a router.replace per keystroke; the input must keep focus so every character lands.
+  test('search keeps focus across soft navigations', async ({ page }) => {
+    await page.goto('/search');
+    const search = page.getByRole('searchbox', { name: 'Search tracks' });
+    await search.waitFor({ state: 'visible', timeout: 15000 });
+    await search.click();
+    await page.keyboard.type('house', { delay: 150 });
+    await expect(search).toBeFocused();
+    await expect(search).toHaveValue('house');
+  });
 });
