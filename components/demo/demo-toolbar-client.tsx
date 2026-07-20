@@ -1,6 +1,6 @@
 'use client';
 
-import { Eye, EyeOff, Rabbit, Turtle, Wifi, WifiOff, Zap, ZapOff } from 'lucide-react';
+import { Eye, EyeOff, Timer, TimerOff, Wifi, WifiOff, Zap, ZapOff } from 'lucide-react';
 import { useEffect, useOptimistic, useState } from 'react';
 import { useBoundaryMode } from '@/components/demo/boundary-provider';
 import { togglePrefetch, toggleSlow } from '@/components/demo/demo-actions';
@@ -112,21 +112,21 @@ export function DemoToolbarClient({
         <button
           type="submit"
           disabled={slowPending}
-          aria-label={slowPending ? 'Updating…' : optimisticSlow ? 'Artificial slowdowns on' : 'Artificial slowdowns off'}
+          aria-label={slowPending ? 'Updating…' : optimisticSlow ? 'Artificial delays on' : 'Artificial delays off'}
           className={cn(
             'flex items-center gap-1.5 px-3 py-1.5 transition-colors',
-            optimisticSlow ? 'text-gray' : 'text-accent',
+            optimisticSlow ? 'text-accent' : 'text-gray',
             slowPending && 'cursor-not-allowed opacity-70',
           )}
         >
           {slowPending ? (
             <Spinner className="size-3.5" />
           ) : optimisticSlow ? (
-            <Turtle className="size-3.5" />
+            <Timer className="size-3.5" />
           ) : (
-            <Rabbit className="size-3.5" />
+            <TimerOff className="size-3.5" />
           )}
-          <span className="hidden lg:inline">{optimisticSlow ? 'Slow' : 'Fast'}</span>
+          <span className="hidden lg:inline">Delays</span>
         </button>
       </form>
 
