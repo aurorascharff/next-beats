@@ -36,15 +36,18 @@ export default function TrackPage({ params }: PageProps<'/track/[id]'>) {
           ))}
         </Crossfade>
       </Suspense>
-      <ErrorBoundary title="Couldn't load recommendations">
-        <Suspense fallback={<MoreLikeThisSkeleton />}>
-          <Crossfade>
-            {params.then(({ id }) => (
-              <MoreLikeThis trackId={id} />
-            ))}
-          </Crossfade>
-        </Suspense>
-      </ErrorBoundary>
+      <section>
+        <h2 className="mb-4">More songs you might like</h2>
+        <ErrorBoundary title="Couldn't load recommendations">
+          <Suspense fallback={<MoreLikeThisSkeleton />}>
+            <Crossfade>
+              {params.then(({ id }) => (
+                <MoreLikeThis trackId={id} />
+              ))}
+            </Crossfade>
+          </Suspense>
+        </ErrorBoundary>
+      </section>
     </PageWrapper>
   );
 }
