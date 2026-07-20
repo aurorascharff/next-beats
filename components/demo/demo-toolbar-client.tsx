@@ -92,7 +92,13 @@ function CookieToggle({
   );
 }
 
-export function DemoToolbarClient({ prefetchEnabled, slowEnabled }: { prefetchEnabled: boolean; slowEnabled: boolean }) {
+export function DemoToolbarClient({
+  prefetchEnabled,
+  slowEnabled,
+}: {
+  prefetchEnabled: boolean;
+  slowEnabled: boolean;
+}) {
   const { mode, toggleMode } = useBoundaryMode();
   const [offline, setOffline] = useState(false);
   const guide = Ariakit.useDialogStore();
@@ -122,9 +128,7 @@ export function DemoToolbarClient({ prefetchEnabled, slowEnabled }: { prefetchEn
         label="Client"
         icon={mode === 'on' ? <Eye className="size-3.5" /> : <EyeOff className="size-3.5" />}
       />
-
       <Divider />
-
       <CookieToggle
         enabled={prefetchEnabled}
         onToggle={togglePrefetch}
@@ -132,9 +136,7 @@ export function DemoToolbarClient({ prefetchEnabled, slowEnabled }: { prefetchEn
         onIcon={<Zap className="size-3.5" />}
         offIcon={<ZapOff className="size-3.5" />}
       />
-
       <Divider />
-
       <CookieToggle
         enabled={slowEnabled}
         onToggle={toggleSlow}
@@ -142,9 +144,7 @@ export function DemoToolbarClient({ prefetchEnabled, slowEnabled }: { prefetchEn
         onIcon={<Timer className="size-3.5" />}
         offIcon={<TimerOff className="size-3.5" />}
       />
-
       <Divider />
-
       <ToggleButton
         type="button"
         onClick={toggleOffline}
@@ -154,9 +154,7 @@ export function DemoToolbarClient({ prefetchEnabled, slowEnabled }: { prefetchEn
         label="Online"
         icon={offline ? <WifiOff className="size-3.5" /> : <Wifi className="size-3.5" />}
       />
-
       <Divider />
-
       <Ariakit.DialogDisclosure
         store={guide}
         aria-label="How this demo works"
