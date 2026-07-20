@@ -5,8 +5,11 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function delay(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+// Artificial latency to simulate a slow DB. `enabled` is gated by the demo
+// toggle: when off, delays are skipped to show that navigation stays instant
+// even without the fake slowness (see components/demo/demo-slow.ts).
+export function delay(ms: number, enabled = true) {
+  return enabled ? new Promise(resolve => setTimeout(resolve, ms)) : Promise.resolve();
 }
 
 export function formatDuration(seconds: number): string {

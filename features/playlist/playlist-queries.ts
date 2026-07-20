@@ -2,6 +2,7 @@ import 'server-only';
 
 import { cacheTag } from 'next/cache';
 import { notFound } from 'next/navigation';
+import { isSlowEnabled } from '@/components/demo/demo-slow';
 import { getCurrentUser } from '@/features/user/user-queries';
 import { prisma } from '@/lib/db';
 import { delay } from '@/lib/utils';
@@ -9,14 +10,14 @@ import { toTrack } from '@/types/track';
 
 export async function getPlaylists() {
   const userId = await getCurrentUser();
-  return getPlaylistsForUser(userId);
+  return getPlaylistsForUser(userId, await isSlowEnabled());
 }
 
-async function getPlaylistsForUser(userId: string) {
+async function getPlaylistsForUser(userId: string, slow: boolean) {
   'use cache';
   cacheTag(`playlists:${userId}`);
 
-  await delay(500);
+  await delay(500, slow);
   const rows = await prisma.playlist.findMany({
     include: { _count: { select: { tracks: true } } },
     orderBy: { createdAt: 'desc' },
@@ -33,14 +34,14 @@ async function getPlaylistsForUser(userId: string) {
 
 export async function getPlaylist(id: string) {
   const userId = await getCurrentUser();
-  return getPlaylistForUser(id, userId);
+  return getPlaylistForUser(id, userId, await isSlowEnabled());
 }
 
-async function getPlaylistForUser(id: string, userId: string) {
+async function getPlaylistForUser(id: string, userId: string, slow: boolean) {
   'use cache';
   cacheTag(`playlist-${id}`);
 
-  await delay(500);
+  await delay(500, slow);
   const row = await prisma.playlist.findFirst({
     include: {
       tracks: {

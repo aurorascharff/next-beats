@@ -1,9 +1,9 @@
 'use client';
 
-import { Eye, EyeOff, Wifi, WifiOff, Zap, ZapOff } from 'lucide-react';
+import { Eye, EyeOff, Rabbit, Turtle, Wifi, WifiOff, Zap, ZapOff } from 'lucide-react';
 import { useEffect, useOptimistic, useState } from 'react';
 import { useBoundaryMode } from '@/components/demo/boundary-provider';
-import { togglePrefetch } from '@/components/demo/demo-actions';
+import { togglePrefetch, toggleSlow } from '@/components/demo/demo-actions';
 import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/lib/utils';
 
@@ -26,10 +26,18 @@ function setSimulatedOffline(offline: boolean) {
   }
 }
 
-export function DemoToolbarClient({ prefetchEnabled }: { prefetchEnabled: boolean }) {
+export function DemoToolbarClient({
+  prefetchEnabled,
+  slowEnabled,
+}: {
+  prefetchEnabled: boolean;
+  slowEnabled: boolean;
+}) {
   const { mode, toggleMode } = useBoundaryMode();
   const [optimisticPrefetch, setOptimisticPrefetch] = useOptimistic(prefetchEnabled);
   const prefetchPending = optimisticPrefetch !== prefetchEnabled;
+  const [optimisticSlow, setOptimisticSlow] = useOptimistic(slowEnabled);
+  const slowPending = optimisticSlow !== slowEnabled;
   const [offline, setOffline] = useState(false);
 
   useEffect(() => () => setSimulatedOffline(false), []);
@@ -89,6 +97,36 @@ export function DemoToolbarClient({ prefetchEnabled }: { prefetchEnabled: boolea
             <ZapOff className="size-3.5" />
           )}
           <span className="hidden lg:inline">Prefetch</span>
+        </button>
+      </form>
+
+      <div className="bg-divider dark:bg-divider-dark h-5 w-px" />
+
+      <form
+        action={async () => {
+          setOptimisticSlow(!optimisticSlow);
+          await toggleSlow(!optimisticSlow);
+          window.location.reload();
+        }}
+      >
+        <button
+          type="submit"
+          disabled={slowPending}
+          aria-label={slowPending ? 'Updating…' : optimisticSlow ? 'Artificial slowdowns on' : 'Artificial slowdowns off'}
+          className={cn(
+            'flex items-center gap-1.5 px-3 py-1.5 transition-colors',
+            optimisticSlow ? 'text-gray' : 'text-accent',
+            slowPending && 'cursor-not-allowed opacity-70',
+          )}
+        >
+          {slowPending ? (
+            <Spinner className="size-3.5" />
+          ) : optimisticSlow ? (
+            <Turtle className="size-3.5" />
+          ) : (
+            <Rabbit className="size-3.5" />
+          )}
+          <span className="hidden lg:inline">{optimisticSlow ? 'Slow' : 'Fast'}</span>
         </button>
       </form>
 

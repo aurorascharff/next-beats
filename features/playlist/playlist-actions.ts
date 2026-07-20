@@ -2,6 +2,7 @@
 
 import { updateTag } from 'next/cache';
 import { z } from 'zod';
+import { isSlowEnabled } from '@/components/demo/demo-slow';
 import { SEED_PLAYLIST_IDS } from '@/features/playlist/playlist-constants';
 import { verifyAuth } from '@/features/user/user-queries';
 import { prisma } from '@/lib/db';
@@ -22,7 +23,7 @@ const colors = [
 
 export async function createPlaylist(formData: FormData) {
   const userId = await verifyAuth();
-  await delay(300);
+  await delay(300, await isSlowEnabled());
   const parsed = createPlaylistSchema.safeParse({ name: formData.get('name') });
   if (!parsed.success) {
     return { error: parsed.error.issues[0].message, ok: false as const };
@@ -41,7 +42,7 @@ export async function createPlaylist(formData: FormData) {
 
 export async function addToPlaylist(playlistId: string, trackId: string) {
   const userId = await verifyAuth();
-  await delay(200);
+  await delay(200, await isSlowEnabled());
   if (SEED_PLAYLIST_IDS.has(playlistId)) return { error: "Can't modify a demo playlist", ok: false as const };
   const existing = await prisma.playlistTrack.findUnique({
     where: { playlistId_trackId: { playlistId, trackId } },
@@ -67,7 +68,7 @@ export async function addToPlaylist(playlistId: string, trackId: string) {
 
 export async function removeFromPlaylist(playlistId: string, trackId: string) {
   const userId = await verifyAuth();
-  await delay(200);
+  await delay(200, await isSlowEnabled());
   if (SEED_PLAYLIST_IDS.has(playlistId)) return { error: "Can't modify a demo playlist", ok: false as const };
   await prisma.playlistTrack.delete({
     where: { playlistId_trackId: { playlistId, trackId } },
@@ -81,7 +82,7 @@ export async function deletePlaylist(playlistId: string) {
   const userId = await verifyAuth();
   const id = z.string().min(1).parse(playlistId);
   if (SEED_PLAYLIST_IDS.has(id)) return { error: "Can't delete a demo playlist", ok: false as const };
-  await delay(300);
+  await delay(300, await isSlowEnabled());
   await prisma.playlist.delete({ where: { id } });
   updateTag(`playlists:${userId}`);
   updateTag(`playlist-${id}`);
