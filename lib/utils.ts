@@ -5,9 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-// Artificial latency to simulate a slow DB. `enabled` is gated by the demo
-// toggle: when off, delays are skipped to show that navigation stays instant
-// even without the fake slowness (see components/demo/demo-slow.ts).
+// Artificial latency to simulate a slow DB, gated by the demo's Slow toggle.
 export function delay(ms: number, enabled = true) {
   return enabled ? new Promise(resolve => setTimeout(resolve, ms)) : Promise.resolve();
 }
