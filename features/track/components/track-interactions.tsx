@@ -138,8 +138,6 @@ export function TrackIndexCell({ trackId, index }: { trackId: string; index?: nu
     );
   }
 
-  // On touch devices there is no hover, so the play glyph is revealed via
-  // `(hover: none)` — mirroring the always-visible card play button.
   return (
     <span className="w-5 text-right">
       {index !== undefined ? (
@@ -148,13 +146,13 @@ export function TrackIndexCell({ trackId, index }: { trackId: string; index?: nu
             {index + 1}
           </span>
           <Play
-            className="hidden h-3.5 w-3.5 text-black group-hover/track:inline [@media(hover:none)]:inline dark:text-white"
+            className="hidden h-3.5 w-3.5 text-black group-hover/track:inline dark:text-white [@media(hover:none)]:inline"
             fill="currentColor"
           />
         </>
       ) : (
         <Play
-          className="hidden h-3.5 w-3.5 text-black group-hover/track:inline [@media(hover:none)]:inline dark:text-white"
+          className="hidden h-3.5 w-3.5 text-black group-hover/track:inline dark:text-white [@media(hover:none)]:inline"
           fill="currentColor"
         />
       )}
