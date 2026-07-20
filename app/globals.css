@@ -222,7 +222,8 @@
 ::view-transition-group(player-bar-desktop),
 ::view-transition-group(theme-toggle),
 ::view-transition-group(demo-toolbar),
-::view-transition-group(add-to-playlist-menu) {
+::view-transition-group(add-to-playlist-menu),
+::view-transition-group(track-controls) {
   animation: none;
   z-index: 100;
 }
