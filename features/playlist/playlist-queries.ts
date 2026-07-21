@@ -32,6 +32,33 @@ async function getPlaylistsForUser(userId: string, slow: boolean) {
   }));
 }
 
+export async function searchPlaylists(query: string) {
+  const userId = await getCurrentUser();
+  return searchPlaylistsForUser(userId, query, await isSlowEnabled());
+}
+
+async function searchPlaylistsForUser(userId: string, query: string, slow: boolean) {
+  'use cache';
+  cacheTag(`playlists:${userId}`);
+
+  await delay(400, slow);
+  const rows = await prisma.playlist.findMany({
+    include: { _count: { select: { tracks: true } } },
+    orderBy: { createdAt: 'desc' },
+    where: {
+      OR: [{ userId }, { userId: null }],
+      name: { contains: query, mode: 'insensitive' },
+    },
+  });
+  return rows.map(r => ({
+    coverColor: r.coverColor,
+    description: r.description,
+    id: r.id,
+    name: r.name,
+    trackCount: r._count.tracks,
+  }));
+}
+
 export async function getPlaylist(id: string) {
   const userId = await getCurrentUser();
   return getPlaylistForUser(id, userId, await isSlowEnabled());

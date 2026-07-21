@@ -17,14 +17,18 @@ export default function SearchPage({ searchParams }: PageProps<'/search'>) {
   return (
     <PageWrapper title="Search">
       <SearchShell>
-        <h2 className="mb-4">Browse All</h2>
         <ErrorBoundary title="Search is taking a breather">
           <Suspense fallback={<GenreBrowseSkeleton />}>
             <Crossfade>
               {searchParams.then(sp => {
                 const q = typeof sp.q === 'string' ? sp.q : '';
                 if (!q) {
-                  return <GenreBrowse />;
+                  return (
+                    <>
+                      <h2 className="mb-4">Browse All</h2>
+                      <GenreBrowse />
+                    </>
+                  );
                 }
                 return <SearchResults query={q} />;
               })}
