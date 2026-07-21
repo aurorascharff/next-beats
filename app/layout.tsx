@@ -3,7 +3,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
 import { Suspense } from 'react';
-import { BoundaryProvider } from '@/components/demo/boundary-provider';
+import { BoundaryProvider } from '@/components/demo/boundary';
 import { DemoToolbar } from '@/components/demo/demo-toolbar';
 import { OfflineIndicator } from '@/components/offline-indicator';
 import { ThemeProvider } from '@/components/theme/theme-provider';
