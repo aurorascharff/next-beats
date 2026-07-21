@@ -14,26 +14,14 @@ A [Next.js 16.3](https://nextjs.org/blog/next-16-3-instant-navigations) music pl
 
 ## Features
 
-- **[Cache Components](https://preview.nextjs.org/docs/app/api-reference/config/next-config-js/cacheComponents)**: server caching with `'use cache'`, `cacheTag`, and `cacheLife`.
-- **[Partial Prefetching](https://preview.nextjs.org/docs/app/guides/adopting-partial-prefetching)**: in-viewport links prefetch the shared App Shell by default.
-- **[Runtime prefetching](https://preview.nextjs.org/docs/app/guides/runtime-prefetching)**: `prefetch = 'allow-runtime'` lets the prefetch include request data like `searchParams` and dynamic `params`.
-- **[Hover-triggered prefetch](https://preview.nextjs.org/docs/app/guides/prefetching#hover-triggered-prefetch)**: `hoverPrefetch` defers a link's prefetch to hover or focus.
-- **[Server Functions](https://nextjs.org/docs/app/getting-started/mutating-data)**: mutations invalidate only the tags they change with [`updateTag`](https://nextjs.org/docs/app/api-reference/functions/updateTag).
-- **[React Compiler](https://react.dev/learn/react-compiler)**: automatic memoization.
-- **[View Transitions](https://nextjs.org/docs/app/guides/view-transitions)**: animate content and route changes.
-- **[Async React](https://github.com/rickhanlonii/async-react)**: keep the UI interactive during server work with `Suspense`, `useOptimistic`, `useTransition`, `useActionState`, `useFormStatus`, and `use`.
-- **[`instant()`](https://preview.nextjs.org/docs/app/api-reference/file-conventions/route-segment-config/instant)** end-to-end tests with [`@next/playwright`](https://nextjs.org/docs/app/guides/testing/playwright), run in CI.
-
-## Things to try
-
-Prefetching only runs in production, so try these on the [live demo](https://next-beats.dev) or a local `pnpm build && pnpm start`. Open the Network tab to watch requests fire.
-
-1. **Scroll the home page, then click a link.** It navigates instantly because the link was prefetched into the client cache as it entered the viewport, so no new request goes out on click.
-2. **Favorite a track or create a playlist.** The Server Function calls `updateTag`, which revalidates the cached content for that tag and re-prefetches the affected routes, so navigating to them stays instant and reflects the change.
-3. **Toggle Prefetch.** The App Shell is prefetched either way, so the click stays instant. With it on, the destination's content is prefetched too and ready on arrival. With it off, only the App Shell is prefetched and the content streams in after you navigate.
-4. **Toggle Client.** Client components get outlined, and everything else is server-rendered and ships no JavaScript.
-5. **Toggle Offline.** Routes you already prefetched still open instantly from the client cache. Turn the network back on and the dynamic data recovers.
-6. **Toggle Delays.** Off by default. Every navigation still hits the real database. This only layers simulated latency on top, so you can confirm navigation stays instant even when the server is slow.
+- **[Cache Components](https://preview.nextjs.org/docs/app/api-reference/config/next-config-js/cacheComponents)** cache each query with `'use cache'`, name the data with `cacheTag`, and set its lifetime with `cacheLife`, so repeated reads come from the cache until a tag is invalidated.
+- **[Partial Prefetching](https://preview.nextjs.org/docs/app/guides/adopting-partial-prefetching)** prefetches the shared App Shell of links as they enter the viewport, so navigation commits instantly and the data streams in behind it.
+- **[Runtime prefetching](https://preview.nextjs.org/docs/app/guides/runtime-prefetching)** lets a page prefetch its per-request data by exporting `prefetch = 'allow-runtime'`, which resolves `searchParams` and dynamic `params` ahead of the click.
+- **[Hover-triggered prefetch](https://preview.nextjs.org/docs/app/guides/prefetching#hover-triggered-prefetch)** defers a link's runtime prefetch until the pointer or focus reaches it, so a long list of tracks does not prefetch every destination on render.
+- **[Server Functions](https://nextjs.org/docs/app/getting-started/mutating-data)** run mutations such as favoriting a track or creating a playlist on the server, and invalidate only the tags they change with [`updateTag`](https://nextjs.org/docs/app/api-reference/functions/updateTag), which re-prefetches the affected routes so they stay instant and reflect the change.
+- **[React Compiler](https://react.dev/learn/react-compiler)** memoizes components and hooks automatically, so the code needs no manual `useMemo` or `useCallback`.
+- **[View Transitions](https://nextjs.org/docs/app/guides/view-transitions)** animate content updates and route changes as you move through the player.
+- **[Async React](https://github.com/rickhanlonii/async-react)** keeps the UI interactive during server work with `Suspense`, `useOptimistic`, `useTransition`, `useActionState`, `useFormStatus`, and `use`.
 
 ## Getting started
 
@@ -56,6 +44,14 @@ Drop this prompt into your agent to swap the datasource for SQLite:
 The schema is otherwise identical, so the rest of the app behaves the same as production.
 
 </details>
+
+## Testing
+
+The end-to-end tests use [`@next/playwright`](https://nextjs.org/docs/app/guides/testing/playwright) with the [`instant()`](https://preview.nextjs.org/docs/app/api-reference/file-conventions/route-segment-config/instant) API to assert that loading states appear and that navigations stay instant, and they run in CI.
+
+```bash
+pnpm test:e2e
+```
 
 ## Stack
 
