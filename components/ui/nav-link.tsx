@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useSelectedLayoutSegments } from 'next/navigation';
 import { Suspense, useState } from 'react';
 import { Boundary } from '@/components/demo/boundary';
-import { usePrefetchDefault } from '@/components/demo/use-prefetch-default';
+import { usePrefetchDefault } from '@/components/demo/prefetch-provider';
 import type { Route } from 'next';
 
 type Props<T extends string = string> = Omit<React.ComponentProps<typeof Link>, 'href' | 'prefetch'> & {
@@ -33,19 +33,20 @@ function ActiveLink<T extends string>(props: Props<T>) {
   const segments = useSelectedLayoutSegments();
   const want = props.href.toString().split('?')[0].split('#')[0].split('/').filter(Boolean);
   const isActive = want.length === segments.length && want.every((s, i) => s === segments[i]);
-  return <NavLinkShell {...props} isActive={isActive} />;
+  const prefetch = usePrefetchDefault();
+  return <NavLinkShell {...props} isActive={isActive} prefetch={prefetch} />;
 }
 
 function NavLinkShell<T extends string>({
   href,
   isActive,
+  prefetch = null,
   hoverPrefetch = false,
   onMouseEnter,
   onFocus,
   ...rest
-}: Props<T> & { isActive: boolean }) {
+}: Props<T> & { isActive: boolean; prefetch?: boolean | null }) {
   const [intent, setIntent] = useState(false);
-  const prefetch = usePrefetchDefault();
   // `prefetch` is already `true` or `null` (App Shell only) from the demo toggle.
   // Hover-gated links stay at `null` until intent, then upgrade to the full prefetch.
   const resolvedPrefetch = !prefetch ? null : hoverPrefetch ? (intent ? true : null) : true;
