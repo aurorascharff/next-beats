@@ -1,11 +1,10 @@
 'use client';
 
 import { Heart, Play } from 'lucide-react';
-import Link from 'next/link';
 import { useOptimistic, useTransition } from 'react';
 import { Boundary } from '@/components/demo/boundary';
-import { usePrefetchDefault } from '@/components/demo/prefetch-provider';
 import { Equalizer } from '@/components/ui/equalizer';
+import { PrefetchLink } from '@/components/ui/prefetch-link';
 import { toggleFavorite } from '@/features/track/track-actions';
 import { cn } from '@/lib/utils';
 import { usePlayer } from '@/providers/player-provider';
@@ -60,11 +59,9 @@ export function TrackLink({
   children: React.ReactNode;
   className?: string;
 }) {
-  const prefetch = usePrefetchDefault();
   return (
-    <Link
+    <PrefetchLink
       href={href as Route}
-      prefetch={prefetch}
       onClick={e => e.stopPropagation()}
       className={cn(
         'cursor-default truncate text-sm font-medium hover:cursor-pointer hover:underline',
@@ -72,7 +69,7 @@ export function TrackLink({
       )}
     >
       {children}
-    </Link>
+    </PrefetchLink>
   );
 }
 
