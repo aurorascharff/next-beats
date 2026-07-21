@@ -117,8 +117,7 @@
   }
 }
 
-/* Play button reveal on card hover. On touch devices the button shows
-   always — the hover-reveal pattern would otherwise eat the first tap. */
+/* hover-reveals on desktop; always shown on touch (else the first tap is eaten) */
 .card-play-btn {
   opacity: 1;
   transform: translateY(0);
@@ -138,8 +137,7 @@
   }
 }
 
-/* ---- View Transition Recipes ---- */
-
+/* View transition recipes */
 :root {
   --duration-exit: 150ms;
   --duration-enter: 210ms;
@@ -255,9 +253,7 @@
   animation: none;
 }
 
-/* ── Client Boundary Visualizer ── */
-
-/* ── Equalizer animation for now-playing indicator ── */
+/* Equalizer (now-playing indicator) */
 @keyframes eq1 {
   0%,
   100% {
