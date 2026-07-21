@@ -215,6 +215,11 @@
   }
 }
 
+/* let cursor/clicks pass through the snapshot overlay to pinned chrome */
+::view-transition {
+  pointer-events: none;
+}
+
 /* Exclude persistent elements from view transition animations */
 ::view-transition-group(mobile-nav),
 ::view-transition-group(sidebar),
