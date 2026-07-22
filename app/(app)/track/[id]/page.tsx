@@ -42,7 +42,7 @@ export default function TrackPage({ params }: PageProps<'/track/[id]'>) {
           <Suspense fallback={<TrackListSkeleton count={3} />}>
             <Crossfade>
               {params.then(async ({ id }) => (
-                <TrackList tracks={await getRecommendedTracks(id)} />
+                <TrackList tracks={await getRecommendedTracks(id)} animateItems />
               ))}
             </Crossfade>
           </Suspense>
